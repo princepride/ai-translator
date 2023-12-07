@@ -1,0 +1,3 @@
+model_path:
+  t5_model_path: /path/to/your/t5_model
+  lora_model_path: /path/to/your/lora_model_path

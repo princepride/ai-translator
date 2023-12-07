@@ -1,0 +1,1335 @@
+简体中文(源),参考语言(英文),资源编码
+请输入目标位置的横坐标 X 值,Please enter the X-axis value of the target position,000142
+请输入目标位置的纵坐标 Y 值,Please enter the Y-axis value of the target position,000143
+POST,POST,000166
+请输入程序的名称或路径（例如notepad，calc）,"Please enter the name or path of program (such as notepad, calc)",000192
+输入要停止的进程名（Calc，notepad）,"Enter name of the process to be stopped (calc, notepad)",000198
+图像文件 OCR,Image File OCR,000427
+错误: {0},Error: {0},000556
+发票图片 OCR,Invoice Picture OCR,000616
+请输入窗口类名（此参数与窗口标题参数必须至少输入一个；可以通过 spy++ 工具来查看某窗口或者控件的类名）,Please enter a window class name (either this parameter or the window title parameter is required; you can view the class name of a window or control through the spy++ tool),000629
+请输入2017年度国资委预算报表管理软件程序 ReportE.exe 路径,Please input the path of 2017 SASAC Budget Report Management Software ReportE.exe ,000638
+请输入 Excel 预算表存储文件夹（每个预算表请存储成一个 Excel 文件，且按照预算报表名命名，比如“资产负债表.xlsx”）,"Please enter the Excel budget table storage folder (each budget report should be stored as an Excel file and named after the budget report name, such as ""Bal Sheet.xlsx"")",000639
+此命令允许您在有 frame 或者 iframe 的情况下切换至首页,This command allows you to switch to the homepage when frame or iframe exists,000672
+HTTP 方法,HTTP Method,000689
+HTTP 头（请用回车符分隔每个 Header）,HTTP Headers (separated with carriage return),000690
+请输入自然人税收管理系统扣缴客户端软件程序 EPEvenue_SH.exe 路径,"Enter the path of the ""Natural Person Tax Management System Deduction Client"" program EPEvenue_SH.exe",000702
+请输入正确的日期格式，应该为 yyyy-MM-dd HH:mm:ss。,"Please enter the correct date format, which should be yyyy-MM-dd HH:mm:ss",000714
+请输入原日期格式，比如 yyyy/M/d,"Please enter the original date format, such as yyyy/M/d",000745
+请输入返回的日期格式，比如 yyyy-MM-dd,"Please enter the returned date format, such as yyyy-MM-dd",000746
+通配符。比如 *.xls，置空表示所有文件,Wildcards. For example: *. xls. Blank indicates all files,000825
+元素 ID,Element ID,000876
+请输入命名空间，（每行一个命名空间，默认命名空间前缀固定为 default）,"Please enter name space (one name space per line, default name space prefix is fixed to default)",000884
+通配符。比如 my*，置空表示所有文件,"Wildcards. For example, my*. Blank indicates all files",001015
+跳过重复键值（false = 重复键值抛错）,Skip duplicate key (false =  error thrown due to duplicate key value),001022
+SAP,SAP,001043
+请输入服务器 IP 地址,Please enter the server IP address,001046
+此命令允许您切换至上一级 frame 或者 iframe。,This command allows you to switch to the parent frame or iframe,001165
+请输入 js 脚本,Please enter the JS script,001208
+使用 SSL,Use SSL,001277
+端口号（默认POP3端口号110/SSL 995，默认IMAP端口号143、SSL 993）,"Port No. (default POP3 port No. 110/SSL 995; default IMAP port No. 143, SSL 993)",001278
+正文保留 HTML 代码,Keep HTML code in body,001292
+替换重复键值（true = 替换）,Replace duplicate key value (true = replace),001300
+Socket 服务器 IP 地址,Socket Server IP Addr.,001305
+请选择 Python 执行文件（python.exe）,Please select Python executable file (python.exe),001352
+此命令允许您查找一个谷歌浏览器，但前提是谷歌浏览器启动时必须加上 --remote-debugging-port 参数。,"This command allows you to find a Google Chrome browser, but only if the --remote-debugging-port parameter is added when the browser starts.",001439
+请输入复制的单元格区域。格式示范：A3:B10、C:F、2:3,"Please enter a range of cells to copy. Format example: A3:B10, C:F, and 2:3",001460
+请输入单元格区域。格式示范：A3:B10、C:F、2:3,"Please enter the cell range. Format example: A3:B10, C:F, and 2:3",001545
+请输入2019年度北京市国资委企业报表处理软件程序 Report19.exe 路径,Please enter the path of 2019 SASAC enterprise report processing software program Report19.exe for Beijing,001594
+%s 的 %s数据格式不正确(%s),%s's %s data format is incorrect (%s),1010003000030
+输入的长度不能超过%s位,Entry length cannot exceed %s characters,1010003000038
+"属性转换为Entity异常,uri :%s,attrName:%s","Exception in transferring attribute to Entity. uri: %s, attrName: %s",1010003000053
+编码前缀{0}的公式计算失败，请检查公式是否正确。,Formula calculation of code prefix {0} failed. Please check whether the formula is correct,1010800000025
+参数({0})不能为空,Parameter ({0}) is required,30002
+管理员将[activity]的审批人调整为[user],The administrator changed the approver of [activity] to [user].,adminAssignTo
+APPROVED,APPROVED,approve.task.action.aprroved
+REJECT,REJECT,approve.task.action.reject
+取当前日期时间 示例：datetime(),Obtain current date time; example: datetime(),attendFormula.i18n1590
+取当前日期的日 示例：day(),Obtain day of current date; example: day(),attendFormula.i18n1591
+取当前日期的月份 示例：month(),Obtain month of current date; example: month(),attendFormula.i18n1592
+取当前日期的年 示例：year(),Obtain year of current date; example: year(),attendFormula.i18n1593
+取星期几 示例：weekday('2017-09-21')=5 提醒：日期不能为空,Access week day; example: weekday('2017-09-21')=5 Reminder: Date cannot be empty,attendFormula.i18n1595
+取绝对值 示例：abs(-15)=15,Access absolute value; example: abs(-15)=15,attendFormula.i18n1596
+"取最大值 示例：max(15,12)=15","Access Max value; example: max(15,12)=15",attendFormula.i18n1597
+"取最小值 示例：min(15,12)=12","Access Min value; example: min(15,12)=12",attendFormula.i18n1598
+"四舍五入 示例：round(27.7,0)=28；round(27.73,1)=27.7","Rounding; example: round(27.7,0)=28; round(27.73,1)=27.7",attendFormula.i18n1599
+"取字符串中间从某个位置开始的几个字符 示例：mid('abcdefgh',3,2)='cd'","Access several characters starting from a certain position in the middle of string; example: mid('abcdefgh',3,2)='cd’",attendFormula.i18n1600
+"如果为空，则返回0 示例：zeroifnull(x),若x为空，则返回0，否则返回x","If it is empty, 0 is returned. Example: zeroifnull(x). If x is empty, 0 is returned; otherwise x is returned",attendFormula.i18n1602
+"是否非空 示例：ifnull(x,y)，若x非空，y为空，则返回x","Non-empty. Example: ifnull(x,y). If x is not empty and y is empty, x is returned",attendFormula.i18n1603
+"条件判断 示例：iif(10>9,5,3),返回5","Condition evaluation. Example: iif(10>9,5,3), 5 is returned",attendFormula.i18n1604
+"取字符串最左边的字符 示例：left('abcdefgh',2)='ab'","Access the leftmost character of the string. Example: left('abcdefgh',2)='ab’",attendFormula.i18n1605
+"取字符串最右边的字符 示例：right('abcdefgh',2)='gh'","Access the rightmost character of the string. Example: right('abcdefgh',2)='gh’",attendFormula.i18n1606
+"字符串拼接 示例：joinstring('a','b','_')='a_b'","Join string. Example: joinstring('a','b','_')='a_b'",attendFormula.i18n1607
+启用失败：{0},enable failed:{0},bpm.datatype.start.failed
+停用失败：{0},disable failed:{0},bpm.datatype.stop.failed
+"只能导入*.bpmn20.xml,*.bpmn类型的文件!","Only *.bpmn20.xml, and *.bpmn type files can be imported","Can only import document type of *.bpmn20.xml,*.bpmn"
+tenantId 为空,TenantId is empty,com.yonyou.workbench.manager.controller.Scheduling.SchedulingTaskController_0001
+Agree to,Agree to,defaultBatchNote
+"二维码已失效,<br>无法参与相关活动",QR code expired.<br>Cannot participate in related activities,errQRCodeExpired
+凭证号:{0}没有审核权限。,No approval permission for voucher No. {0},ficloud.000053
+查到多个组织为[%s]的业务账簿,Found multiple business accounting books of Org [%s],ficloud.000060
+"已获得空间访问令牌:{0},有效时间是{1}小时",Space access token {0} obtained. Effective time: {1} hour(s),ficloud.000075
+无法取得会计期间[%s]的编码!,Cannot obtain the code of fiscal period [%s],ficloud.000167
+租户{0}  下 ID 为：{1} 的角色已经同步过！,Role ID {1} under tenant {0} has been synchronized,ficloud.000183
+aes 加密失败,aes encryption failed,ficloud.000205
+number 不能为空,number is required,ficloud.000219
+租户{0}  下 ID 为：{1} 的用户已经同步过！,User ID {1} under tenant {0} has been synchronized,ficloud.000231
+第{0}行[{1}]不存在。,[{1}] in line {0} does not exist,ficloud.000238
+resourceTypeCode 不能为空,resourceTypeCode is required,ficloud.000268
+创建角色[%s]失败,Failed to create role [%s],ficloud.000322
+此账簿%s账期已结账，不能反关账,"Accounting book %s account Period has been closed, and cannot be re-opened",ficloud.000324
+角色[%s]授权失败,Role [%s] authorization failed,ficloud.000325
+会计期间%s还没有结账，不能跨期间结账,Fiscal period %s has not been closed. Cannot close across accounting periods,ficloud.000354
+size 不能为空,size is required,ficloud.000359
+token 为不合法,Invalid token,ficloud.000402
+请求云审服务异常：{0},Exception in requesting cloud approval service: {0},ficloud.000426
+userId 不能为空,userId is required,ficloud.000445
+租户{0}  下 ID 为：{1} 的部门已经同步过！,Dept ID {1} under tenant {0} has been synchronized,ficloud.000448
+此账簿%s账期已结账，不能操作凭证,Accounting book %s account Period has been closed. Voucher cannot be operated,ficloud.000462
+accbook 不能为空,accbook is required,ficloud.000496
+凭证号:{0}没有记账权限。,No posting permission for voucher No. {0},ficloud.000579
+aes 解密失败,aes decryption failed,ficloud.000596
+此账簿在%s会计期间已结账，不能操作凭证,The accounting book has been closed in %s fiscal period. Voucher cannot be operated,ficloud.000619
+会计期间%s已经结账，不能跨期间反结账,Fiscal period %s has been closed. Cannot reverse closing across periods,ficloud.000684
+tenantid 未设值,tenantid not set,ficloud.000685
+tenantId 不能为空,tenantId is required,ficloud.000714
+"{0}生成凭证失败,",{0} Failed to generate voucher,ficloud.000771
+该现金流量被{0}“现金流量类型”引用，不允许删除！,The cash flow is referenced by {0} cash flow type. Cannot delete,ficloud.000815
+token 为空,token is empty,ficloud.000831
+在固定资产对账对照科目映射表没有定义[%s]的对应科目，请检查配置,The corresponding account of [%s] is not defined in fixed asset reconciliation cross-reference account mapping table. Please check the configuration,ficloud.000910
+本账簿账期[%s]%s,Current Accounting Book Acct Period [%s]%s,ficloud.000912
+利润中心[{0}]已被引用，无法删除。,"Profit center [{0}] has been referenced, and cannot be deleted",ficloud.000913
+注册账簿调度任务失败:%s账簿id为空,Failed to register accounting book scheduling task: %s accounting book ID is empty,ficloud.000919
+此账簿不包含会计期间%s!,The accounting book doesn't contain fiscal period %s,ficloud.000922
+查不到id为%s的账簿!,Cannot find accounting book ID %s,ficloud.000923
+查不到id为%s的业务账簿!,Cannot find business accounting book ID %s,ficloud.000924
+"新增科目编码:{0},不符合编码规则:{1}",Added account code {0} does not conform to coding rule {1},ficloud.000926
+当前科目[%s]已被下级科目表[%s]引用不能删除,"Current account [%s] has been referenced by child chart of accounts [%s], and cannot be deleted",ficloud.000927
+execl 文件格式不正确， 必须不少于5 列,Incorrect Excel file format. No. of columns cannot be less than 5,ficloud.000928
+第 [%s] 行 会计要素 不能为空,"In line [%s], accounting element is required",ficloud.000929
+第 [%s] 行会计要素 [%s] 未找到,"In line [%s], accounting element [%s] is not found",ficloud.000930
+第 [%s] 行 编码 不能为空,"In line [%s], code is required",ficloud.000931
+第 [%s] 行 名称 不能为空,"In line [%s], name is required",ficloud.000932
+第 [%s] 行 编码  [%s] 不符编码规则 [%s],"In line [%s], code [%s] doesn't conform to coding rule [%s]",ficloud.000933
+第 [%s] 行 编码  [%s] 与派生科目表中重复,"In line [%s], code [%s] is the same as that in the derived chart of accounts",ficloud.000934
+第 [%s] 行 余额方向 不能为空,"In line [%s], balance direction is required",ficloud.000935
+"第 [%s] 行 余额方向 [%s] 不正确, 余额方向只可以未 借 或 贷","In line [%s], balance direction [%s] is incorrect. Balance direction can only be debit or credit",ficloud.000936
+第 [%s] 行 辅助核算项  [%s] 不存在,"In line [%s], auxiliary accounting item [%s] does not exist",ficloud.000937
+云审同步默认部门异常：{0},Exception in synchronizing the default Dept of cloud approval: {0},ficloud.000938
+保存部门之间的关联关系异常：本地ID为{0}的部门对应云审部门ID为空！,Exception in saving the association between Depts: the cloud approval Dept ID corresponding to local Dept ID {0} is empty,ficloud.000941
+云审删除用户角色关联关系异常：{0},Exception in deleting user/role association of cloud approval: {0},ficloud.000944
+请求云审服务参数异常：{0},Exception in requesting cloud approval service parameter: {0},ficloud.000945
+云审查询用户异常：{0},Exception in querying user of cloud approval: {0},ficloud.000947
+租户:%s systemCode:%s 用户id:%s 用户mobile:%s:用户中心查询不到此用户,Tenant: %s systemCode: %s user id: %s user mobile: %s: cannot find the user in user center,ficloud.000949
+拆分：{0} cnt : {1},Split: {0} cnt: {1},ficloud.000952
+匹配：{0} 等于 {1},Match: {0} equals {1},ficloud.000953
+没有id为%s的账簿!,No accounting book ID %s,ficloud.000956
+此账簿账期:%s 已结账，不能重复结账,Accounting book account Period %s has been closed. Cannot close again,ficloud.000958
+此账簿不包含会计期间%s，不能结账,The accounting book doesn't contain fiscal period %s. Cannot close,ficloud.000960
+此账簿不包含会计期间%s，不能取消结账,The accounting book doesn't contain fiscal period %s. Cannot cancel closing,ficloud.000961
+此账簿账期:%s未结账，不用取消结账,Accounting book account Period %s is not closed. No need to cancel closing,ficloud.000962
+试算平衡检查:{0},Trial balance check: {0},ficloud.000963
+凭证删除后操作异常:{0},Operation exception after deleting voucher: {0},ficloud.000969
+凭证[%s]账期[%s]已审核，无法删除！,Voucher [%s] has already been approved in account Period [%s]. Cannot delete,ficloud.000970
+凭证[%s]账期[%s]已记账，无法删除！,Voucher [%s] has already been posted in account Period [%s]. Cannot delete,ficloud.000971
+【处理时间】doSave ,[Processed At] doSave,ficloud.000973
+【处理时间】doUpdate ,[Processed At] doUpdate,ficloud.000975
+缺少[{0}]:[{1}]权限。,[{0}]:[{1}] permission missing,ficloud.000976
+凭证[%s]加锁失败，请稍后重试！,Failed to lock voucher [%s]. Please try again later,ficloud.000977
+未找到对应凭证[%s],Cannot find the corresponding voucher [%s],ficloud.000978
+删除凭证发生如下错误:{0},The following error occurred while deleting voucher: {0},ficloud.000979
+"凭证号:{0},已记账,不能重复记账！","Voucher No. {0} has been posted, and cannot be posted again",ficloud.000980
+"凭证号:{0},已经记账，不能取消审核！",Voucher No. {0} has been posted. Cannot revoke approval,ficloud.000981
+"凭证号:{0},{1}","Voucher No.: {0}, {1}",ficloud.000983
+"凭证号:{0},已经审核，不能重复审核！",Voucher No. {0} has been approved. Cannot approve again,ficloud.000984
+"凭证号:{0},审核失败!",Failed to approve voucher No. {0},ficloud.000985
+此账簿账期:%s 已结账，不能操作凭证.,Accounting book account Period %s has been closed. Voucher cannot be operated,ficloud.000986
+"凭证号:{0},未审核，不能取消审核！",Voucher No. {0} is not approved. Cannot revoke approval,ficloud.000987
+"凭证号:{0},取消审核失败!",Failed to revoke approval of voucher No. {0},ficloud.000988
+"凭证号:{0},未审核,不能记账！",Voucher No. {0} is not approved. Cannot post,ficloud.000989
+"凭证号:{0},记账失败!",Posting of voucher No. {0} failed,ficloud.000990
+"凭证号:{0},未记账,不能取消记账！",Voucher No. {0} is not posted. Cannot cancel posting,ficloud.000991
+"凭证号:{0},取消记账失败!",Failed to cancel posting of voucher No. {0},ficloud.000992
+数据权限异常：{0},Data permission exception: {0},ficloud.000993
+断号表初始化:{0},Incontinuous No. table initialization: {0},ficloud.000994
+"凭证号{0},取号异常，请检查数据正确性！",Exception in fetching voucher No. {0}. Please check whether the data is correct,ficloud.000995
+未找到ID为[%s]相应凭证！,Cannot find voucher ID [%s],ficloud.000996
+"临时凭证ID:{0},{1}","Temp voucher ID: {0}, {1}",ficloud.000997
+未找到ID为[%s]的临时凭证！,Cannot find temp voucher ID [%s],ficloud.000999
+科目%s原币没有合法的值！,No valid value for account %s in OC,ficloud.001000
+"科目:{0},必须完整录入辅助核算信息，请修改",Auxiliary accounting Info must be entered completely for account {0}. Please modify,ficloud.001001
+生成管理凭证:{0},Generate Mgmt voucher: {0},ficloud.001002
+公式[{0}]表体输入参数为空,The parameter entered in the detail of formula [{0}] is empty,ficloud.001003
+公式[{0}]表体输入摘要参数为空,The Abstract parameter entered in the detail of formula [{0}] is empty,ficloud.001004
+公式[{0}]参数为空,Formula {0} parameter is empty,ficloud.001005
+公式[{0}]表体输入档案转换摘要参数为空,The file conversion Abstract parameter entered in the detail of formula [{0}] is empty,ficloud.001006
+公式[{0}]表体输入档案查出为空,The file entered in the detail of formula [{0}] is empty,ficloud.001007
+结果异常:{0},Result exception: {0},ficloud.001008
+公式[{0}]参数不能为空,Formula {0} parameter is required,ficloud.001009
+会计主体[{0}]不存在,Accounting entity {0} does not exist,ficloud.001010
+科目[{0}]不存在,Account {0} does not exist,ficloud.001011
+辅助公式[{0}]解析出错:,Error in resolving auxiliary formula [{0}]:,ficloud.001012
+科目公式[{0}]解析出错:,Error in resolving account formula [{0}]:,ficloud.001013
+该账簿下未找到该科目[{0}]!,Cannot find account [{0}] in the accounting book,ficloud.001014
+"该账簿下未找到科目[{0}],请先设置科目转换!",Cannot find account [{0}] in the accounting book. Please set account conversion first,ficloud.001015
+金额公式[{0}]解析出错:,Error in resolving Amt formula [{0}]:,ficloud.001016
+金额公式[{0}]解析出金额为空!,The resolved Amt of Amt formula [{0}] is empty,ficloud.001017
+金额公式[{0}]解析出不是金额!,No Amt resolved by Amt formula [{0}],ficloud.001018
+"金额公式[{0}]解析出金额为0,忽略该分录模版!",The resolved Amt of Amt formula [{0}] is 0. Ignore the entry template,ficloud.001019
+由模版生成的凭证[{0}]在期间[{1}]已经审核，无法修改或删除！,Voucher [{0}] generated from template has been approved in period [{1}]. Cannot modify or delete,ficloud.001020
+由模版生成的凭证[{0}]在期间[{1}]已经记账，无法修改或删除！,Voucher [{0}] generated from template has been posted in period [{1}]. Cannot modify or delete,ficloud.001021
+该账簿在%s会计期间已结账，不能操作生成凭证.,The accounting book has been closed in %s fiscal period. Voucher cannot be generated,ficloud.001022
+账簿[{0}]下没有该模版[{1}].,Accounting book [{0}] doesn't contain template [{1}],ficloud.001023
+账簿[{0}]下没有模版中设置的会计主体.,Accounting book [{0}] doesn't contain the accounting entity set in the template,ficloud.001024
+模版[{0}],Template [{0}],ficloud.001025
+{0}生成凭证成功.,{0} Voucher generated successfully,ficloud.001026
+{0}已结转但不生成凭证.,"{0} Carried forward, but voucher not be generated",ficloud.001027
+{0}正在处理中.,{0} Being processed,ficloud.001028
+{0}未结转与生成.,{0} Not carried forward/generated,ficloud.001029
+{0}为框架期末结转凭证，不能自动生成凭证.,{0} is frame closing carry-forward voucher. Vouchers cannot be automatically generated,ficloud.001030
+{0}不是期末结转凭证，不生成凭证.,{0} is closing carry-forward voucher. Do not generate voucher,ficloud.001031
+未找到该数据：{0},No such data found: {0},ficloud.001032
+外部服务凭证模版实现类未找到:{0},External service voucher template implementation class not found: {0},ficloud.001033
+外部服务凭证模版实现类不符合要求:{0},Unqualified external service voucher template implementation class: {0},ficloud.001034
+外部服务凭证模版实现类初始化失败:{0},Failed to initialize external service voucher template implementation class: {0},ficloud.001035
+币种找不到:{0},Cannot find currency: {0},ficloud.001037
+币种汇率找不到:{0},Cannot find currency exchange rate: {0},ficloud.001038
+未找到该账簿[{0}]汇兑收益科目,Exchange gain account of accounting book [{0}] not found,ficloud.001039
+未找到该账簿[{0}]汇兑损失科目,Exchange loss account of accounting book [{0}] not found,ficloud.001040
+未找到该账簿[{0}]本年利润科目,Current year profit account of accounting book [{0}] not found,ficloud.001041
+aes xml解析失败,Failed to resolve aes xml,ficloud.001052
+aes sha加密生成签名失败,Failed to generate signature upon encrypting aes sha,ficloud.001053
+aes SymmetricKey非法,Invalid aes SymmetricKey,ficloud.001054
+aes corpid校验失败,aes corpid verification failed,ficloud.001055
+aes 解密后得到的buffer非法,Invalid buffer obtained after decrypting aes,ficloud.001056
+添加账户对照信息失败(db error),Failed to add account cross-reference Info (db error),ficloud.001062
+"获得access_token出错,请求参数suite_id:{0},suite_secret:{1},suite_ticket:{2};返回结果:{3}","Error in obtaining access_token. Requested parameter suite_id: {0}, suite_secret: {1}, suite_ticket: {2}; returned result: {3}",ficloud.001067
+"获得永久授权码失败,请求参数suite_id:{0},auth_code:{1},token:{2};返回结果:{3}","Failed to obtain permanent authorization code. Requested parameter suite_id: {0}, auth_code: {1}, token: {2}; returned result: {3}",ficloud.001068
+"空间名称:{0},空间Id:{1}的永久授权码:{2}","Space name: {0}, space ID: {1}'s permanent authorization code: {2}",ficloud.001069
+"获得空间访问令牌失败,请求参数suite_id:{0},permanent_code:{1};返回结果:{2}","Failed to obtain space access token. Requested parameter suite_id: {0}, permanent_code:{1}; returned result: {2}",ficloud.001070
+id:%s位于上级的上级中,id:%s is in the superior of the superior,ficloud.001071
+找不到id为%s的基础档案,Cannot find basic file ID %s,ficloud.001072
+未找到DOCTYOE：{0},Cannot find DOCTYOE: {0},ficloud.001111
+科目多维结构辅助项设置有错误，设置了多项辅助项：{0},Account multi-dimensional structure supplementary item setting error. Multiple supplementary items set: {0},ficloud.001112
+利润中心：{0},Profit Center: {0},ficloud.001115
+账簿：{0},Accounting Book: {0},ficloud.001116
+币种：{0},Currency: {0},ficloud.001117
+科目：{0},Account: {0},ficloud.001118
+科目：{0} {1},Account: {0} {1},ficloud.001119
+"'本月合计' as description, ","Current Month Total' as description,",ficloud.001121
+"'年初发生' as description,","Year-beginning Amt' as description,",ficloud.001122
+"'期初余额' as description,","Opening Bal' as description,",ficloud.001123
+{0}[{1}级科目],{0}[{1} Level Acct],ficloud.001124
+基本档案-{0}-导入模板,Basic Files - {0} - Import Template,ficloud.001134
+"无法找到名称为[{0}]的档案,请检查导入文件内容是否正确!",Cannot find file name [{0}]. Please check whether the imported file content is correct,ficloud.001135
+利润中心参照:{0},Profit Center Reference: {0},ficloud.001137
+科目参照：{0},Account Reference: {0},ficloud.001138
+银行账户参照参照：{0},Bank Acct Reference: {0},ficloud.001139
+委托核算会计主体：{0},Delegated Accounting Entity: {0},ficloud.001140
+币种参照 出错:{0},Currency reference error: {0},ficloud.001141
+保存失败:{0},Failed to save: {0},ficloud.001142
+修改失败:{0},Failed to modify: {0},ficloud.001143
+查询失败:{0},Failed to query: {0},ficloud.001145
+"任务已提交,执行ID:{0}",Task submitted. Execution ID: {0},ficloud.001147
+第 [%s] 行辅助核算项不能为空,"In line [%s], auxiliary accounting item is required",ficloud.001157
+科目 [{0}:{1}] 数据有问题，请检查!,Account [{0}:{1}] data is incorrect. Please check,ficloud.001158
+导入模板-%s-期间%s,Import Template - %s - Period %s,ficloud.001159
+页签 [%s] 下存在币种为空的导入行，请检查!,Tab [%s] contains imported lines with no currency. Please check,ficloud.001160
+页签 [%s] 下的科目 [%s] 在当前账簿下不存在，请检查!,Tab [%s]'s account [%s] doesn't exist in the current accounting book. Please check,ficloud.001161
+页签 [%s] 下的科目 [%s] 对应的导入行币种与当前币种不符，请检查!,The currency in the corresponding imported line of tab [%s]'s account [%s] is inconsistent with the current currency. Please check,ficloud.001162
+页签 [%s] 下的科目 [%s] 对应的导入行会计主体与当前会计主体不符，请检查!,The accounting entity in the corresponding imported line of tab [%s]'s account [%s] is inconsistent with the current accounting entity. Please check,ficloud.001163
+页签 [%s] 下的科目 [%s] 的辅助核算项 [%s] 的录入值  [%s] 在系统中不存在 ，请检查!,"For tab [%s]'s account [%s], auxiliary accounting item [%s]'s value entered [%s] doesn't exist in the system. Please check",ficloud.001164
+查询附件结果集：id:{0},Attachment query result set: id: {0},ficloud.001166
+不明确的凭证状态类型[%s],Unclear voucher status type [%s],ficloud.001167
+凭证中的科目不属于此账簿:{0},Account in the voucher doesn't belong to this accounting book: {0},ficloud.001169
+【处理时间】setExtention ,[Processed At] setExtention,ficloud.001170
+查询凭证模板参数设置error：{0},Error in querying voucher template parameter settings: {0},ficloud.001171
+{0}结转失败:{1},{0} carry-forward failed: {1},ficloud.001175
+此账簿%s账期已结账，不能整理凭证号！,Accounting book %s account Period has been closed. Cannot collate voucher number,ficloud.001176
+【友空间登录】  targetUrl : {0},[YouZone Login] targetUrl: {0},ficloud.001177
+【友空间授权】  qzId : {0} tempCode : {1},[YouZone Authorization] qzId: {0} tempCode: {1},ficloud.001178
+【友空间授权】  获取友空间suiteAccessToken  code : {0} suiteAccessToken : {1},[YouZone Authorization] Obtain YouZone suiteAccessToken code: {0} suiteAccessToken: {1},ficloud.001179
+【友空间登录】  获取友空间permanentCode  code : {0} permanentCode : {1},[YouZone Login] Obtain YouZone permanentCode code: {0} permanentCode: {1},ficloud.001180
+【友空间授权】  获取友空间suiteAccessToken  qzId : {0} suiteAccessToken : {1},[YouZone Authorization] Obtain YouZone suiteAccessToken qzId: {0} suiteAccessToken: {1},ficloud.001181
+【友空间登录】  获取友空间permanentCode  qzId : {0} permanentCode : {1},[YouZone Login] Obtain YouZone permanentCode qzId: {0} permanentCode: {1},ficloud.001182
+【友空间登录】  获取友空间accessToken  qzId : {0} accessToken : {1},[YouZone Login] Obtain YouZone accessToken qzId: {0} accessToken: {1},ficloud.001183
+【友空间登录】  qzId : {0} code : {1},[YouZone Login] qzId: {0} code: {1},ficloud.001184
+【友空间登录】  获取友空间accessToken  code : {0} accessToken : {1},[YouZone Login] Obtain YouZone accessToken code: {0} accessToken: {1},ficloud.001185
+【友空间登录】  获取友户通临时Token  code : {0} json : {1},[YouZone Login] Obtain EUC temp Token code: {0} json: {1},ficloud.001186
+【友空间登录】  获取友户通登录Token code : {0} json : {1},[YouZone Login] Obtain EUC login Token code: {0} json: {1},ficloud.001187
+【友空间登录】  redirectUrl : {0},[YouZone Login] redirectUrl: {0},ficloud.001188
+【随时记转发】  code : {0},[RAT Forward] code: {0},ficloud.001189
+【随时记转发】  token : {0},[RAT Forward] token: {0},ficloud.001190
+【随时记转发】  redirectUrl : {0},[RAT Forward] redirectUrl: {0},ficloud.001191
+size 需为整型数据(>0),size must be of integer type (>0),ficloud.001193
+number 需为整型数据(>0),number must be of integer type (>0),ficloud.001194
+操作失败:{0},Operation failed: {0},ficloud.001195
+总账科目打印异常: {0},Error printing GL account: {0},ficloud.001196
+辅助余额表打印异常: {0},Error printing auxiliary balance report: {0},ficloud.001197
+辅助明细表打印异常：{0},Exception in printing auxiliary details: {0},ficloud.001198
+明细账打印异常：{0},Exception in printing sub-ledger: {0},ficloud.001202
+{0}: 分组：,{0}: group:,ficloud.001204
+描述[description]超过最大长度[255],The description [description] exceeds the limit of [255],ficloud.001210
+页签 [%s] 下的项目 [%s] 在当前账簿下不存在，请检查!,Item [%s] in tab [%s] doesn't exist in the current accounting book. Please check,ficloud.001232
+页签 [%s] 下的项目 [%s] 对应的导入行会计主体与当前会计主体不符，请检查!,The accounting entity in the corresponding imported line of item [%s] in tab [%s] is inconsistent with the current accounting entity. Please check,ficloud.001233
+导出期初-%s-期间%s,Export opening -%s- period %s,ficloud.001245
+新增常用摘要行数{0},New General Abstract Lines {0},ficloud.001249
+{0}不能为空!,{0} cannot be blank.,ficloud.001261
+"该{0}已删除,请刷新页面!",This {0} has been deleted. Please refresh,ficloud.001262
+该{0}正在处理，请稍后重试!,This {0} is being processed. Please try again later,ficloud.001263
+账簿{0}没有配置结转模板!,The account book {0} is not configured with a carry-forward template,ficloud.001269
+"该凭证类型已被引用, {0}不可修改!",The voucher type has been referenced. {0} cannot be modified,ficloud.001276
+凭证[%s]超出当前用户数据权限范围，无法进行，请重新设置数据权限后再试！,Voucher [%s] is beyond the data permission of the current user. Please reset data permission and try again,ficloud.001277
+凭证号:%s，,"Voucher No.: %s,",ficloud.001357
+"上传完成, fileId: ",Uploading completed. fileId:,ficloud.001417
+暂存的凭证无法%s！,Cannot perform %s on draft voucher,ficloud.001455
+已作废的凭证无法%s！,Cannot perform %s for voided voucher,ficloud.001490
+凭证已记账，无法%s！,Voucher has been posted. Cannot %s,ficloud.001511
+错误凭证%s失败！请先修改错误！,Error voucher %s failed Modify error first,ficloud.001513
+外系统凭证，无法%s！,It's external system voucher. Cannot %s,ficloud.001518
+凭证号:%s，只有审核人才能取消审核!,"For voucher No. %s, approval can only be revoked by the approver",ficloud.001519
+科目%s缺少币种！,Currency missing in account %s,ficloud.001520
+科目%s原币及本币缺少值！,OC and FC of account %s are missing,ficloud.001526
+凭证已审核，无法%s！,Voucher has been approved. Cannot %s,ficloud.001527
+凭证中的科目不属于此账簿:{0}科目表:{1},"Account in the voucher doesn't belong to accounting book: {0}, chart of accounts: {1}",ficloud.001528
+期末结转凭证，无法%s！,It's a closing carry-forward voucher. Cannot %s,ficloud.001530
+二级会计主体[{0}]已被引用，无法删除。,Level-2 accounting entity [{0}] has been referenced and cannot be deleted,ficloud.001542
+成本中心[{0}]已被引用，无法删除。,Cost center accounting [{0}] has been referenced and cannot be deleted,ficloud.001543
+二级会计主体[{0}]已被[{1}]引用，无法删除。,Level-2 accounting entity [{0}] has been referenced by [{1}] and cannot be deleted,ficloud.001544
+成本中心[{0}]已被[{1}]引用，无法删除。,Cost center accounting [{0}] has been referenced by [{1}] and cannot be deleted,ficloud.001545
+未找到{0}的档案类型,Failed to find file type {0},ficloud.001589
+获取im token 获取异常,Exception in obtaining im token,getImTokenException
+Initialization succeeded,Initialization succeeded,gwportal.erp.initialization.succeed
+管理员 {0} 删除了您{1}提交的{2},Admin {0} deleted your {2} submitted at {1},logger.message.diaryDeleteMessage
+{0}给您的日志点了赞，去看看！,{0} liked your work log. Check it out,logger.message.diaryLikeMessage
+{0}对您的日志进行了回复，去看看！,{0} commented on your work log. Check it out,logger.message.diaryReplayMessage
+{0}提醒您{1}前填写{2},{0} reminded you to fill in {2} by {1},logger.message.diarySubmitRemindMessage01
+{0}提醒您{1}({2})({3}日{4})前填写{5},{0} reminded you to fill in {5} by {1} ({2})({3} {4}),logger.message.diarySubmitRemindMessage02
+NCC IP地址不能为空,NCC IP address required,message.common.lang0000607
+NCC 端口号不能为空,NCC port No. required,message.common.lang0000608
+NCC 用户编码不能为空,NCC user code required,message.common.lang0000609
+应用版本的格式X.X.X.X,App Version Format X.X.X.X,message.common.lang0000653
+无对接请求数据:domain,No docking request data: domain,noDockingRequestDataDomain
+无对接请求数据:ucode,No docking request data: ucode,noDockingRequestDataUcode
+添加了项目参与人 {0},Project participant {0} added,project.groupMessage.addPartUserMessage
+将项目的起止时间修改为: {0} 至 {1},Project period is changed from {0} to {1},project.groupMessage.changeBeginAndEndDate
+将项目状态修改为: {0},Project status is modified as: {0},project.groupMessage.changePublic
+删除了项目参与人 {0},Project participant {0} deleted,project.groupMessage.deletePartUserMessage
+删除了项目 “{0}”,Project “{0}” deleted,project.groupMessage.deleteProject
+设置项目负责人为 {0},{0} is assigned as project manager,project.groupMessage.editProjectChangeChargeMessage
+将项目描述改为：{0},Project description is changed to {0},project.groupMessage.editProjectDescMessage
+将项目名称修改为 “{0}”,Project name is changed to {0},project.groupMessage.editProjectNameMessage
+将项目标记为完成，并填写项目总结：{0},Project is marked as completed. Project summary: {0},project.groupMessage.finishProject
+{0} 重启了项目,{0} restarted project,project.groupMessage.restartProject
+{0}对您的评论进行了点赞！,{0} liked your comments,project.message.projectCommentLike
+修改参与人为 {0} 共{1}人,Participant is changed to {0} ({1} persons in total),project.operateLog.operate06
+为{0}添加任务参与人{1},Task participant {1} is added for {0},project.operateLog.operate26
+{0}为{1}设置任务负责人{2},{0} assigned task manager {2} for {1},project.operateLog.operate27
+{0}取消关联了任务{1},{0} disassociated task {1},project.operateLog.operate28
+"{0} 申请加入项目  {1},期待您的审批!",{0} applied to join in project {1}. Waiting for your approval,project.toDoMessage.applyJoinProject
+{0} 申请加入项目,{0} applied to join in project,project.toDoMessage.title.applyJoinProject
+查询为空请检查标准地址映射表和电商地址表是否匹配 --> branch:,The query result is empty. Please check whether the standard address mapping table matches the online retailer address table --> branch:,P_DIWORK_YC_BASEDOC_0000062760
+更新供应商管理中租户的状态报错:SupplyDocServiceImpl.updateSupplyActive.详细日志:,Error updating the tenant status in supplier management: Detailed log:,P_DIWORK_YC_BASEDOC_0000062761
+com.yonyou.yuncai.cpu.dao.basedoc.organization.impl.OrganizationDaoImpl.getOrganizationsByDefConditionForYQL 查询条件不能为空.,Query criteria are required.,P_DIWORK_YC_BASEDOC_0000062765
+更新供应商条件为空 SupplyDocServiceImpl updateSupplyTemp,Supplier update criteria are blank,P_DIWORK_YC_BASEDOC_0000062771
+查询ERP供应商出错:SupplyDocServiceImpl.selectSupplyByPurseIdAndPKsup.详细日志:,Error querying ERP supplier. Detailed log:,P_DIWORK_YC_BASEDOC_0000062772
+com.yonyou.yuncai.cpu.dao.basedoc.organization.impl.OrganizationDaoImpl.getOrganizationsByDefCondition 查询条件不能为空.,com.yonyou.yuncai.cpu.dao.basedoc.organization.impl.OrganizationDaoImpl.getOrganizationsByDefCondition Query criteria are required.,P_DIWORK_YC_BASEDOC_0000062779
+查询为空请检查电商地址表 --> branch:,The query result is empty. Please check the online retailer address table:,P_DIWORK_YC_BASEDOC_0000062780
+供应商档案插入失败:SupplyDocServiceImpl.updateSaveSupplyDoc.详细日志:,Failed to insert supplier file. Detailed log:,P_DIWORK_YC_BASEDOC_0000062783
+更新一下供应商管理表中的此租户的信息错误:SupplyDocServiceImpl.updateSupplyIdByTenantId.详细日志:,Error updating Info of this tenant in the supplier management table. Detailed log:,P_DIWORK_YC_BASEDOC_0000062784
+查询采购商对应的供应商数据出错:SupplyDocServiceImpl.querySupplyByPurIdAndSupId.详细日志:,Error querying corresponding supplier data of purchaser. Detailed log:,P_DIWORK_YC_BASEDOC_0000062786
+批量导入供应商档案失败:SupplyDocServiceImpl.batchInsertSupplyDocAndIndex.详细日志:,Failed to batch import supplier files. Detailed log:,P_DIWORK_YC_BASEDOC_0000062821
+供应商档案插入失败:SupplyDocServiceImpl.insertSaveSupplyDoc.详细日志:,Failed to insert supplier file. Detailed log:,P_DIWORK_YC_BASEDOC_0000062844
+com.yonyou.yuncai.cpu.dao.basedoc.organization.impl.OrganizationDaoImpl.getOrganizationsByDefCondition 分页条件不能为空.,com.yonyou.yuncai.cpu.dao.basedoc.organization.impl.OrganizationDaoImpl.getOrganizationsByDefCondition Pagination criteria are required.,P_DIWORK_YC_BASEDOC_0000062857
+分页查询数据失败:SupplyDocServiceImpl.selectSupplyDocByPurchaseIdForIndmall.详细日志:,Pagination query of data failed: Detailed log:,P_DIWORK_YC_BASEDOC_0000062885
+AnnouncementServiceImpl  pageQuery  分页查询新闻公告失败,Pagination query of news announcement failed,P_DIWORK_YC_BASEDOC_0000062940
+判断营业执照号、供应商名称、供应商编码是否有重复失败:SupplyDocServiceImpl.isUnique.详细日志:,"Fail to judge whether the business license No., supplier name and supplier code are duplicated. Detailed log:",P_DIWORK_YC_BASEDOC_0000062944
+供应商历史数据更新异常:SupplyDocServiceImpl.batchSaveOrUpdateSupplyDocData.详细日志:,Error updating supplier's historical data. Detailed log:,P_DIWORK_YC_BASEDOC_0000062956
+根据营业执照号和采购商的租户id查询供应商错误:SupplyDocServiceImpl.updateSupplyActive.详细日志:,Error querying suppler by business license No. and purchaser's tenant ID. Detailed log:,P_DIWORK_YC_BASEDOC_0000062971
+供应商档案查询失败:SupplyDocServiceImpl.getSupplyDoc.详细日志:,Failed to query supplier file. Detailed log:,P_DIWORK_YC_BASEDOC_0000062998
+分页查询数据失败:SupplyDocServiceImpl.pageQuery.详细日志:,Pagination query of data failed: SupplyDocServiceImpl.pageQuery. Detailed log:,P_DIWORK_YC_BASEDOC_0000063015
+付款比例不能超过100%！,Payment proportion cannot exceed 100%.,P_DIWORK_YC_BASEDOC_0000063017
+QualifyServiceImpl queryQualify 查询资质失败 :,Failed to query qualification:,P_DIWORK_YC_BASEDOC_0000063025
+供应商档案删除失败:SupplyDocServiceImpl.delete.详细日志:,Failed to delete supplier file. Detailed log:,P_DIWORK_YC_BASEDOC_0000063033
+批量导入供应商档案失败:SupplyDocServiceImpl.batchUpdateSupplyDocAndIndexForErp.详细日志:,Failed to batch import supplier files. Detailed log:,P_DIWORK_YC_BASEDOC_0000063040
+根据purchaseid和supplyid更新失败:SupplyDocServiceImpl.updatePkSupplier.详细日志:,Failed to update according to purchaseid and supplyid. Detailed log:,P_DIWORK_YC_BASEDOC_0000063041
+批量导入供应商档案失败:SupplyDocServiceImpl.insertSupplyDocBatch.详细日志:,Failed to batch import supplier files: SupplyDocServiceImpl.insertSupplyDocBatch. Detailed log:,P_DIWORK_YC_BASEDOC_0000063042
+查询ERP供应商出错:SupplyDocServiceImpl.querySupplyByPurseIdAndPKsup.详细日志:,Error querying ERP supplier. Detailed log:,P_DIWORK_YC_BASEDOC_0000063056
+根据purEnterpriseId和name查询“供应商档案id失败:SupplyDocServiceImpl.pageQueryForRef.详细日志:,Failed to query supplier file ID according to purEnterpriseId and name. Detailed log:,P_DIWORK_YC_BASEDOC_0000063064
+查询采购商的下属供应商失败:SupplyDocServiceImpl.selectSupplyDocByPurchaseId.详细日志:,Failed to query child supplier of purchaser. Detailed log:,P_DIWORK_YC_BASEDOC_0000063077
+SupplyDocServiceImpl  selectSupplyDocByPurchaseIdForIndmall  分页查询数据,Pagination Query of Data,P_DIWORK_YC_BASEDOC_0000063104
+付款比例不等于100%！,Payment proportions are not equal to 100%.,P_DIWORK_YC_BASEDOC_0000063117
+供应商档案查询失败:SupplyDocServiceImpl.getSupplyDocById.详细日志:,Failed to query supplier file: SupplyDocServiceImpl.getSupplyDocById. Detailed log:,P_DIWORK_YC_BASEDOC_0000063157
+更新供应商条件出错 SupplyDocServiceImpl updateSupplyTemp,Error updating supplier condition,P_DIWORK_YC_BASEDOC_0000063209
+com.yonyou.yuncai.cpu.dao.basedoc.customerdirectory.impl.CustomerDirectoryDaoImpl.getCustomerDirectory 分页条件不能为空.,com.yonyou.yuncai.cpu.dao.basedoc.customerdirectory.impl.CustomerDirectoryDaoImpl.getCustomerDirectory Pagination criteria are required.,P_DIWORK_YC_BASEDOC_0000063210
+添加关系失败:SupplyDocServiceImpl.addEntRelationship.详细日志:,Failed to add relationship. Detailed log:,P_DIWORK_YC_BASEDOC_0000063211
+生成云采平台的租户信息出错:SupplyDocServiceImpl.updateSupplyActive.详细日志:,Error generating tenant Info of youGo platform. Detailed log:,P_DIWORK_YC_BASEDOC_0000063227
+com.yonyou.yuncai.cpu.dao.basedoc.customerdirectory.impl.CustomerDirectoryDaoImpl.getCustomerDirectory 查询条件不能为空.,com.yonyou.yuncai.cpu.dao.basedoc.customerdirectory.impl.CustomerDirectoryDaoImpl.getCustomerDirectory Query criteria are required.,P_DIWORK_YC_BASEDOC_0000063234
+查询失败:SupplyDocServiceImpl.selectSupplyDocByCond.详细日志:,Query failed. Detailed log:,P_DIWORK_YC_BASEDOC_0000063242
+SupplyDocServiceImpl  addSupplyByPurId  查询是否已经存在关系错误,Query whether the relationship error already exists,P_DIWORK_YC_BASEDOC_0000063248
+OrganizationServiceImpl  getOrganization4Upgrade 查询,OrganizationServiceImpl  getOrganization4Upgrade Query,P_DIWORK_YC_BASEDOC_0000064899
+供应商档案查询失败:SupplyDocServiceImpl.getSupplyDocListWithDetail.详细日志:,Failed to query supplier file: SupplyDocServiceImpl.getSupplyDocListWithDetail. Detailed log:,P_DIWORK_YC_BASEDOC_0000064900
+参数【enterpriseId】都不能为空！,Parameter [enterpriseId] is required.,P_DIWORK_YC_BASE_0000060370
+"----------------------->>>>queryByDefCondition>>>>>>>>>>--------------出现异常,详细日志:",Error. Detailed log:,P_DIWORK_YC_BASE_0000060387
+"参数【rule.enterpriseId】,【rule.billType】,【rule.field】都不能为空！",All parameters are required.,P_DIWORK_YC_BASE_0000060393
+BiddocServiceImpl pageQueryForPicture  分页查询异常:,Pagination query error:,P_DIWORK_YC_BID-DOC_0000061932
+projectId 不能为空或者0！,projectId cannot be empty or 0.,P_DIWORK_YC_BID-DOC_0000061936
+BidSupplierOpenPictureServiceImpl pageQuery  分页查询异常:,BidSupplierOpenPictureServiceImpl pageQuery  Pagination query exception:,P_DIWORK_YC_BID-OPEN_0000063258
+表体指标权重总分须等于100或100%，请确认后进行保存！,Total score of indicator weight in detail must be equal to 100 or 100%. Please confirm before saving.,P_DIWORK_YC_BID-PROJECT_0000057623
+唯一标示字段[vsrcMark]不能为空!,The unique mark field [vsrcMark] is required.,P_DIWORK_YC_BI_0000060099
+Spring 中使用Swagger2构建RESTful API,Swagger2 used to build RESTful API in Spring,P_DIWORK_YC_BI_0000060173
+]的字段对照(check-mapping)关系!,]'s field cross-reference (check-mapping) relation.,P_DIWORK_YC_BI_0000060199
+唯一标示字段[id]不能为空!,The unique mark field [ID] is required.,P_DIWORK_YC_BI_0000060247
+只有虚拟对账单才可以进行生成对账单操作！id:[,Only virtual statements can be used to generate statements. id:[,P_DIWORK_YC_CHECK_0000060444
+"{\""invoiceInfo\"":{\""vatAddress\"":\""北京市海淀区北清路68号用友软件园\"",\""vatTelephone\"":\""15910245632\"",\""vatBankAccount\"":\""23523464665634567722\"",\""vatBank\"":\""中国银行\"",\""vatTaxNo\"":\""1234567011\""},\""invoiceReceiver\"":{\""name\"":\""谭欣\"",\""mobile\"":\""15910245632\""},\""addressId\"":451,\""invoiceAddress\"":{\""area0\"":{\""code\"":\""1\"",\""name\"":\""北京\""},\""area1\"":{\""code\"":\""2800\"",\""name\"":\""海淀区\""},\""area2\"":{\""code\"":\""2851\"",\""name\"":\""五环到六环之间\""},\""detail_address\"":\""北京市海淀区北清路68号用友软件园\""}}","{\\""invoiceInfo\\"":{\\""vatAddress\\"":\\""Yonyou Software Park, No.68, Beiqing Road, Haidian District, Beijing\\"",\\""vatTelephone\\"":\\""15910245632\\"",\\""vatBankAccount\\"":\\""23523464665634567722\\"",\\""vatBank\\"":\\""Bank of China\\"",\\""vatTaxNo\\"":\\""1234567011\\""},\\""invoiceReceiver\\"":{\\""name\\"":\\""Tan Xin\\"",\\""mobile\\"":\\""15910245632\\""},\\""addressId\\"":451,\\""invoiceAddress\\"":{\\""area0\\"":{\\""code\\"":\\""1\\"",\\""name\\"":\\""Beijing\\""},\\""area1\\"":{\\""code\\"":\\""2800\\"",\\""name\\"":\\""Haidian District\\""},\\""area2\\"":{\\""code\\"":\\""2851\\"",\\""name\\"":\\""Fifth Ring to Sixth Ring\\""},\\""detail_address\\"":\\""Yonyou Software Park, No.68, Beiqing Road, Haidian District, Beijing\\""}}",P_DIWORK_YC_CHECK_0000060450
+友企连APPID为空，请检查配置：ncbase.appid,Ublinker APPID is empty. Please check configuration: ncbase.appid,P_DIWORK_YC_CHECK_0000060459
+友企连url为空，请检查配置：ncbase.server,Ublinker URL is empty. Please check configuration: ncbase.server,P_DIWORK_YC_CHECK_0000060472
+修改出错，单据id不存在，id:,Modification error. Doc ID does not exist. ID:,P_DIWORK_YC_COMMON_0000059413
+erp类型请求失败，response：,"ERP type request failed, response:",P_DIWORK_YC_COMMON_0000059429
+%s不存在,%s does not exist,P_DIWORK_YC_COMMON_0000059438
+"查询是否有审批流结束，billHasFlow:{}, 耗时（ms）：{}==================================================================","Query whether approval process has ended, billHasFlow:{}, time used (ms): {}",P_DIWORK_YC_COMMON_0000059440
+不支持的erp类型请求返回类型，response：,"Return type of unsupported ERP type request, response:",P_DIWORK_YC_COMMON_0000059473
+消息总线的消息队列类型不能为空，请设置[mq.eventbus.mqtype],Message queue type of message bus cannot be empty. Please set [mq.eventbus.mqtype],P_DIWORK_YC_COMMON_0000059481
+修改出错，单据ts为空，id:,Modification error. Doc ts is empty. ID:,P_DIWORK_YC_COMMON_0000059500
+erp类型请求成功，但返回erptype为空！，response：,ERP type request successful but returned erptype was empty. Response:,P_DIWORK_YC_COMMON_0000059557
+审批方式OrgWorkFlowController  save  数据保存失败,Failed to save approval method data,P_DIWORK_YC_CPU-PORTAL_0000055705
+需求处理.xls,Demand Processing.xls,P_DIWORK_YC_CPU-PORTAL_0000055727
+查询询价单失败！！！，buyofferId:,"Failed to query RFQ, buyofferId:",P_DIWORK_YC_CPU-PORTAL_0000055754
+查询采购订单返回为null，id:,Returned query result of PO is null. ID:,P_DIWORK_YC_CPU-PORTAL_0000055762
+报价单.xls,Quotation.xls,P_DIWORK_YC_CPU-PORTAL_0000055784
+PuHomeController  queryPendingMessage  查询采购商的待办消息失败,Failed to query to-do message of purchaser,P_DIWORK_YC_CPU-PORTAL_0000055858
+loadData，原因:[,"loadData, reason: [",P_DIWORK_YC_CPU-PORTAL_0000055874
+pucode 不能为空,pucode required,P_DIWORK_YC_CPU-PORTAL_0000055881
+送货单.xls,Delivery Doc.xls,P_DIWORK_YC_CPU-PORTAL_0000055911
+查询报价单失败！！！，buyofferId:,"Failed to query quotation, buyofferId:",P_DIWORK_YC_CPU-PORTAL_0000055944
+EnterpriseController resetBusinessModelName 经营模式名称code2name转换失败,Business mode name code2name conversion failed,P_DIWORK_YC_CPU-PORTAL_0000055974
+"queryHistoryProcessUrl查询是否有审批历史结束，billHasFlow:{}, 耗时（ms）：{}============================================","queryHistoryProcessUrl Querying whether there is approval history has ended, billHasFlow:{}, time used (ms): {}",P_DIWORK_YC_CPU-PORTAL_0000055990
+AnnouncementController  findAll  查询失败,AnnouncementController  findAll  Query failed,P_DIWORK_YC_CPU-PORTAL_0000056033
+"{'result':'failed','msg':'请求参数错误，没有timestamp！'}","{'result':'failed','msg':' request parameter error, without timestamp!'}",P_DIWORK_YC_CPU-PORTAL_0000056094
+调用PoiUtil.mergerRegion()方法时，targetSheet或者sourceSheet不能为空，故抛出该异常！,"When the PoiUtil.mergerRegion() method is called, targetSheet or sourceSheet is required, so the exception is thrown.",P_DIWORK_YC_CPU-PORTAL_0000056107
+查询定标单失败！！！，projectId:,"Failed to query bid award Doc, projectId:",P_DIWORK_YC_CPU-PORTAL_0000056134
+采购需求.xls,Purchase Demand.xls,P_DIWORK_YC_CPU-PORTAL_0000056148
+定标单查询为空，id：,"Queried bid award Doc is empty, ID:",P_DIWORK_YC_CPU-PORTAL_0000056157
+"{'result':'failed','msg':'校验签名失败：请检查公钥和私钥是否匹配，和参数传值是否有问题！'}","{'result':'failed','msg':' Failed to verify signature: Please check whether the public key and the private key match, and whether the submitted parameter value is valid.'}",P_DIWORK_YC_CPU-PORTAL_0000056167
+请求参数【materialids】为空！！！,Request parameter [materialids] is empty.,P_DIWORK_YC_CPU-PORTAL_0000056170
+detailEntityList.erpProductId ERP物料唯一标识不能为空!,Unique ID of ERP material is required.,P_DIWORK_YC_CPU-PORTAL_0000056192
+AnnouncementController  save  保存失败,AnnouncementController  save  Saving failed,P_DIWORK_YC_CPU-PORTAL_0000056195
+调用PoiUtil.copyCommentr()方法时，targetCell、sourceCell、targetPatriarch都不能为空，故抛出该异常！,"When the PoiUtil.copyCommentr() method is called, targetCell, sourceCell and targetPatriarch are all required, so the exception is thrown.",P_DIWORK_YC_CPU-PORTAL_0000056203
+运输工具：#{transportType},Mode of Transport: #{transportType},P_DIWORK_YC_CPU-PORTAL_0000056215
+AnnouncementController  delete  删除失败,AnnouncementController  delete  Deleting failed,P_DIWORK_YC_CPU-PORTAL_0000056217
+"isUrgent 计划是否加急标识不能为空,切必须为YES或者NO!",isUrgent Urgent ID of plan is required and must be set to YES or NO.,P_DIWORK_YC_CPU-PORTAL_0000056236
+调用PoiUtil.copyRow()方法时，targetRow、sourceRow、targetWork、sourceWork、targetPatriarch都不能为空，故抛出该异常！,"When the PoiUtil.copyRow() method is called, targetRow, sourceRow, targetWork, sourceWork, and targetPatriarch are all required, so the exception is thrown.",P_DIWORK_YC_CPU-PORTAL_0000056259
+erpUserCode ERP采购员编码 不能为空!,erpUserCode ERP buyer code is required.,P_DIWORK_YC_CPU-PORTAL_0000056270
+"】到货单单号【\""+differBody.getPubill().getBillcode()+\""】基准价为负",] Arrivals Doc No. benchmark price is negative,P_DIWORK_YC_CPU-PORTAL_0000056278
+订单付款协议比例总和不等于100%，请检查！,The sum of order payment agreement proportions is not equal to 100%. Please check.,P_DIWORK_YC_CPU-PORTAL_0000056290
+到货单明细.xlsx,Arrival Doc Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000056316
+询价通知书.xlsx,Inquiry Notification.xlsx,P_DIWORK_YC_CPU-PORTAL_0000056349
+请求参数【supplierdocids】，【materialids】为空！！！,"Request parameter [supplierdocids], [materialids] is empty.",P_DIWORK_YC_CPU-PORTAL_0000056360
+SupplyController resetBusinessModelName 经营模式名称code2name转换失败,SupplyController resetBusinessModelName Business mode name code2name conversion failed,P_DIWORK_YC_CPU-PORTAL_0000056403
+开始删除销售发票：id[,Start to delete sales invoice: ID [,P_DIWORK_YC_CPU-PORTAL_0000056476
+中标通知书.zip,Bid Winning Notification.zip,P_DIWORK_YC_CPU-PORTAL_0000056512
+[PRINT]检测到询报价比价环节数据接口登录用户不匹配,[PRINT] Unmatched login user detected in the data interface of RFQ and quotation/price comparison phase,P_DIWORK_YC_CPU-PORTAL_0000056536
+发货单明细.xlsx,Shipping Doc Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000056559
+根据RequestParam tenantId(,By RequestParam tenantId(,P_DIWORK_YC_CPU-PORTAL_0000056569
+回写单据状态（消息审批），param：,"Update Doc status (message approval), param:",P_DIWORK_YC_CPU-PORTAL_0000056598
+OrganizationController  deleteById  删除数据失败,Failed to delete data,P_DIWORK_YC_CPU-PORTAL_0000056609
+压缩后文件.zip,Compressed File.zip,P_DIWORK_YC_CPU-PORTAL_0000056617
+查询商品列表失败 clientType:[,"Failed to query product list, clientType:[",P_DIWORK_YC_CPU-PORTAL_0000056618
+prid 来源单据表头主键不能为空!,prid source Doc header PK is required.,P_DIWORK_YC_CPU-PORTAL_0000056678
+采购对账列表详情.xlsx,Purchase Recnc. List Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000056681
+detailEntityList.sourcebid 来源单据表体主键不能为空!,detailEntityList.sourcebid Source Doc detail PK is required.,P_DIWORK_YC_CPU-PORTAL_0000056682
+qtexpiredate 报价截至时间不能为空，且不能小于今天!,qtexpiredate Quotation deadline cannot be blank or earlier than today.,P_DIWORK_YC_CPU-PORTAL_0000056771
+销售对账详情.xlsx,Sales Recnc. Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000056847
+SupplyController  resetSupplySourceName 名称重设失败,Failed to reset name,P_DIWORK_YC_CPU-PORTAL_0000056880
+供应商来源都不是 erp，只支持 erp 供应商定标导出！,Supplier source is not ERP Only bid award Doc of ERP supplier can be exported.,P_DIWORK_YC_CPU-PORTAL_0000056919
+"findUserById 检测到水平越权操作: requestUserId-%d, requestEntId-%d, contextEntId-%d","findUserById exceeded query permission: requestUserId-%d, requestEntId-%d, contextEntId-%d",P_DIWORK_YC_CPU-PORTAL_0000056934
+detailEntityList.reqdate 需求日期不能为空，且不能小于今天!,detailEntityList.reqdate Requisition date cannot be blank or earlier than today.,P_DIWORK_YC_CPU-PORTAL_0000056935
+orgid 不能为空,orgid required,P_DIWORK_YC_CPU-PORTAL_0000056957
+采购订单列表详情.xlsx,PO List Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000056964
+根据id查询询价单失败，id：,Failed to query RFQ by ID. ID:,P_DIWORK_YC_CPU-PORTAL_0000057001
+安全库存.xls,Safety Stock.xls,P_DIWORK_YC_CPU-PORTAL_0000057005
+ecUserCode 必联采购员编码不能为空!,ecUserCode Buyer code is required in ebnew.com.,P_DIWORK_YC_CPU-PORTAL_0000057015
+erpBillCode 计划编码不能为空!,erpBillCode Plan code required.,P_DIWORK_YC_CPU-PORTAL_0000057038
+AnnouncementController  findByPage  分页查询失败,Pagination query failed,P_DIWORK_YC_CPU-PORTAL_0000057045
+"{'result':'failed','msg':'请求参数错误，没有yht_access_token！'}","{'result':'failed','msg':' request parameter error, without yht_access_token!'}",P_DIWORK_YC_CPU-PORTAL_0000057051
+请求参数没有【materialids】！！！,Request parameter has no [materialids].,P_DIWORK_YC_CPU-PORTAL_0000057072
+id 不能为空,ID is required,P_DIWORK_YC_CPU-PORTAL_0000057078
+没有获取到对应的订单信息。订单编号：{0}，订单行PK：{1},"Failed to obtain corresponding order Info. Order No.: {0}, Order line PK: {1}",P_DIWORK_YC_CPU-PORTAL_0000057082
+获取租户信息失败!com.yonyou.cpu.base.BaseController.getCurrentEnterprise,Failed to get tenant information.,P_DIWORK_YC_CPU-PORTAL_0000057100
+SupplyController  getTradeName 所属行业名称重设失败,SupplyController  getTradeName Failed to reset industry name,P_DIWORK_YC_CPU-PORTAL_0000057152
+"{'result':'failed','msg':'请求已经过期，请重新发送！'}","{'result':'failed','msg':' request has expired. Please send again.'}",P_DIWORK_YC_CPU-PORTAL_0000057166
+销售对账列表详情.xlsx,Sales Recnc. List Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000057174
+"登录用户EnterpriseId为空，请检查！login user's enterpriseid is empty ,please check!",Login user’s EnterpriseId is empty. Please check. login user's enterpriseid is empty. Please check!,P_DIWORK_YC_CPU-PORTAL_0000057181
+"{'result':'failed','msg':'校验签名失败：","{'result':'failed','msg':' Failed to verify signature:",P_DIWORK_YC_CPU-PORTAL_0000057197
+询价单.xls,RFQ.xls,P_DIWORK_YC_CPU-PORTAL_0000057217
+调用PoiUtil.copySheet()方法时，targetSheet、sourceSheet、targetWork、sourceWork都不能为空，故抛出该异常！,"When the PoiUtil.copySheet() method is called, targetSheet, sourceSheet, targetWork and sourceWork are all required, so the exception is thrown.",P_DIWORK_YC_CPU-PORTAL_0000057221
+网关请求中的租户id查询云采租户Id失败！tenantid=,Failed to query youGo tenant ID by tenant ID in gateway request. tenantid=,P_DIWORK_YC_CPU-PORTAL_0000057225
+网关返回失败信息：errcode:,Failure information returned from gateway: errcode:,P_DIWORK_YC_CPU-PORTAL_0000057233
+AnnouncementController  findById  根据Id查询失败,Failed to query by ID,P_DIWORK_YC_CPU-PORTAL_0000057244
+查询开标的报价单失败！！！，buyofferId:,Failed to query bid opening quotation. buyofferId:,P_DIWORK_YC_CPU-PORTAL_0000057248
+id 不能为空!,ID required.,P_DIWORK_YC_CPU-PORTAL_0000057252
+请求参数没有【supplierdocids】，【materialids】！！！,"Request parameter has no [supplierdocids], [materialids].",P_DIWORK_YC_CPU-PORTAL_0000057255
+定标单.xls,Bid Award Doc.xls,P_DIWORK_YC_CPU-PORTAL_0000057292
+销售订单列表详情.xlsx,SO List Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000057307
+id 不能为空！,ID is required,P_DIWORK_YC_CPU-PORTAL_0000057344
+AnnouncementController  publish  发布失败,Failed to publish,P_DIWORK_YC_CPU-PORTAL_0000057349
+corpSubAccountid ERP采购员id 不能为空!,corpSubAccountid ERP buyer ID is required.,P_DIWORK_YC_CPU-PORTAL_0000057413
+enterpriseid 不能为空,enterpriseid required,P_DIWORK_YC_CPU-PORTAL_0000057438
+采购对账详情.xlsx,Purchase Recnc. Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000057458
+定价单 id 不能为空,Price List ID required,P_DIWORK_YC_CPU-PORTAL_0000057497
+远程请求失败：status:,Remote request failed: status:,P_DIWORK_YC_CPU-PORTAL_0000057511
+调用PoiUtil.copyCell()方法时，targetCell、sourceCell、targetWork、sourceWork都不能为空，故抛出该异常！,"When the PoiUtil.copyCell() method is called, targetCell, sourceCell, targetWork, and sourceWork are all required, so the exception is thrown.",P_DIWORK_YC_CPU-PORTAL_0000057517
+特殊异常：status:,Special exception: status:,P_DIWORK_YC_CPU-PORTAL_0000057518
+查询定标单失败！！！，buyofferId:,Failed to query bid award Doc. buyofferId:,P_DIWORK_YC_CPU-PORTAL_0000057527
+"([ { deadline: \""1482768000000\"",id: \""638\"",messageContent: \""电脑i5-6500,\"",messageTitle: \""摩贝询价单122001\"",messageType: \""询价\"",msgId: 318},{ deadline: \""1482768000000\"",id: \""637\"",messageContent: \""电222脑i5-6500,\"",messageTitle: \""摩贝询价单122001\"",messageType: \""询价\"",msgId: 318},{ deadline: \""1482768000000\"",id: \""639\"",messageContent: \""电脑22i5-6500,\"",messageTitle: \""摩贝询22价单122001\"",messageType: \""询价\"",msgId: 319}])","([ { deadline: \\""1482768000000\\"",id: \\""638\\"",messageContent: \\""PC i5-6500,\\"",messageTitle: \\""Mo Bei RFQ 122001\\"",messageType: \\""RFQ\\"",msgId: 318},{ deadline: \\""1482768000000\\"",id: \\""637\\"",messageContent: Null \\""Mo Bei RFQ 122001\\"",messageType: \\""RFQ\\"",msgId: 318},{ deadline: \\""1482768000000\\"",id: \\""639\\"",messageContent: \\""PC 22i5-6500,\\"",messageTitle: Null \\""RFQ\\"",msgId: 319}])",P_DIWORK_YC_CPU-PORTAL_0000057534
+"登录用户为空，授权失败，重新登录云采, 重新授权！login user is empty ,please login again and auth again!",Login user is empty. Authorization failed. Log in to youGo and perform authorization again. login user is empty. Please login again and auth again!,P_DIWORK_YC_CPU-PORTAL_0000057536
+导出物料档案.xlsx,Export Material File.xlsx,P_DIWORK_YC_CPU-PORTAL_0000057545
+用户redis缓存更新成功!-->{0},User redis cache updated successfully.-->{0},P_DIWORK_YC_CPU-PORTAL_0000057767
+用户redis缓存开始更新!-->{0},User redis cache started updating.-->{0},P_DIWORK_YC_CPU-PORTAL_0000057777
+"未查询到运营租户相关信息,tenantid=","Failed to find operating tenant related information, tenantid=",P_DIWORK_YC_CPU-PORTAL_0000057827
+"需求[\"" + ipuPuReq.getProductName() + \""]的状态不是已推合同，不能一键合同下订单！",The demand status is not pushed contract. Cannot place orders by one key for contract.,P_DIWORK_YC_CPU-PORTAL_0000059639
+合同付款比例总和不等于100%，请检查！,The sum of contract payment proportions is not equal to 100%. Please check.,P_DIWORK_YC_CPU-PORTAL_0000059692
+合同.xls,Contract.xls,P_DIWORK_YC_CPU-PORTAL_0000059703
+变更后合同付款比例必须等于100%,The contract payment proportion must be equal to 100% after change,P_DIWORK_YC_CPU-PORTAL_0000059735
+根据传入的reqId没有查询到需求单，reqId =,"Failed to find demand Doc by the submitted reqId, reqId =",P_DIWORK_YC_CPU-PORTAL_0000059746
+根据传入的ctCode没有查询到合同，ctCode =,"Failed to find contract by the submitted ctCode, ctCode =",P_DIWORK_YC_CPU-PORTAL_0000059772
+导出合同单 VO 为null,Exported contract VO is null,P_DIWORK_YC_CPU-PORTAL_0000059799
+null 人员不存在,null Emp. does not exist,P_DIWORK_YC_CPU-PORTAL_0000059819
+采购合同查询为空，id：,Purchase contract queried is empty. ID:,P_DIWORK_YC_CPU-PORTAL_0000059974
+单次执行SQL条数超过阈值%d，请将减少租户或组件数量,No. of SQL entries executed one time exceeds the threshold %d. Please reduce the No. of tenants or components,P_DIWORK_YC_CPU-PORTAL_0000060001
+该激活码%s不是订单%s的激活码,This activation code%s is not an activation code for order%s,P_DIWORK_YC_CPU-PORTAL_0000060007
+未匹配到订单 orderId,Failed to match order orderId,P_DIWORK_YC_CPU-PORTAL_0000060057
+;组织范围类型：type=,; Org Range Type: type=,P_DIWORK_YC_CPU-PORTAL_0000060067
+参数不正确，toformal不能为空！toformal：,Incorrect parameter. toformal cannot be empty. toformal:,P_DIWORK_YC_CPU-PORTAL_0000064959
+采购发票详情.xlsx,Purchase Invoice Details.xlsx,P_DIWORK_YC_CPU-PORTAL_0000064960
+供应商档案关联的租户没有tenantid！enterpriseId：,The tenant associated with supplier file has no tenantid. enterpriseId:,P_DIWORK_YC_CPU-PORTAL_0000064976
+根据id查询报价单为空，id：,Quotation queried by ID is empty. ID:,P_DIWORK_YC_CPU-PORTAL_0000064987
+参数不正确，priceid不能为空！priceid：,Incorrect parameter. priceid cannot be empty. priceid:,P_DIWORK_YC_CPU-PORTAL_0000064997
+参数不正确，buyofferid不能为空！buyofferid：,Incorrect parameter. buyofferid cannot be empty. buyofferid:,P_DIWORK_YC_CPU-PORTAL_0000065000
+付款比例总和不等于100%，请检查！,The sum of payment proportions does not equal 100%. Please check.,P_DIWORK_YC_DECISION_0000064223
+招标信息.xls,Bid Invitation Info.xls,P_DIWORK_YC_DECISION_0000064233
+"提交审批流结束，sugSupplierHasFlow,{}, 耗时（ms）：{}==================================================================","Submitted to approval process already. sugSupplierHasFlow,{}, time used (ms): {}",P_DIWORK_YC_DECISION_0000064238
+: 付款比例总和不等于100%，请检查！,: The sum of payment proportions is not 100%. Please check.,P_DIWORK_YC_DECISION_0000064247
+提交时的上次定标价相关-pdb,Related to the last bid award price at time of submission-pdb,P_DIWORK_YC_DECISION_0000064275
+提交时的上次定标价相关-pdh,Related to the last bid award price at time of submission-pdh,P_DIWORK_YC_DECISION_0000064286
+定标单id（pricedecisionId）不能为空！,Bid award Doc ID (pricedecisionId) is required.,P_DIWORK_YC_DECISION_0000064297
+"定标单表头查询为空,id","Bid award Doc header query is empty, ID",P_DIWORK_YC_DECISION_0000064299
+getPriceDecisionByIds 根据Ids查询定标单失败,Failed to query bid award Doc by Ids,P_DIWORK_YC_DECISION_0000064319
+删除云审审批流程实例，失败！  msg =,Failed to delete the approval process instance of Cloud Approval.  msg =,P_DIWORK_YC_DECISION_0000064325
+提交时的上次定标价相关-price,Related to Last bid award price at the time of submission-price,P_DIWORK_YC_DECISION_0000064342
+<tr><th>单据id</th><th>单据类型</th><th>租户ID</th><th>用户ID</th><th>操作事件</th><th>操作时间</th><th>错误信息</th></tr>,<tr><th>Doc ID</th><th>Doc Type</th><th>Tenant ID</th><th>User ID</th><th>Operational Event</th><th>Operation Time</th><th>Error Info</th></tr>,P_DIWORK_YC_EC-CONTRACT_0000064565
+"<head><meta charset=\""utf-8\""><title>友云采BPM异常邮件</title></head>","<head><meta charset=\""utf-8\""><title>You youGo BPM Exception Email</title></head>",P_DIWORK_YC_EC-CONTRACT_0000064571
+%s[%s]已在相同单据的其它流程中配置，不能再次关联,%s [%s] has been configured in other processes of the same document and cannot be associated again,P_DIWORK_YC_EC-CONTRACT_0000064594
+yuncai_插入租户信息from 必联网 平台出错 REST,yuncai_Error inserting tenant Info from ebnew.com platform REST,P_DIWORK_YC_EC_0000061441
+"获取必联接口结果 失败，获取网关结果, reponse:","Failed to obtain ebnew.com interface result, obtain gateway result, response:",P_DIWORK_YC_EC_0000061450
+分页参数不能为 null,Pagination parameter cannot be null,P_DIWORK_YC_EC_0000061467
+分页查询条件不能为 null,Pagination query criteria cannot be null,P_DIWORK_YC_EC_0000061500
+{CorpAccountDocName} 发布了[{subject}]寻源信息请及时报价。,{CorpAccountDocName} published [{subject}] demand fulfillment Info. Please quote in time.,P_DIWORK_YC_MALL-BUSI_0000063438
+{CorpAccountDocName} 重新发布了[{subject}]寻源信息请及时报价。,{CorpAccountDocName} re-published [{subject}] demand fulfillment Info. Please quote in time.,P_DIWORK_YC_MALL-BUSI_0000063518
+"我的项目分页条件查询时, 数据库异常-BiddingQueryBP-getBiddingsPageByCondition",Database error found during the pagination condition query of My Project-BiddingQueryBP-getBiddingsPageByCondition,P_DIWORK_YC_MALL-BUSI_0000064406
+"我的项目不分页查询时, 数据库异常-BiddingQueryBP-getBiddingsByCondition",Database error found when the pagination query was not performed for My Project-BiddingQueryBP-getBiddingsByCondition,P_DIWORK_YC_MALL-BUSI_0000064413
+"我的项目修改状态时, 数据库异常-BiddingServiceImpl-updateBiddingStatus",Database error found in the modified status of My Project-BiddingServiceImpl-updateBiddingStatus,P_DIWORK_YC_MALL-BUSI_0000064432
+需求申请.xls,Requisition.xls,P_DIWORK_YC_MALL-BUSI_0000064501
+ids 为空，返回,"ids is empty, returned",P_DIWORK_YC_MATERIAL_0000062404
+deleteProductByIds 成功删除商品,Products deleted successfully,P_DIWORK_YC_MATERIAL_0000062437
+平台物料分类编码[%s]不是末级分类或不存在,Platform material category code [%s] is not end level category or does not exist,P_DIWORK_YC_MATERIAL_0000062445
+MaterialInnerServiceImpl  getMaterialById 方法出错：,Method Error:,P_DIWORK_YC_MATERIAL_0000062461
+com.yonyou.yuncai.cpu.erpbom.dao.impl.ErpBomDaoImpl.getErpBom 查询条件不能为空.,Query criteria are required.,P_DIWORK_YC_MATERIAL_0000062523
+com.yonyou.yuncai.cpu.erpbom.dao.impl.ErpBomDaoImpl.getErpBom 分页条件不能为空.,com.yonyou.yuncai.cpu.erpbom.dao.impl.ErpBomDaoImpl.getErpBom Pagination criteria are required.,P_DIWORK_YC_MATERIAL_0000062580
+filepath 或 groupname为空！,filepath or groupname is empty.,P_DIWORK_YC_MA_0000063362
+ncbase.appid没有配置,ncbase.appid not configured,P_DIWORK_YC_MOBILE-AD_0000061509
+ncbase.server没有配置,ncbase.server not configured,P_DIWORK_YC_MOBILE-AD_0000061512
+根据订单id查询订单详情出错：id-,Error querying order details by order ID: ID-,P_DIWORK_YC_ORDER_0000060886
+updatePurOderDetailIstorestatus 更新供应商提交，修改采购订单表体执行情况跟踪出错, Error tracking the execution status of modifying the PO detail after submission update by supplier,P_DIWORK_YC_ORDER_0000060965
+订单明细【{0}】对应的订单不存在。,Corresponding order of order detail [{0}] does not exist.,P_DIWORK_YC_ORDER_0000060973
+发货单保存，如下销售订单不存在，id：,Shipping Doc saved. The following SO does not exist. ID:,P_DIWORK_YC_ORDER_0000061028
+"GodownEntry2SupplyServiceImpl getDetailDataByCondOfDate 收货组织为空,无法查询",Receipt Org is empty. Cannot query,P_DIWORK_YC_ORDER_0000061033
+销售订单接受、变更、拒绝回调服务错误，销售订单状态超出范围，saleorderSts =,"Error during accepting and changing SO and rejecting callback service, SO status beyond range, saleorderSts =",P_DIWORK_YC_ORDER_0000061072
+"GodownEntry2SupplyServiceImpl getDetailDataByCondOfDate 自定义开始日期为空,无法查询",User-defined start date is empty. Cannot query,P_DIWORK_YC_ORDER_0000061076
+"GodownEntry2SupplyServiceImpl getDetailDataByCondOfDate 日期查询标识为空,无法查询",Date query ID is empty. Cannot query,P_DIWORK_YC_ORDER_0000061105
+"GodownEntry2SupplyServiceImpl getDetailDataByCondOfDate 供货商名称为空,无法查询",Supplier name is empty. Cannot query,P_DIWORK_YC_ORDER_0000061106
+updatePurOderDetailIstorestatus 更新供应商提交，修改采购订单表体执行情况跟踪出错：,updatePurOderDetailIstorestatus Error tracking the execution status of modifying the PO detail after submission updated by supplier:,P_DIWORK_YC_ORDER_0000061170
+updateOrderFromErpPub 更新数据出错,updateOrderFromErpPub Error updating data,P_DIWORK_YC_ORDER_0000061224
+"GodownEntry2SupplyServiceImpl getDetailDataByCondOfDate 自定义结束日期为空,无法查询",Self-defined end date is empty. Cannot query,P_DIWORK_YC_ORDER_0000061397
+EnterpriseServiceImpl queryEnterpriseByCriteria 更新云采租户扩展表信息失败,Failed to update youGo tenant extension table Info,P_DIWORK_YC_PRIVILEGE_0000063322
+PendingMessageServiceImpl  getBillCount 查询不同订单的个数失败,Failed to query numbers of different orders,P_DIWORK_YC_PRIVILEGE_0000063325
+EnterpriseServiceImpl queryEnterpriseByCriteria 按照查询条件查询租户失败,Failed to query tenant by query criteria,P_DIWORK_YC_PRIVILEGE_0000063327
+变更公告查询为null，id：,Change announcement query is null. ID:,P_DIWORK_YC_PU-APP_0000063634
+招标计划查询为null，id：,Bid invitation plan query is null. ID:,P_DIWORK_YC_PU-APP_0000063635
+中标候选人查询为null，id：,"Winning candidate query is null, ID:",P_DIWORK_YC_PU-APP_0000063637
+供应商变更单加载变更字段为null，supplyChange：,"The load change field of supplier change Doc is null, supplyChange:",P_DIWORK_YC_PU-APP_0000063640
+资格预审查询为null，id：,Prequalification query is null. ID:,P_DIWORK_YC_PU-APP_0000063643
+专家方案查询为null，id：,Expert scheme query is null. ID:,P_DIWORK_YC_PU-APP_0000063646
+供应商变更单查询为null，id：,Supplier change Doc query is null. ID:,P_DIWORK_YC_PU-APP_0000063648
+招标公告查询为null，id：,Bid invitation announcement query is null. ID:,P_DIWORK_YC_PU-APP_0000063654
+中标通知书查询为null，id：,Bid-winning notification queried is null. ID:,P_DIWORK_YC_PU-APP_0000063660
+中标结果公告查询为null，id：,Bid winning result announcement query is null. ID:,P_DIWORK_YC_PU-APP_0000063662
+采购订单查询为null，id：,"PO query is null, ID:",P_DIWORK_YC_PU-APP_0000063667
+供应商查询为null，id：,"Queried supplier is null, ID:",P_DIWORK_YC_PU-APP_0000063670
+流标公告查询为null，id：,Bid failure announcement query is null. ID:,P_DIWORK_YC_PU-APP_0000063675
+定标单查询为null，id：,"Queried bid award Doc is null, ID:",P_DIWORK_YC_PU-APP_0000063681
+需求申请单查询为null，id：,Requisition query is null. ID:,P_DIWORK_YC_PU-APP_0000063682
+询价单查询为null，id：,RFQ query is null. ID:,P_DIWORK_YC_PU-APP_0000063683
+招标立项查询为null，id：,Bid invitation and project creation query is null. ID:,P_DIWORK_YC_PU-APP_0000063686
+本文件来源于友云采 https://yc.yonyoucloud.com/jinding/cashome.html 打印人:,The document comes from You youGo https://yc.yonyoucloud.com/jinding/cashome.html Printed by:,P_DIWORK_YC_REPORT_0000060082
+iSupplyDocService.selectSupplyDocByCond  查询结果为空,iSupplyDocService.selectSupplyDocByCond Query result is empty,P_DIWORK_YC_SUP-LIB_0000060294
+插入档案为空 insertSupplyDoc：,"Inserted file is empty, insertSupplyDoc:",P_DIWORK_YC_SUP-LIB_0000060330
+撤回失败，参数return response;为空,"Failed to withdraw, parameter return response; empty",P_DIWORK_YC_SUP-MGR_0000058166
+评分方式为百分制时，指标权重（不含减分项）总和不是100%，请检查,"When the grading method is 100-point system, the indicator weight (excluding minus score items) sum is not 100%. Please check",P_DIWORK_YC_SUP-MGR_0000058407
+supplyDocId 为空,supplyDocId is empty,P_DIWORK_YC_SUP-MGR_0000058496
+评估报告.xls,Assessment Report.xls,P_DIWORK_YC_SUP-MGR_0000058823
+supDocId 为空,supDocId is empty,P_DIWORK_YC_SUP-MGR_0000059049
+"提交审批流开始,approveRestVO:{}, priceId:{}, billType:BillTypeEnum.PRICEDECISION, bill:null, Class clazz:null","Start to submit to approval process, approveRestVO:{}, priceId:{}",P_DIWORK_YC_SUP-MGR_0000064881
+"行,含税单价（==价税合计taxMny/godownNum）必传  \n"," line, Unit Price Incl. Tax (== Amt Incl. Tax taxMny/godownNum) must be submitted \n",P_DIWORK_YC_VMI_0000063990
+"行,无税单价（计算得到，=无税金额mny/godownNum）必传  \n"," line, unit price Excl. tax (obtained by calculation, =Amt Excl. Tax mny/godownNum) must be submitted \n",P_DIWORK_YC_VMI_0000064117
+<div style='    line-height: 18px;margin-bottom: 10px;'>退回再分配后，采购任务将会退回到物资需求的待分配状态，需要采购经理或计划员重新分配，您确定要将采购任务退回待分配状态吗？</div>,"<div style='    line-height: 18px;margin-bottom: 10px;'> When a purchase task is returned and allocated again, the material requisition of the purchase task will return to To be Allocated status, which needs to be allocated again by the purchase manager or planner. Are you sure you wish to return the purchase task to To be Allocated status? </div>",P_DIWORK_YC_YC-UI_0000057837
+<div style='line-height: 18px;margin-bottom: 10px;'>转派后，采购任务将会从您的采购任务清单中删除，转移到转派目标人员的已受理采购任务清单中，您确定要转派吗？</div>,"<div style='line-height: 18px;margin-bottom: 10px;'> After transferring, the purchase tasks will be deleted from your purchase task list and transferred to the processed purchase task list of the target person. Confirm to transfer? </div>",P_DIWORK_YC_YC-UI_0000057838
+向{0}发送短信失败，原因：{1},Failed to send SMS to {0}. Cause: {1},P_YS_0000129843
+行号[{0}]的合同币汇率查询为空，请输入！,The exchange rate in contract currency in line [{0}] is blank. Please enter.,P_YS_AMP_ERCL-FE_1795086245768986637
+查询档案父级出错，档案fullname：%s，档案id：%s，错误原因：%s,"Error querying file parent. File fullname: %s, file ID: %s, error reason: %s",P_YS_AMP_EVNT-BE_1731203555053273191
+实体不存在，fullName：,The entity does not exist. fullName:,P_YS_AMP_REVENUE-BE_1748942671937798657
+元数据关系上没有找特征属性，fullName:,"Failed to find found characteristic property in the metadata relationship, fullName:",P_YS_AMP_REVENUE-BE_1748942671937798933
+财务公共档案类型 ID,Financial Public File Type ID,P_YS_AMP_YONBIP-FI-EAAI-MD_1805662164647149579
+"校验文件标识(1-OK_数据文件名,2-数据文件名.OK)","Check file ID: 1-OK_ data file name, 2- Data file name.OK)",P_YS_AMP_YONBIP-FI-REVENUE-MD_1732126560704004520
+"校验文件列序号,A,B字母","Check file column sequence number, A and B letters",P_YS_AMP_YONBIP-FI-REVENUE-MD_1732126560704004670
+"列序号,A,B字母","Column sequence number, letters A and B",P_YS_AMP_YONBIP-FI-REVENUE-MD_1732126560704004826
+{0}中存在作业方案中没有的作业序号:{1}。,{0} contains operation SN {1} that does not exist in the operation scheme,P_YS_AM_AIMF_0001371568
+编码为{0}的专业为全局级数据，不能操作！,Profession {0} is of global level. Cannot operate,P_YS_AM_AIMF_0001582460
+【工种】页签中的第{0}行人员数量，应大于0，请确认。,The personnel Qty in line {0} of the profession tab should be greater than 0. Please confirm,P_YS_AM_AIMF_1494477687968759817
+【物料】页签中的第{0}行数量，应大于0，请确认。,The Qty in line {0} of the material tab should be greater than 0. Please confirm,P_YS_AM_AIMF_1494477687968759820
+【工具】页签中的第{0}行工具数量，应大于0，请确认。,The tool Qty in line {0} of the tool tab should be greater than 0. Please confirm,P_YS_AM_AIMF_1494477687968759823
+"资产卡片[{0},{1}]的状态在交易规则中不支持！","The status of asset card [{0},{1}] is not supported in the transaction rules",P_YS_AM_AIM_0001315770
+"资产卡片[{0},{1}]的交易类型在交易规则中不支持！","The transaction type of asset card [{0},{1}] is not supported in the transaction rules",P_YS_AM_AIM_0001315772
+dimension,dimension,P_YS_AM_AM-REPORT_1696952298987585565
+total,total,P_YS_AM_AM-REPORT_1709532704850051090
+months,months,P_YS_AM_AM-REPORT_1719423920046080116
+rates,rates,P_YS_AM_AM-REPORT_1719423920046080125
+proportion,proportion,P_YS_AM_AM-REPORT_1719423920046080176
+proportionori,proportionori,P_YS_AM_AM-REPORT_1719423920046080179
+timexz,timexz,P_YS_AM_AM-REPORT_1719423920046080194
+monthdate,monthdate,P_YS_AM_AM-REPORT_1719423920046080206
+wanyuan,wanyuan,P_YS_AM_AM-REPORT_1719423920046080212
+allarea,allarea,P_YS_AM_AM-REPORT_1719423920046080227
+yesrentarea,yesrentarea,P_YS_AM_AM-REPORT_1719423920046080230
+norentarea,norentarea,P_YS_AM_AM-REPORT_1719423920046080233
+valuez,valuez,P_YS_AM_AM-REPORT_1738623016580415495
+valuezname,valuezname,P_YS_AM_AM-REPORT_1738623016580415507
+allData,allData,P_YS_AM_AM-REPORT_1738623016580415510
+spec,spec,P_YS_AM_AM-REPORT_1738623068104818722
+sumrate,sumrate,P_YS_AM_AM-REPORT_1772807288333008913
+坐标类型，点：point，线：line，多边形：polygon,"Coordinate type: point, line, polygon",P_YS_AM_AMBD-UI_1438137260418531349
+仅支持GIF、JPG、PNG、BMP、JPEG、MP4、MOV格式，文件不大于10M，拖拽图片可调整顺序,"Only GIF, JPG, PNG, BMP, JPEG, MP4 and MOV formats are supported; no more than 10M. Drag picture to adjust order",P_YS_AM_AMBD-UI_1499093257416081415
+租赁对象{0}为租出状态，不可停用,Lease object {0} is in lease-out status. Cannot disable,P_YS_AM_AMBDF_0001315479
+第{0}行技术参数不能为空！,The technical parameter in line {0} is required,P_YS_AM_AMBDF_0001315481
+测量点{0}已经是{1},Measurement point {0} already is in {1},P_YS_AM_AMBDF_0001315482
+【工种】页签中的第{0}行人员数量，应为正整数，请确认。,The personnel Qty in line {0} of the profession tab should be a positive integer. Please confirm,P_YS_AM_AMBDF_0001315522
+该人员已存在默认工种【工种编码 {0}，工种名称：{1}】，将当前工种设置为默认工种,"The personnel already has the default profession [code: {0}, name: {1}]. Set the current profession as the default profession",P_YS_AM_AMBDF_0001315523
+第{0}行人员编码重复,The personnel code in line {0} is duplicate,P_YS_AM_AMBDF_0001315524
+【工具】页签中的第{0}行工具数量，应为正整数，请确认。,The tool Qty in line {0} of the tool tab should be a positive integer. Please confirm,P_YS_AM_AMBDF_0001315525
+【物料】页签中的第{0}行数量，应为正数，请确认。,The Qty in line {0} of the material tab should be a positive number. Please confirm,P_YS_AM_AMBDF_0001315526
+第{0}行检验内容{1}与第{2}行检验内容重复，请修正后进行保存。,Inspection content {1} in line {0} is duplicate with the inspection content in line {2}. Please correct it before saving,P_YS_AM_AMBDF_0001382555
+第{0}行检定/校准周期信息填写不规范，请检查,The verification/calibration cycle information in line {0} is not filled properly. Please check,P_YS_AM_AMBDF_1593339966758846492
+没有【{0}】组织的权限,You do not have the permissions of Org [{0}],P_YS_AM_AMBD_0001571173
+字段【{0}】不能为空!,Field [{0}] is required,P_YS_AM_AMBD_0001571185
+当前资产卡片[{0}，{1}]不是已审核状态，不能进行业务操作,The current asset card [{0}，{1}] is not in Approved status. The business operation cannot be performed,P_YS_AM_AMBD_0001571190
+分配信息的分摊比例和必须等于100%,The sum of allocation proportions in the distribution information must be equal to 100%,P_YS_AM_AMBD_1778768625649844233
+"[{""code"":""busioperator"",""name"":""当前业务员""}]","[{""code"":""busioperator"",""name"":""Current Business Operator""}]",P_YS_AM_AMC-UI_0001038024
+"[{""code"":""mainorg"",""name"":""默认主组织""}]","[{""code"":""mainorg"",""name"":""Default Primary Org""}]",P_YS_AM_AMC-UI_0001038025
+资产编码{0}不能重复添加,Asset {0} cannot be added repeatedly,P_YS_AM_AMPUBF_0001315460
+仅支持JPG、PNG、BMP、JPEG、MP4格式，文件不大于2M，拖拽图片可调整顺序,Only JPG、PNG、BMP、JPEG、MP4 formats are supported; no more than 2M. Drag to adjust order,P_YS_AM_AMPUBF_0001424868
+仅支持JPG、PNG、BMP、JPEG、MP4、MOV格式,"Only JPG, PNG, BMP, JPEG, MP4, MOV are supported",P_YS_AM_AMPUBF_0001566840
+第{0}行的开始日期与前一行的截止日期必须为连续日期，请确认。,The start date of line {0} and the end date of the previous line must be consecutive dates. Please confirm.,P_YS_AM_AMPUBF_1614824793331728389
+资产{0}归还成功。,Asset {0} has been returned successfully.,P_YS_AM_AMPUBF_1614824793331728392
+资产组织{0}没有委托维修组织或委托维修组织没有权限,Asset organization {0} does not have a delegated maintenance organization or does not have permissions,P_YS_AM_AMPUBF_1711893029912051717
+保存失败：{0},Failed to save: {0},P_YS_AM_AMPUB_0000130050
+{0}：{1},{0}:{1},P_YS_AM_AMPUB_0000130091
+第{0}条数据与第{1}条数据重复!,Data entry {0} is duplicate with data entry {1},P_YS_AM_AMSF_0001315485
+资产标签：[{0}:{1}]为默认，不可删除！,Asset label [{0}:{1}] is the default. Cannot delete,P_YS_AM_AMS_0001311905
+第{0}行的资产与位置不能同时为空,The asset and location in line {0} cannot be null at the same time,P_YS_AM_AOM-BE_0001594292
+当前单据的{0}交易规则中未指定当前状态{1}的资产可以进行生成单据的业务。,No business available for Doc generation is specified for the asset in the current status {1} in transaction rule {0} of the current Doc,P_YS_AM_AOM-BE_1484899661805780998
+当前单据资产组织{0}与扫码资产卡片的资产组织不一致，不能添加。,Asset Org {0} in the current Doc is inconsistent with the asset Org in the scanned asset card. Cannot add,P_YS_AM_AOM-BE_1484899661805781001
+【{0}】编制人和编制部门不匹配,[{0}] preparer and preparing department do not match,P_YS_AM_AOM-BE_1544984192693043209
+【{0}】编制人和资产组织不匹配,[{0}] preparer and asset organization do not match,P_YS_AM_AOM-BE_1544984192693043212
+【{0}】编制部门和资产组织不匹配,[{0}] preparing department and asset organization do not match,P_YS_AM_AOM-BE_1545836133805457414
+抽取失败：{0},Failed to extract: {0},P_YS_AM_AOM-BE_1721004141609746442
+cBillNo:{0};tenantId:{1};无BillItem信息无法完成抽取,cBillNo: {0};tenantId: {1}; no BillItem information. Failed to extract,P_YS_AM_AOM-BE_1721004141609746445
+"成功{0},失败",Successful: {0}. Failed: ,P_YS_AM_AOM-BE_1721018950654885898
+序号为{0}的表体行属于同一个资产或位置，在点检测量项目相同时测量标识符内容不能重复,"The detail lines with SNs {0} belong to the same asset or location, and the measurement identifier contents cannot be duplicate when the spot check measurement items are the same",P_YS_AM_AOM-FE_0001311508
+序号为{0}的表体行在点检测量项目相同时测量标识符内容不能重复,"For the detail line with SN {0}, the measurement identifier contents cannot be duplicate when the spot check measurement items are the same",P_YS_AM_AOM-FE_0001311509
+{0}行序号为空,No SN in line {0},P_YS_AM_AOM-FE_0001311514
+与计划序号为{0}的表体行属于同一个资产或位置，点检标准明细不能相同,"The detail lines with plan SNs {0} belong to the same asset or location, and the spot check standard details cannot be the same",P_YS_AM_AOM-FE_0001311517
+序号为{0}的表体行属于同一个资产或位置，点检标准明细不能相同,"The detail lines with SNs {0} belong to the same asset or location, and the spot check standard details cannot be the same",P_YS_AM_AOM-FE_0001311525
+存在重复的序号{0},There is a duplicate SN {0},P_YS_AM_AOM-FE_0001311527
+序号为{0}的表体行资产编码与位置编码不能同时为空,The asset code and location code in detail line [%s] cannot be null at the same time,P_YS_AM_AOM-FE_0001311528
+第{0}行，没有故障现象不可添加至故障树,There's no failure symptom in line {0}. Cannot add to the failure tree,P_YS_AM_AOM-FE_0001417813
+第{0}行，没有故障类别不可添加至故障树,There's no failure category in line {0}. Cannot add to the failure tree,P_YS_AM_AOM-FE_0001417814
+第{0}行，没有故障原因不可添加至故障树,There's no failure reason in line {0}. Cannot add to the failure tree,P_YS_AM_AOM-FE_0001417815
+上传失败，{0},"Failed to upload, {0}",P_YS_AM_AOM-FE_0001417827
+上传成功，成功上传{0}项，删除无效数据{1}项,Uploaded successfully: {0} items were uploaded successfully and {1} invalid data entries were deleted,P_YS_AM_AOM-FE_0001417829
+上传成功，成功上传{0}项,Uploaded successfully: {0} items were uploaded successfully,P_YS_AM_AOM-FE_0001417838
+上传失败{0}项，请重新上传!,Failed to upload {0} items. Please upload again,P_YS_AM_AOM-FE_0001417841
+不存在点检结果为{0}的数据,There is no data with the spot check result being {0},P_YS_AM_AOM-FE_0001417844
+序号为{0}的表体行计划点检人、计划点检班组、计划点检部门不能同时为空,"The checking personnel, crew and Dept of the planned spot check in detail line {0} cannot be null at the same time",P_YS_AM_AOM-FE_0001417848
+日期{0}点检完毕，本地数据删除失败,The spot check is completed on date {0}. Failed to delete the local data,P_YS_AM_AOM-FE_0001417850
+较上年同期对比(%),Compared with the Same Period Last Year (%),P_YS_AM_AOM-FE_0001567177
+计划概览：计划序号为{0}的表体行点检标准不能为空,Plan overview: the spot check standard in the detail line of plan {0} is required,P_YS_AM_AOM-FE_0001567179
+点检项目详情：计划序号为{0}的表体行基于日历选中，日历及非工作日处理规则必输,"Spot check item details: the detail line of plan {0} is selected based on the calendar, and the calendar and the non-workday processing rules are required",P_YS_AM_AOM-FE_0001567183
+点检项目详情：计划序号为{0}的表体行属于同一个资产或位置，在点检测量项目相同时测量标识符内容不能重复,"Spot check item details: the detail line of plan {0} belongs to the same asset or location, and the measurement identifier contents cannot be duplicate when the spot check measurement items are the same",P_YS_AM_AOM-FE_0001567184
+计划序号为{0}的表体行数据已关闭，不可生成点检记录,The data in the detail line of plan {0} has been closed. Cannot generate the spot check record,P_YS_AM_AOM-FE_0001567187
+计划概览：计划序号为{0}的表体行资产编码与位置编码不能同时为空,Plan overview: the asset code and location code in the detail line of plan {0} cannot be null at the same time,P_YS_AM_AOM-FE_0001567188
+点检项目详情：计划序号为{0}的表体行下一点检日期不能小于当前日期,Spot check item details: the next spot check date in the detail line of plan {0} cannot be earlier than the current date,P_YS_AM_AOM-FE_0001567190
+勾选的第{0}行数据处理方式是列入维修计划，不可生成工单,The data processing method in the checked line {0} is Incl. in Repair Plan. Cannot generate the case,P_YS_AM_AOM-FE_0001567192
+序号为{0}的表体行在巡检测量项目相同时测量标识符内容不能重复,"In the detail line {0}, the measurement identifier contents cannot be duplicate when the check measurement items are the same",P_YS_AM_AOM-FE_0001567193
+点检项目详情：计划序号为{0}的表体行属于同一个资产或位置，点检标准明细不能相同,"Spot check item details: the detail line of plan {0} belongs to the same asset or location, and the spot check standard details cannot be the same",P_YS_AM_AOM-FE_0001567194
+是否确认将未处理的点检项目设置为{0}?,Confirm to set the unprocessed spot check item as {0}?,P_YS_AM_AOM-FE_0001567196
+点检日期{0}已有点检数据，是否上传后再下载？,There already is spot check data on spot check date {0}. Upload and then download?,P_YS_AM_AOM-FE_0001567199
+计划序号为{0}的表体行数据非周期计划，不可重复生成点检记录,The data in the detail line of plan {0} does not belong to the cycle plan. Cannot generate the spot check record repeatedly,P_YS_AM_AOM-FE_0001567204
+点检项目详情：计划序号为{0}的表体行资产编码与位置编码不能同时为空,Spot check item details: the asset code and location code in the detail line of plan {0} cannot be null at the same time,P_YS_AM_AOM-FE_0001567205
+点检项目详情：序号为{0}的表体行计划点检人、计划点检班组、计划点检部门不能同时为空,"Spot check item details: the checking personnel, crew and Dept of the planned spot check in detail line {0} cannot be null at the same time",P_YS_AM_AOM-FE_0001567208
+[{0}]已生成工单，不能重复生单,A case has already been generated for [{0}]. Cannot generate again,P_YS_AM_AOM-FE_1422565770570760192
+[{0}]已确认无效，不能进行业务处理,[{0}] has been confirmed as invalid. The business processing is not allowed,P_YS_AM_AOM-FE_1422565770570760198
+[{0}]已确认请在工单工作台进行业务处理,[{0}] has been confirmed. Please conduct the business processing in the case workbench,P_YS_AM_AOM-FE_1422565770570760201
+MTBF(h)左区间不能大于右区间,The left interval of MTB (h) cannot be greater than the right interval.,P_YS_AM_AOM-FE_1492251151152709632
+MTTR(h)左区间不能大于右区间,The left interval of MTTR(h) cannot be greater than the right interval.,P_YS_AM_AOM-FE_1492251151152709635
+MTBF(h)左区间不能小于0,The left interval of MTB (h) cannot be less than 0.,P_YS_AM_AOM-FE_1492251151152709638
+MTTR(h)左区间不能小于0,The left interval of MTTR(h) cannot be less than 0,P_YS_AM_AOM-FE_1492251151152709641
+MTTR(h)右区间不能小于0,MTTR(h) right interval cannot be less than 0,P_YS_AM_AOM-FE_1492276087732830209
+MTBF(h)右区间不能小于0,MTBF(h) right interval cannot be less than 0,P_YS_AM_AOM-FE_1492276087732830212
+第{0}行的故障发生时间必须早于故障结束时间,The time of failure in line {0} must be earlier than the failure end time,P_YS_AM_AOM-FE_1514552975026028546
+"识别码：{0}格式错误, 请重新录入",Identification Code: {0} format is incorrect. Please enter again,P_YS_AM_AOM-FE_1741691538784124931
+录入编制日期，非必填！注意：日期格式YYYY-MM-DD,Enter the creation date; optional. Note: date format: YYYY-MM-DD,P_YS_AM_AOM-UI_0001556915
+抵押率(%),Collateral Rate (%),P_YS_AM_AUM-UI_0001211731
+调拨前净残值率%,Pre-transferring Net Residual Value Rate %,P_YS_AM_AUM-UI_0001212034
+模板类型(pc/mobile),Template Type (pc/mobile),P_YS_AM_AUM-UI_1726868550089965664
+比例增减(%),Proportion Increase/Decrease (%),P_YS_AM_AUM-UI_1775768590987296807
+变动前分摊比例(%),Pre-Change Allocation Proportion (%),P_YS_AM_AUM-UI_1775768590987296840
+转移前比例(%),Pre-Transfer Proportion (%),P_YS_AM_AUM-UI_1775768590987296921
+投保日期不能晚于第{0}行保险开始日期！,The insurance date cannot be later than the insurance start date in line {0},P_YS_AM_AUMF_0001318163
+存在：{0}项（已盘{1}项）,Existing: {0} items ({1} items counted),P_YS_AM_AUMF_0001318164
+本次读取{0}项资产:,{0} assets read this time:,P_YS_AM_AUMF_0001318165
+第[{0}]行资产编码、资产名称、资产类别至少有一项不能为空；,"At least one of the asset code, asset name and asset category in line [{0}] is required",P_YS_AM_AUMF_0001318166
+该盘盈单的条形码与第{0}行重复，请重新输入,The barcode of the inventory gain Doc is duplicate with that in line {0}. Please enter again,P_YS_AM_AUMF_0001318168
+不存在：{0}项,Not existing: {0} items,P_YS_AM_AUMF_0001318170
+您已经借用{0}台资产，不予借用，请及时归还资产！,"You have already borrowed {0} assets, and cannot borrow any more. Please return the assets in time",P_YS_AM_AUMF_0001318174
+报废位置不能与资产卡片位置相同，请修改：第{0}行,The scrap location cannot be the same as the asset card location. Please modify: line {0},P_YS_AM_AUMF_0001318175
+第[{0}]行，[位置]与[归还位置]不能相同!,The location and return-to location in line [{0}] cannot be the same,P_YS_AM_AUMF_0001318178
+合同基本（页签）第{0}行：{1}的变动会导致租金计算明细（页签）对应表体租金的重新计算！”点击确定保存时重新计算，点击取消返回单据,"Changing {1} in line {0} of the Basic Contract Info tab will lead to recalculation of the corresponding rent in the detail of the Rent Calc. Details tab. Click OK to recalculate upon saving, or click Cancel to return to the Doc",P_YS_AM_AUMF_0001425951
+第{0}行资产名称、资产类别、物料编码不得同时为空,"The asset name, asset category and material code in line {0} cannot be null at the same time",P_YS_AM_AUMF_0001425961
+第【{0}】行，【位置】与【使用位置】不能相同!,The location and location used in line [{0}] cannot be the same,P_YS_AM_AUMF_0001567299
+序号为{0}的起算日期不能小于合同生效日期,The start date in line {0} cannot be earlier than the effective date of the contract,P_YS_AM_AUMF_0001567302
+索赔日期不能晚于第[{0}]行的赔付日期,The claim date cannot be later than the compensation date in line [{0}],P_YS_AM_AUMF_0001567306
+序号为{0}的租入日期不能小于合同生效日期,The lease-in date in line {0} cannot be earlier than the effective date of the contract,P_YS_AM_AUMF_0001567307
+序号为{0}的租入日期不能大于计划归还日期,The lease-in date in line {0} cannot be later than the planned return date,P_YS_AM_AUMF_0001567308
+{0}的变动会导致租金计算明细（页签）对应表体租金的重新计算！点击确定保存时重新计算，点击取消返回单据,"Changing {0} will lead to recalculation of the rent in the detail corresponding to the Rent Calc. Details tab. Click OK to recalculate upon saving, or click Cancel to return to the Doc",P_YS_AM_AUMF_0001567310
+第{0}行预计结束时间不能早于实际开始时间,The predicted end time in line {0} cannot be earlier than the actual start time,P_YS_AM_AUMF_0001567316
+您选定的 【{0}】 资产类别无空闲资产，无法借用！,There is no idle asset under the selected asset category [{0}]. Cannot borrow,P_YS_AM_AUMF_0001567324
+序号为{0}的资产编码与序号为{0}的资产编码重复,The code of asset {0} is duplicate with that of asset {0},P_YS_AM_AUMF_0001567328
+序号为{0}的资产类别和资产名称不能同时为空,The asset category and name in line {0} cannot be null at the same time,P_YS_AM_AUMF_0001567347
+序号为{0}的租入仓库不允许为空,Lease-in warehouse {0} is required,P_YS_AM_AUMF_0001567350
+序号为{0}的资产类别、资产名称和物料编码不能同时为空,"The asset category, asset name and material code in line {0} cannot be null at the same time",P_YS_AM_AUMF_0001567352
+确认对申请中的资产/租赁对象{0}设置为不可出租吗？,Confirm to set the applied asset/lease object {0} as non-rentable?,P_YS_AM_AUMF_0001567357
+序号为{0}的库存组织不允许为空,Inventory Org {0} is required,P_YS_AM_AUMF_0001567360
+序号为{0}的计划归还日期不能小于租入日期,The planned return date of SN {0} cannot be earlier than the lease-in date,P_YS_AM_AUMF_0001567368
+资产 {0} 在计划约检日期内已被其他用户办理检验业务，不能重复办理；,Inspection of asset {0} has already been processed by another user on the planned inspection date. Cannot process again,P_YS_AM_AUMF_0001567380
+续签后合同的结束日期至少大于现有合同的结束日期{0}请调整,The end date of the renewed contract must be later than end date {0} of the existing contract. Please adjust,P_YS_AM_AUMF_0001574969
+资产{0}已经归还成功！,Asset {0} has been returned successfully,P_YS_AM_AUMF_0001578645
+资产{0}需要填写实际归还人,Returned By is required for asset {0},P_YS_AM_AUMF_0001588210
+资产{0}需要填写实际归还日期及实际归还人,Actual Return Date and Returned By are required for asset {0},P_YS_AM_AUMF_0001588211
+资产{0}需要填写实际归还日期,Actual Return Date is required for asset {0},P_YS_AM_AUMF_0001588212
+序号为{0}的承租客户不能为空,Lessee customer {0} is required,P_YS_AM_AUMF_0001604218
+序号为{0}的散户承租方不能为空,Short-term BP lessee {0} is required,P_YS_AM_AUMF_0001604219
+序号为{0}的承租员工不能为空,Lessee employee {0} is required,P_YS_AM_AUMF_0001604220
+序号为{0}的承租对象类型不能为空,Lessee object type {0} is required,P_YS_AM_AUMF_0001604221
+序号为{0}的资产名称、资产类别、租赁对象描述，不能同时为空,"The asset name, asset category and lease object description in {0} cannot be null at the same time",P_YS_AM_AUMF_0001636761
+序号为{0}的数量不能为0,The Qty in line {0} cannot be 0,P_YS_AM_AUMF_1481690582501294081
+序号为{0}的抵扣金额需要大于0,The deducted Amt (SN {0}) must be greater than 0,P_YS_AM_AUMF_1497411803489501188
+第{0}行发票种类不得为空,The invoice category in line {0} is required,P_YS_AM_AUMF_1501282685700538377
+第{0}行租入资产所在位置属于仓库位置，需要填写库存组织和租入仓库信息,"The lease-in asset in line {0} belongs to the warehouse location, and the inventory Org and lease-in warehouse are required",P_YS_AM_AUMF_1504097418302455814
+第{0}行租入资产所在位置属于仓库位置，需要填写库存组织信息,"The lease-in asset in line {0} belongs to the warehouse location, and the inventory Org is required",P_YS_AM_AUMF_1504097418302455817
+第{0}行租入资产所在位置属于仓库位置，需要填写租入仓库信息,"The lease-in asset in line {0} belongs to the warehouse location, and the lease-in warehouse is required",P_YS_AM_AUMF_1504097418302455820
+选择的待结算租金在租入期间[{0}，{1}]内存在未审核通过的运营数据，无法结算,"There is unapproved operation data for the selected rent to be settled in lease-in period [{0}, {1}]. Cannot settle",P_YS_AM_AUMF_1504974519351640067
+选择的待结算租金在租入期间[{0}，{1}]内存在协同方未确认的运营数据，无法结算,"There is operation data not confirmed by the collaborator for the selected rent to be settled in lease-in period [{0}, {1}]. Cannot settle",P_YS_AM_AUMF_1504974519351640070
+第{0}行承租对象类型为原定时，需要填写承租员工信息,"When the lessee object type in line {0} is employee, the lessee employee Info is required",P_YS_AM_AUMF_1507878003111624704
+第{0}行需要填写散户承租方,The short-term BP lessee in line {0} is required,P_YS_AM_AUMF_1507878003111624707
+第{0}行承租对象类型为客户时，需要填写承租客户信息,"When the lessee object type in line {0} is customer, the lessee customer Info is required",P_YS_AM_AUMF_1507878003111624710
+第{0}行的资产名称、资产类别、租赁对象描述，不能同时为空,"The asset name, asset category and lease object description in line {0} cannot be null at the same time",P_YS_AM_AUMF_1507878003111624713
+第{0}行的数量需要大于0,The Qty in line {0} must be greater than 0,P_YS_AM_AUMF_1507878003111624716
+第{0}行需要填写承租对象类型,The lessee object type in line {0} is required,P_YS_AM_AUMF_1507878003111624719
+第{0}行的抵扣金额应小于等于待收回押金金额,The deduction Amt in line {0} should be less than or equal to the deposit Amt to be withdrawn,P_YS_AM_AUMF_1509300015252635651
+第{0}行的抵扣金额需要大于0,The deduction Amt in line {0} should be greater than 0,P_YS_AM_AUMF_1509300015252635654
+第{0}行承租对象类型为员工时，需要填写承租员工信息,The lessee employee Info is required when the lessee object type in line {0} is employee,P_YS_AM_AUMF_1511561530304364547
+选择的待结算租金在租出期间[{0}，{1}]内存在协同方未确认的运营数据，无法结算,"There is operation data that has not been confirmed by the collaborator for the selected rent to be settled in lease-out period [{0}, {1}]. Cannot settle",P_YS_AM_AUMF_1514371400960311303
+选择的待结算租金在租出期间[{0}，{1}]内存在未审核通过的运营数据，无法结算,"There is unapproved operation data for the selected rent to be settled in lease-out period [{0}, {1}]. Cannot settle",P_YS_AM_AUMF_1514371400960311306
+序号为{0}的计划归还日期不能小于租出日期,The planned return date cannot be earlier than the lease-out date in line {0},P_YS_AM_AUMF_1523290716600008712
+序号为{0}的起算日期不能小于租出日期,The start date cannot be earlier than the lease-out date in line {0},P_YS_AM_AUMF_1523290716600008715
+序号为{0}的发生日期不能大于经办日期,The occurrence date with SN {0} cannot be later than the handling date,P_YS_AM_AUMF_1523476293561614336
+第{0}行租金计算方式为计算方法，租金计算方法不可为空,"The rent calculation method in line {0} is calculation method, and Rent Calculation Formula is required",P_YS_AM_AUMF_1524772574821089285
+序号为{0}的租出日期不能大于计划归还日期,The lease-out date in line {0} cannot be later than the planned return date,P_YS_AM_AUMF_1530242413243662340
+租控图设置为仅支持租赁对象，第{0}行资产卡片编码应唯一。,The rent control chart is set to only support lease objects. The asset card code in line {0} should be unique.,P_YS_AM_AUMF_1541858848070959105
+根据条件筛选出的资产数量为{0}，您填写的数量已超出，继续将以{1}个资产{2}进行抽盘，是否继续?,"The quantity of assets filtered out according to the criteria is {0}, and the quantity you filled in has exceeded the value. If you continue, {1} assets {2} will be used for selective re-counting. Do you want to continue?",P_YS_AM_AUMF_1585860495949692935
+您一共筛选出{0}个资产，{1}进行抽盘，是否继续?,"You have filtered out {0} assets in total, including {1} for selective re-counting. Continue?",P_YS_AM_AUMF_1585860495949692944
+所选的计量器具 {0} 中有不合格的检定记录，不能申请降级使用。,The selected measuring instrument {0} involves unqualified verification records. Cannot apply for degraded use.,P_YS_AM_AUMF_1589498419156090889
+所选的计量器具 {0} 中有不合格的检定记录，不能校准。,The selected measuring instrument {0} involves unqualified verification records. Cannot calibrate.,P_YS_AM_AUMF_1589498419156090895
+所选的计量器具 {0} 中有不合格的检定记录，不能忽略。,The selected measuring instrument {0} involves unqualified verification records. Cannot be ignored.,P_YS_AM_AUMF_1589498419156090904
+已拒绝接收资产{0}{1},Refused to receive assets {0}{1},P_YS_AM_AUMF_1592625078042361862
+特种设备目录[{0}]有子集目录，是否删除？,The special equipment directory [{0}] has a subset directory. Do you want to delete it?,P_YS_AM_AUMF_1602172128901726223
+第{0}行合同基本的第{1}行含税周期单价开始时间必须在起租日期和止租日期之间,"For the basic contract information in line {0}, the start time of the period unit price including tax in line {1} must be between the lease start date and the lease end date",P_YS_AM_AUMF_1613336956537667598
+第{0}行，开始日期大于截止日期。,"In line {0}, the start date is later than the end date.",P_YS_AM_AUMF_1619080770900983809
+拟处置位置不能与资产卡片位置相同，请修改：第{0}行,The proposed disposal location cannot be the same as the asset card location. Please modify: line {0},P_YS_AM_AUMF_1624482516909948937
+该差异调整单的条形码与第{0}行重复，请重新输入,The barcode of this variance adjustment document duplicates with that in line {0}. Please enter again,P_YS_AM_AUMF_1630921531905277961
+该盘点单的条形码与第{0}行重复，请重新输入,The barcode of this stocktaking sheet duplicates with that in line {0}. Please enter again,P_YS_AM_AUMF_1631060242169069573
+该自助盘点的条形码与第{0}行重复，请重新输入,The barcode of this self-service stocktaking duplicates with that in line {0}. Please enter again,P_YS_AM_AUMF_1633133826605580292
+资产[{0}]不是借用资产，不支持续借,The asset [{0}] is not a borrowed asset and cannot be renewed,P_YS_AM_AUMF_1653368688829530119
+[{0}]资产已经处理，不能重复发起闲置豁免申请。,Asset [{0}] has been processed. Cannot repeatedly initiate an idling exemption application.,P_YS_AM_AUMF_1663754357837922312
+[{0}]资产已经处理，不能重复确认为闲置状态。,Asset [{0}] has been processed. Cannot be repeatedly confirmed as idle status.,P_YS_AM_AUMF_1663754357837922321
+资产{0}调整归还日期成功。,Return date successfully adjusted for asset {0}.,P_YS_AM_AUMF_1674142904468111360
+[{0}]资产没有借用单，不能调整归还日期。,Asset [{0}] has no borrowing document. Cannot adjust the return date.,P_YS_AM_AUMF_1675625930909286417
+[{0}]资产不是借用单，不能调整归还日期。,Asset [{0}] is not a borrowing document. Cannot adjust the return date.,P_YS_AM_AUMF_1675625930909286420
+第{0}行资产已录入在当前单据中，已导入其他资产,"The asset in line {0} has been entered in the current document, and other assets have been imported",P_YS_AM_AUMF_1685219195641397256
+第{0}行资产的所有权不属于所选的所有权组织,The ownership of the asset in line {0} does not belong to the selected organization with ownership,P_YS_AM_AUMF_1685219195641397259
+第{0}行资产不在{1}下，请检查,The asset in line {0} is not under {1}. Please check,P_YS_AM_AUMF_1685219195641397262
+资产[{0}]不是闲置资产，不支持所有权调出,Asset [{0}] is not an idle asset and ownership transfer-out is not supported,P_YS_AM_AUMF_1686769558570926087
+资产[{0}]不是闲置资产，不支持封存,Asset [{0}] is not an idle asset and sealing is not supported,P_YS_AM_AUMF_1686769558570926090
+资产[{0}]不是闲置资产，不支持借用,Asset [{0}] is not an idle asset and borrowing is not supported,P_YS_AM_AUMF_1686769558570926093
+资产[{0}]不是闲置资产，不支持使用权调出,Asset [{0}] is not an idle asset and right of use transfer-out is not supported,P_YS_AM_AUMF_1686769558570926096
+资产[{0}]不是封存资产，不支持启封,Asset [{0}] is not a sealed asset and unsealing is not supported,P_YS_AM_AUMF_1686769558570926099
+资产[{0}]不是闲置资产，不支持领用,Asset [{0}] is not an idle asset and collection is not supported,P_YS_AM_AUMF_1686769558570926102
+单据{0}不存在或已经删除。,Document {0} does not exist or has been deleted.,P_YS_AM_AUMF_1700896702435688454
+{0}对物料 {1} {2} 的验收设置重复，请检查。,{0}'s acceptance settings for the material {1} {2} are duplicated. Please check.,P_YS_AM_AUMF_1705144992045989897
+{0}对物料分类 {1} {2} 的验收设置重复，请检查。,{0}'s acceptance settings for the material category {1} {2} are duplicated. Please check.,P_YS_AM_AUMF_1705144992045989900
+第{0}行的资产卡片{1}，不支持绑定到多个租控区域，请确认资产卡片与租控区域的绑定关系。,"In line {0}, the asset card {1} cannot be bound to multiple rent control areas. Please confirm the binding relationship between the asset card and the rent control area.",P_YS_AM_AUMF_1751859092158152711
+资产{0}生成{1}时，不符合交易规则设置要求，不允许生单。,The transaction rule setting requirement is not met when asset {0} generates {1}. Cannot generate a document.,P_YS_AM_AUM_1702317984418627586
+分配的比例和不是100%，请确认,The sum of allocation proportion is not 100%. Please confirm,P_YS_AM_AUM_1744707353127157767
+资产卡片{0}的分配比例与单据中填写的比例相同，请确认,The allocation proportion of the asset card {0} is the same as the proportion filled in the document. Please confirm,P_YS_AM_AUM_1748111750366494727
+资产卡片{0}的分配信息已发生变化，不能弃审,The location information of asset card {0} has changed. Cannot revoke approval,P_YS_AM_AUM_1748230205579198470
+"上传文件数量超过限制，当前支持最大上传数量为：{0}, 请分次上传！","The number of uploaded files exceeds the limit. Currently, the maximum number of files that can be uploaded is {0}. Please upload in batches.",P_YS_AM_RMM-BE_1705289354486743142
+序号[{0}] 请保证加油或换油信息其中一项完整性：加油信息[加油周期、加油周期单位、加油量、加油负责班组或加油负责人、下次加油日期]与换油信息[换油周期、换油周期单位、换油量、换油负责班组或换油负责人、下次换油日期]不能同时为空。,"No. [{0}] Please ensure completeness of the refueling or oil change information: The refueling information [Refueling Cycle, Refueling Cycle Unit, Refueling Mass, Refueling Responsible Crew or Person-in-Charge of Refueling, and Next Refueling Date] and oil change information [Oil Change Cycle, Oil Change Cycle Unit, Oil Change Mass, Oil Change Responsible Crew or Person-in-Charge of Oil Change, and Next Oil Change Date] cannot be empty at the same time.",P_YS_AM_RMM-BE_1741582085837553672
+序号[{0}] 请保证加油或换油信息其中一项完整性：加油信息[加油周期、加油周期单位、加油负责班组或加油负责人、下次加油日期]与换油信息[换油周期、换油周期单位、换油负责班组或换油负责人、下次换油日期]不能同时为空。,"No. [{0}] Please ensure completeness of the refueling or oil change information: The refueling information [Refueling Cycle, Refueling Cycle Unit, Refueling Responsible Crew or Person-in-Charge of Refueling, and Next Refueling Date] and oil change information [Oil Change Cycle, Oil Change Cycle Unit, Oil Change Responsible Crew or Person-in-Charge of Oil Change, and Next Oil Change Date] cannot be empty at the same time.",P_YS_AM_RMM-BE_1772623790150254612
+序号【{0}】加油信息(加油周期、加油周期单位、加油负责班组或加油负责人)或换油信息(换油周期、换油周期单位、换油负责班组或换油负责人)不能同时为空,"No. [{0}]: The refueling information (Refueling Cycle, Refueling Cycle Unit, and Refueling Responsible Crew or Person-in-Charge of Refueling) or oil change information (Oil Change Cycle, Oil Change Cycle Unit, and Oil Change Responsible Crew or Person-in-Charge of Oil Change) cannot be empty at the same time",P_YS_AM_RMM-BE_1772631890458574857
+预防性维护【{0}】不满足查看条件，无法查看未来生成计划！,The conditions for viewing preventive maintenance [{0}] are not met. Cannot view the future generation plan,P_YS_AM_RMM-FE_0001376413
+预防性维护编码【{0}】，只能选择一条下一工单读数不为空的测量点，进行调整！,You can only select to adjust a measurement point with the next case reading not being null in preventive maintenance [{0}],P_YS_AM_RMM-FE_0001376421
+预防性维护【{0}】，绩效频率行信息不能为空！,The performance frequency line Info is required in preventive maintenance [{0}],P_YS_AM_RMM-FE_0001376422
+计划编制任务{0}已为无计划状态，无需再次变更为无计划！,Plan making task {0} already is in unplanned status. No need to change to unplanned status again,P_YS_AM_RMM-FE_0001567251
+计划编制任务【{0}】不是已发布状态，不能取消发布！,Plan making task [{0}] is not in published status. Cannot unpublish,P_YS_AM_RMM-FE_0001567254
+计划编制任务【{0}】【{1}】任务已结束，无需再次继续编制!,Plan making task [{0}][{1}] has ended. No need to proceed,P_YS_AM_RMM-FE_0001567256
+任务发布【{0}】【{1}】提交截止日期小于发布日期，无法进行发布！,The submission deadline of task [{0}][{1}] is earlier than the publishing date. Cannot publish,P_YS_AM_RMM-FE_0001567257
+计划编制任务【{0}】不是开立状态，不能发布！,Plan making task [{0}] is not in opened status. Cannot publish,P_YS_AM_RMM-FE_0001567258
+计划编制任务【{0}】不是已发布状态，不能作废！,Plan making task [{0}] is not in published status. Cannot void,P_YS_AM_RMM-FE_0001567272
+计划编制任务{0}任务已结束，无需再次继续编制!,Plan making task {0} has ended. No need to proceed,P_YS_AM_RMM-FE_0001567277
+申请详情中第{0}行资产编码和卡片编码不能同时为空，请确认。,"In the application details, the asset code and card code in line {0} cannot be null at the same time. Please confirm",P_YS_AM_RMM-FE_0001567280
+作业序号【{0}】已被引用，不可删行！,Operation [{0}] has been referenced. Cannot delete the line,P_YS_AM_RMM-FE_0001567285
+计划编制任务{0}已为未编制状态，无需再次继续编制!,Plan making task {0} already is in Not Prepared status. No need to proceed,P_YS_AM_RMM-FE_0001567290
+维修申请行{0}未生成修复工单，是否确认要关闭?,No repair case has been generated for line {0} in the repair application. Confirm to close?,P_YS_AM_RMM-FE_0001623961
+维修申请单号{0}存在未生成修复工单的申请信息，是否确认要关闭?,There is application Info in repair application {0} from which no repair case was generated. Confirm to close?,P_YS_AM_RMM-FE_0001623962
+维修申请行备件码{0}未生成备件修复记录，是否确认要关闭？?,No spare part repair record has been generated for spare part {0} in the repair application line. Confirm to close?,P_YS_AM_RMM-FE_0001623963
+维修申请备件码{0}未生成备件修复记录，是否确认要关闭？,No spare part repair record generated for spare part {0} in the repair application. Confirm to close?,P_YS_AM_RMM-FE_0001629723
+维修申请行备件码{0}未生成备件修复记录，是否确认要关闭?,No spare part repair record was generated for spare part code {0} in the repair application line. Confirm to close?,P_YS_AM_RMM-FE_0001646615
+维修申请单号{0}存在未生成备件修复记录的申请信息，是否确认要关闭?,There is application Info in repair application {0} from which no spare part repair record was generated. Confirm to close?,P_YS_AM_RMM-FE_1439426094204715008
+物料编码【{0}】【{1}】已启用备件管理标记，无法进行复制！,"The code [{0}] [{1}] has been marked with spare parts management, and cannot be copied!",P_YS_AM_RMM-FE_1468546316068454400
+序号【{0}】物料代码【{1}】退库数量与选择的备件码不一致，请进行数量调整!,"The serial number [{0}] material code [{1}] is inconsistent with the selected spare part code, please adjust the quantity!",P_YS_AM_RMM-FE_1478210611006930953
+单据【{0}】来源于预防性维护，不可修改！,Doc [{0}] is sourced from preventive maintenance and cannot be modified,P_YS_AM_RMM-FE_1503206100897366023
+物料分类编码【{0}】【{1}】已启用，无需启用！,Material classification code [{0}] [{1}] has been enabled. Do not enable again!,P_YS_AM_RMM-FE_1504080959995641859
+物料编码【{0}】【{1}】已启用，无需启用！,Material code [{0}] [{1}] has been enabled. Do not enable again!,P_YS_AM_RMM-FE_1504080959995641865
+勾选的第{0}行数据是开立态或者已关闭状态，不可生成工单,The data checked in line {0} is in opened or closed status. Cannot generate the case,P_YS_AM_RMM-FE_1510217007972220935
+工作票{0}时间不能早于{1}时间,Work permit {0} time cannot be earlier than {1} time,P_YS_AM_RMM-FE_1701520211448954883
+结算合同【{0}】结算次数不能大于维修次数，请确认后修改,The No. of settlements of settlement contract [{0}] cannot be greater than the No. of repair times. Please confirm and modify,P_YS_AM_RMM-FE_1701520211448954895
+序号【{0}】下次加油日期不能小于当前系统日期,"For No. [{0}], the next refueling date cannot be earlier than the current system date",P_YS_AM_RMM-FE_1741638289779589123
+序号【{0}】下次换油日期不能小于当前系统日期,"For No. [{0}], the next oil change date cannot be earlier than the current system date",P_YS_AM_RMM-FE_1741638289779589132
+序号【{0}】下次加油日期不能小于等于上次实际加油日期,"For No. [{0}], the next refueling date cannot be earlier than or equal to the last actual refueling date",P_YS_AM_RMM-FE_1741638289779589141
+序号【{0}】下次换油日期不能小于等于上次实际换油日期,"For No. [{0}], the next oil change date cannot be earlier than or equal to the last actual oil change date",P_YS_AM_RMM-FE_1741638289779589144
+序号【{0}】加油班组、加油负责人、换油负责班组、换油负责人必填之一,"For [{0}], the refueling crew, person-in-charge of refueling, oil change responsible crew, or the person-in-charge of oil change is required",P_YS_AM_RMM-FE_1741638289779589156
+序号[{0}] 加油周期与换油周期不能同时为空,"For No. [{0}], the refueling cycle and oil change cycle cannot be empty at the same time",P_YS_AM_RMM-FE_1741638289779589183
+序号【{0}】加油周期有值时，加油周期单位必须有值,"For No. [{0}], when the refueling cycle is set with a value, the refueling cycle unit must be set with a value",P_YS_AM_RMM-FE_1741638289779589186
+行号【{0}】【润滑部位】规定用油发生变更，变更后清空润滑行信息，请确认是否变更！,"Prescribed oil in line No. [{0}] [Lubrication Part] has changed, and the lubrication line information will be cleared after the change. Please confirm whether to change.",P_YS_AM_RMM-FE_1757277382383763459
+行号【{0}】【{1}】规定用油发生变更，变更后清空润滑行信息，请确认是否变更！,"Prescribed oil in line No. [{0}] [{1}] has changed, and the lubrication line information will be cleared after the change. Please confirm whether to change.",P_YS_AM_RMM-FE_1757277382383763462
+ended,ended,P_YS_AM_RMM-REPORT_1789686569932161191
+录入经办日期，非必填！注意：日期格式YYYY-MM-DD,Enter the handling date (optional). Note: Data format is YYYY-MM-DD,P_YS_AM_RMM-UI_1743284842778853385
+当“已执行”录入否时，不可填写；当“已执行”录入是时，必须填写；注意：日期格式YYYY-MM-DD HH:MM:SS,"When No is entered for ""Executed"", the field cannot be filled in; when Yes is entered for ""Executed"", this field is required; Note: The data format is YYYY-MM-DD HH:MM:SS",P_YS_AM_RMM-UI_1743284842778853451
+录入下次换油日期，非必填！填写时需要大于等于实际换油时间，注意：日期格式YYYY-MM-DD,Enter the next oil change date (optional). The filled value must be later than or equal to the actual oil change time. Note: The date format is YYYY-MM-DD,P_YS_AM_RMM-UI_1748206265424150548
+录入计划换油日期，非必填！注意：日期格式YYYY-MM-DD,Enter the planned oil change date (optional). Note: Data format is YYYY-MM-DD,P_YS_AM_RMM-UI_1757320529641996380
+failure,-,P_YS_AM_UCF-AMC-AMBD-MD_1542033146433765439
+执行率(%),Execution Rate (%),P_YS_AM_UCF-AMC-AOM-MD_0001621949
+CODE,-,P_YS_AM_UCF-AMC-AUM-MD_0001595609
+当前单据{0}第{1}行资产卡片{2}已经存在{3}{4}，请确认后处理。,"For the current document {0}'s line {1}, the asset card {2} already involves {3}{4}. Please process after confirmation.",P_YS_AM_UCF-AMC-AUM-MD_1774288244620394501
+请求地址:{0}失败，原因: {1}。,!!!!!!!!,P_YS_CLMS_CONTRACT-BASS-BE_1780888930729066531
+accpurpose,-,P_YS_CO_CO-REPORT_1549421306216185994
+controlscope,-,P_YS_CO_CO-REPORT_1549421306216185997
+cspecs,cspecs,P_YS_CO_CO-REPORT_1549421306216186021
+displayname,-,P_YS_CO_CO-REPORT_1549421306216186027
+accbookId,accbookId,P_YS_CO_CO-REPORT_1549421306216186030
+costClass,-,P_YS_CO_CO-REPORT_1549421306216186042
+manageClassName,-,P_YS_CO_CO-REPORT_1549421306216186045
+costClassName,costClassName,P_YS_CO_CO-REPORT_1549421306216186048
+accentityId,accentityId,P_YS_CO_CO-REPORT_1549421306216186057
+material,-,P_YS_CO_CO-REPORT_1549425850292633606
+stockorg,stockorg,P_YS_CO_CO-REPORT_1549425850292633621
+accsubjectchart,-,P_YS_CO_CO-REPORT_1549425884652372003
+accountbooktype,-,P_YS_CO_CO-REPORT_1549425884652372024
+costelementtable,-,P_YS_CO_CO-REPORT_1549425884652372027
+cashflowtype,-,P_YS_CO_CO-REPORT_1549425884652372030
+currencyreducedparam,-,P_YS_CO_CO-REPORT_1549425884652372033
+exchangeratescheme,-,P_YS_CO_CO-REPORT_1549425884652372036
+issecond,-,P_YS_CO_CO-REPORT_1549425884652372039
+auxShow,-,P_YS_CO_CO-REPORT_1549425884652372042
+accountbookattributes,-,P_YS_CO_CO-REPORT_1549425884652372045
+periodyear,-,P_YS_CO_CO-REPORT_1549425884652372063
+periodtree,-,P_YS_CO_CO-REPORT_1549425884652372069
+codedate,-,P_YS_CO_CO-REPORT_1549425884652372072
+localcode,-,P_YS_CO_CO-REPORT_1549425884652372075
+stockorgId,stockorgId,P_YS_CO_CO-REPORT_1549426193888968757
+costTypeId,costTypeId,P_YS_CO_CO-REPORT_1549426193888968760
+simulationSchemeId,simulationSchemeId,P_YS_CO_CO-REPORT_1549426193888968763
+isVersion,-,P_YS_CO_CO-REPORT_1549426193888968766
+citem,citem,P_YS_CO_CO-REPORT_1549426193888968823
+cspec,cspec,P_YS_CO_CO-REPORT_1549426193888968826
+costsource,costsource,P_YS_CO_CO-REPORT_1549426193888968841
+timezone,-,P_YS_CO_CO-REPORT_1549426494537728006
+enabledate,-,P_YS_CO_CO-REPORT_1549426494537728009
+expiredate,-,P_YS_CO_CO-REPORT_1549426494537728012
+childUnitCost,childUnitCost,P_YS_CO_CO-REPORT_1549426494537728048
+freeItem,-,P_YS_CO_CO-REPORT_1549426494537728051
+showType,showType,P_YS_CO_CO-REPORT_1549426872494850078
+region,-,P_YS_CO_CO-REPORT_1549426872494850099
+address,address,P_YS_CO_CO-REPORT_1549426872494850102
+zipcode,zipcode,P_YS_CO_CO-REPORT_1549426872494850105
+telephone,telephone,P_YS_CO_CO-REPORT_1549426872494850108
+innercontrolscope,-,P_YS_CO_CO-REPORT_1549426872494850111
+outercontrolscope,-,P_YS_CO_CO-REPORT_1549426872494850114
+busiaccbook,busiaccbook,P_YS_CO_CO-REPORT_1549426872494850120
+op,-,P_YS_CO_CO-REPORT_1549426872494850201
+isbd,-,P_YS_CO_CO-REPORT_1549426872494850204
+customscope,customscope,P_YS_CO_CO-REPORT_1549426872494850207
+refernum,-,P_YS_CO_CO-REPORT_1549426872494850210
+stage,stage,P_YS_CO_CO-REPORT_1549426941213278231
+effectivedate,effectivedate,P_YS_CO_CO-REPORT_1549427611228176602
+expirationdate,expirationdate,P_YS_CO_CO-REPORT_1549427611228176605
+businessid,businessid,P_YS_CO_CO-REPORT_1549427611228176608
+比上年%_账簿币,Compared with Last Year (%) - Accounting Book Currency,P_YS_CO_CO-REPORT_1549428650611310747
+amountYear,amountYear,P_YS_CO_CO-REPORT_1549428650611310828
+amountLastYear,amountLastYear,P_YS_CO_CO-REPORT_1549428650611310831
+amountPreviousYear,amountPreviousYear,P_YS_CO_CO-REPORT_1549428650611310834
+differenceYear,differenceYear,P_YS_CO_CO-REPORT_1549428650611310837
+percentageYear,-,P_YS_CO_CO-REPORT_1549428650611310840
+accbook,-,P_YS_CO_CO-REPORT_1549429380754702342
+startPeriod,startPeriod,P_YS_CO_CO-REPORT_1549429380754702351
+statisticalLatitude,-,P_YS_CO_CO-REPORT_1549437644272828426
+currentValue,-,P_YS_CO_CO-REPORT_1549437644272828429
+cumulativeValue,-,P_YS_CO_CO-REPORT_1549437644272828432
+pid,-,P_YS_CO_CO-REPORT_1590983103457263630
+orderRowNum,-,P_YS_CO_CO-REPORT_1590983103457263636
+startperiodCode,startperiodCode,P_YS_CO_CO-REPORT_1590983103457263678
+costcenter,costcenter,P_YS_CO_CO-REPORT_1601362811034271758
+workcenter,workcenter,P_YS_CO_CO-REPORT_1601362811034271761
+costId,costId,P_YS_CO_CO-REPORT_1617787616397099012
+maProduct,-,P_YS_CO_CO-REPORT_1617787616397099015
+searchView,searchView,P_YS_CO_CO-REPORT_1617787616397099018
+cModel,-,P_YS_CO_CO-REPORT_1635518641533353999
+cModelDescription,-,P_YS_CO_CO-REPORT_1635518641533354002
+wjl,-,P_YS_CO_CO-REPORT_1691710480379282018
+hmq,-,P_YS_CO_CO-REPORT_1691710480379282021
+orgAmountScale,-,P_YS_CO_CO-REPORT_1705229053123887231
+accAmountScale,accAmountScale,P_YS_CO_CO-REPORT_1705229053123887234
+ctlAmountScale,ctlAmountScale,P_YS_CO_CO-REPORT_1705229053123887237
+grpAmountScale,-,P_YS_CO_CO-REPORT_1705229053123887240
+gblAmountScale,-,P_YS_CO_CO-REPORT_1705229053123887243
+costSystem,-,P_YS_CO_CO-REPORT_1718661683610124591
+custdocdefid,custdocdefid,P_YS_CO_CO-REPORT_1732091951858057335
+subjectCondition,subjectCondition,P_YS_CO_CO-REPORT_1732091951858057470
+vrs,vrs,P_YS_CO_CO-REPORT_1732091951858057674
+local,-,P_YS_CO_CO-REPORT_1732091951858057707
+auxOrderField,auxOrderField,P_YS_CO_CO-REPORT_1732091951858057842
+referenceQuery,-,P_YS_CO_CO-REPORT_1732091951858057857
+control,control,P_YS_CO_CO-REPORT_1732091951858057920
+accsubjectCodeFilter,accsubjectCodeFilter,P_YS_CO_CO-REPORT_1732091951858057998
+global,-,P_YS_CO_CO-REPORT_1732091951858058049
+voucherid,voucherid,P_YS_CO_CO-REPORT_1732091951858058130
+acountbooktype,acountbooktype,P_YS_CO_CO-REPORT_1732091951858058220
+wherePart,wherePart,P_YS_CO_CO-REPORT_1732091960447991847
+xxxxx,xxxxx,P_YS_CO_CO-REPORT_1774249890560868618
+ori,ori,P_YS_CO_CO-REPORT_1774249890560868693
+"参数错误，subjectOIds,startDate,endDate 不能为空","Parameter error, subjectOIds,startDate,endDate can not be empty",P_YS_CO_FIECC-BE_1798672912841441289
+1、费用归集异常：事项分录传成本失败记录，一般为成本中心未获取到，点击执行则重新生成成本费用明细数据。当前版本，暂不支持；<br/>2、材料归集异常：存货会计事务已生成，且满足成本中心接收条件，对应成本会计事务生成失败的记录，点击执行则重新生成对应成本会计事务；<br/>3、作业消耗异常：启用标准成本后，作业标准价未取到的记录，点击执行则重新获取作业标准价。,"1. Expense collection exception: For the record of failing to transfer the event entry to the cost module, usually the cost center is not obtained. Clicking ""Execute"" will regenerate cost expense details data. Currently the current version does not support regenerating details data;<br/>2. Material collection exception: An inventory accounting transaction has been generated and meets the receiving conditions of the cost center; for the generation failure record of the corresponding cost accounting transaction, clicking ""Execute"" will regenerate the corresponding cost accounting transaction;<br/>3. Operation consumption exception: After standard cost is enabled, for the retrieval failure record of the operation standard price, clicking ""Execute"" will retrieve the operation standard price again.",P_YS_CO_FIECC-UI_1732092613282496521
+<div>从「物料清单」取出母件对应的子件材料定额数量</div> ,<div>Retrieve the quota quantity of component material corresponding to the parent part from the 'BOM'</div>,P_YS_CO_FIECC-UI_1800126029126696963
+取消核实失败:{0},Failed to cancel the verification: {0},P_YS_CRM_CRM-BE_0001296584
+调用企业核实报错{0},Error in calling enterprise verification: {0},P_YS_CRM_CRM-BE_0001296719
+核实失败:{0},Failed to verify: {0},P_YS_CRM_CRM-BE_0001296816
+格式须为YYYY-MM-DD,The format must be YYYY-MM-DD,P_YS_CRM_CRM-BE_1439409464091344897
+"=实际签约金额/签约目标金额*100%,保留两位小数","= Actually Signed Amount/Target Signed Amount*100%, with two decimal places reserved",P_YS_CRM_CRM-BE_1614577042445041665
+"=实际回款金额/回款目标金额*100%,保留两位小数","= Actual Collection Amount/Target Collection Amount*100%, with two decimal places reserved",P_YS_CRM_CRM-BE_1614577343092752389
+"=赢单商机金额/商机规划金额*100%,保留两位小数","= Amount of Opportunities Won/Opportunity Planning Amount*100%, with two decimal places reserved",P_YS_CRM_CRM-BE_1614577480524890116
+请设置一个默认{0},Please set a default {0}.,P_YS_CRM_CRM-FE_0001591992
+"{0}组织【{1}】客户新增申请单【{2}】已存在,请联系客户负责人【{3}】",The new customer application form [{2}] of {0} organization [{1}] already exists. Please contact the customer manager [{3}],P_YS_CRM_CRM-FE_0001591997
+{0}年{1}月{2}日,{0} year {1} month {2} day,P_YS_CRM_CRM-FE_0001592000
+{0}年{1}月,Year {0} Month {1},P_YS_CRM_CRM-FE_0001592086
+目前只支持 JPG/PNG 文件!,Only JPG/PNG supported,P_YS_CRM_CRM-FE_0001609364
+"{0}客户【{1}】已存在,请联系管理人员！",{0}: customer {1} already exists. Please contact the administrator,P_YS_CRM_CRM-FE_1450653731425615875
+当前{0}无重复,The current {0} is not duplicated,P_YS_CRM_CRM-FE_1477981182452826114
+费用行【{0}】按预算规则【{1}】维度【{2}】计算预算已超额【{3}】!,"In expense line [{0}], the budget calculated by dimension [{2}] according to budget rule [{1}] has exceeded the quota of [{3}]",P_YS_CRM_CRM-FE_1484041029123833858
+费用行【{0}】申请金额已超上级方案{1}余额！,The applied amount in expense line [{0}] has exceeded the balance of the parent scheme {1}.,P_YS_CRM_CRM-FE_1528468772133273606
+请维护交易类型相关设置！ 您可以选择去 <a data-event='toInfluencefactor'>设置</a>,Please maintain the transaction type related settings. You can select to set at <a data-event='toInfluencefactor'></a>,P_YS_CRM_CRM-FE_1676871840820101125
+投标进度%,Bidding Progress %,P_YS_CRM_CRM-FE_1684313447184465921
+活动物料子表中第{0}物料和敏感特征不能和其他行重复！,Material No.{0} and sensitive characteristic in the activity material sub-table cannot be duplicated with those in other lines.,P_YS_CRM_CRM-FE_1689661540448862210
+{0}小时,{0} hour(s),P_YS_CRM_CRM-FE_1721833448260763717
+方案费用行{0}的承担金额不能小于下级占用,The bearing amount of scheme expense line {0} cannot be less than the sum of the amount used by the children,P_YS_CRM_CRM-FE_1721833448260763786
+mrs,mrs,P_YS_CRM_CRM-REPORT_1737205857738817552
+dni,dni,P_YS_CRM_CRM-REPORT_1737205857738817576
+taskType,taskType,P_YS_CRM_CRM-REPORT_1752028734786371700
+isEnabled,isEnabled,P_YS_CRM_CRM-REPORT_1753515368996405279
+预计费率%,Predicted Rate (%),P_YS_CRM_CRM-UI_0001286335
+承担比例%,Bearing Proportion (%),P_YS_CRM_CRM-UI_0001296966
+完成率（%）,Completion rate (%),P_YS_CRM_CRM-UI_0001548228
+矩阵-X-调整分数,Matrix - X - Adjust Score,P_YS_CRM_CRM-UI_1712067534436434471
+矩阵-X-调整等级,Matrix - X - Adjust Grade,P_YS_CRM_CRM-UI_1712067534436434474
+矩阵-Y-调整分数,Matrix - Y - Adjust Score,P_YS_CRM_CRM-UI_1712067534436434483
+矩阵-Y-调整等级,Matrix - Y - Adjust Grade,P_YS_CRM_CRM-UI_1712067534436434486
+businessOpportunity,businessOpportunity,P_YS_CRM_YONBIP-HY-KNOWLEDGEBASE-MD_1720695221781528601
+number,number,P_YS_CRM_YYCRM-MD_0001598188
+amount,-,P_YS_CRM_YYCRM-MD_0001598190
+zero,-,P_YS_CRM_YYCRM-MD_0001598191
+one,-,P_YS_CRM_YYCRM-MD_0001598192
+two,-,P_YS_CRM_YYCRM-MD_0001598193
+three,-,P_YS_CRM_YYCRM-MD_0001598194
+four,-,P_YS_CRM_YYCRM-MD_0001598195
+five,-,P_YS_CRM_YYCRM-MD_0001598196
+six,-,P_YS_CRM_YYCRM-MD_0001598197
+business,business,P_YS_CRM_YYCRM-MD_0001598277
+activity,-,P_YS_CRM_YYCRM-MD_0001598317
+price,price,P_YS_CRM_YYCRM-MD_0001598326
+brand,-,P_YS_CRM_YYCRM-MD_0001598327
+CUSTOMER,-,P_YS_CRM_YYCRM-MD_0001598491
+common,common,P_YS_CRM_YYCRM-MD_0001598511
+quantity,-,P_YS_CRM_YYCRM-MD_1437473017956401254
+detail,detail,P_YS_CRM_YYCRM-MD_1547211682981347574
+st,st,P_YS_CRM_YYCRM-MD_1609485985780334682
+行业(ID),Industry (ID),P_YS_CRM_YYCRM-MD_1685248779383472135
+矩阵-X-评测等级,Matrix-X-Assessment Grade,P_YS_CRM_YYCRM-MD_1731059845454888962
+矩阵-Y-评测等级,Matrix-Y-Assessment Grade,P_YS_CRM_YYCRM-MD_1731059845454888968
+矩阵-Y-评测得分,Matrix-Y-Assessment Score,P_YS_CRM_YYCRM-MD_1731059845454888974
+矩阵-X-评测得分,Matrix-X-Assessment Score,P_YS_CRM_YYCRM-MD_1731059845454888977
+"录入编码重复, 请检查: %s",The entered code is duplicate. Please check: %s.,P_YS_CTM_BAM-BE_1770398266970079258
+单据[%s]，,"For document [%s],",P_YS_CTM_CAM-BE_1681497108279984345
+IT/通信/电子/互联网,IT/Communication/Electronics/Internet,P_YS_CTM_CAM-UI_1591698490392051719
+动拨比例（%）,Credit Line Use Proportion (%),P_YS_CTM_CAM-UI_1591698490392052661
+单据[%s]已删除，请刷新后重试,Doc [%s] has been deleted. Please refresh and try again,P_YS_CTM_CM-BE_0001378796
+飞天 ePass 3000 GM,Feitian ePass 3000 GM,P_YS_CTM_CM-FE_1733325689814777905
+电子回单文件名称的后缀需为pdf、ofd、jpeg、 jpg、png、bmp中的一种,"The suffix of the electronic receipt file name must be one of pdf, ofd, jpeg, jpg, png, and bmp",P_YS_CTM_CM-UI_1760205536474693636
+审批状态%s，不可审批！,The approval status is %s. Cannot approve,P_YS_CTM_CSPL-BE_1459052299426988443
+审批状态%s，不可撤回！,The approval status is %s. Cannot withdraw,P_YS_CTM_CSPL-BE_1459052299426988707
+单据[%s]被背书人资金业务对象银行账号为历史数据，请修改！,The endorsee funds business object bank account of Doc [%s] is historical data. Please modify,P_YS_CTM_CSPL-BE_1508474848960577545
+结算状态%s，不可撤回！,"Settlement status %s, cannot be withdrawn!",P_YS_CTM_CSPL-BE_1508474848960577548
+单据[%s]，票据状态不为已托收，不可更改结算状态,The bill status is not Collected in Doc [%s]. Cannot change the settlement status,P_YS_CTM_CSPL-BE_1508474848960577551
+%s修改中，稍后重试,%s is being modified. Please try again later,P_YS_CTM_CSPL-BE_1508474848960577554
+单据[%s]，未审核，不可更改结算状态,Doc [%s] has not been approved. Cannot change the settlement status,P_YS_CTM_CSPL-BE_1508474848960577557
+单据[%s]，票据状态不为已贴现，不可更改结算状态,The bill status is not Discounted in Doc [%s]. Cannot change the settlement status,P_YS_CTM_CSPL-BE_1508474848960577560
+单据[%s]，结算状态不为空，不可推送资金结算,The settlement status of Doc [%s] is required. Cannot push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577566
+单据[%s]，结算状态不为结算中，请重新推送资金结算,The settlement status of Doc [%s] is not Settling. Please re-push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577569
+单据[%s]，票据状态不为已贴现，不可推送资金结算,The bill status is not Discounted in Doc [%s]. Cannot push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577575
+单据【%s】【%s】，不可撤回！,Doc [%s] [%s] cannot be withdrawn!,P_YS_CTM_CSPL-BE_1508474848960577581
+单据[%s]，资金业务对象无银行账号信息！,There is no bank account Info for the funds business object in Doc [%s],P_YS_CTM_CSPL-BE_1508474848960577584
+单据[%s]，票据状态不为已签发，不可推送资金结算,The bill status is not Issued in Doc [%s]. Cannot push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577587
+单据[%s]，结算状态不为空，请重新推送资金结算,The settlement status of Doc [%s] is required. Please re-push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577590
+单据[%s]，未审核，不可推送资金结算,Doc [%s] has not been approved. Cannot push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577599
+单据[%s]质权人资金业务对象银行账号为历史数据，请修改！,The pledgee funds business object bank account of Doc [%s] is historical data. Please modify,P_YS_CTM_CSPL-BE_1508474848960577611
+[%s]，未审核，不可推送资金结算,[%s] has not been approved. Cannot push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577620
+单据[%s]推送新架构失败,Failed to push the new architecture in Doc [%s],P_YS_CTM_CSPL-BE_1508474848960577626
+单据[%s]，票据状态不为已兑付，不可推送资金结算,The bill status is not Paid in Doc [%s]. Cannot push funds settlement,P_YS_CTM_CSPL-BE_1508474848960577638
+单据[%s]，票据状态不为已签发，不可更改结算状态,The bill status is not Issued in Doc [%s]. Cannot change the settlement status,P_YS_CTM_CSPL-BE_1508474848960577644
+单据[%s]，结算状态不为结算中，请检查,The settlement status of Doc [%s] is not Settling. Please check,P_YS_CTM_CSPL-BE_1508479642144079881
+最高使用比例(%),Max Usage Ratio (%),P_YS_CTM_CSPL-UI_1460964324382081213
+自动化取数检查比例（%）,Auto Retrieval Check Ratio (%),P_YS_CTM_CSPL-UI_1460964324382081339
+bb,-,P_YS_CTM_CTM-CMP-MD_0001615734
+blue ,-,P_YS_CTM_CTM-CMP-MD_0001615833
+old,-,P_YS_CTM_CTM-CMP-MD_1422495891453902914
+like,like,P_YS_CTM_CTM-CMP-MD_1436420527623766025
+receiptProject,receiptProject,P_YS_CTM_CTM-REPORT_1591555682727886893
+paymentProject,paymentProject,P_YS_CTM_CTM-REPORT_1591555682727886896
+offsetLimitStart,offsetLimitStart,P_YS_CTM_CTM-REPORT_1591555682727886902
+receiptUnit,receiptUnit,P_YS_CTM_CTM-REPORT_1591555682727886905
+paymentUnit,paymentUnit,P_YS_CTM_CTM-REPORT_1591555682727886908
+capitalPlanCycle,capitalPlanCycle,P_YS_CTM_CTM-REPORT_1591555682727886911
+period,period,P_YS_CTM_CTM-REPORT_1591555682727886914
+offsetLimitEnd,offsetLimitEnd,P_YS_CTM_CTM-REPORT_1591555682727886917
+aa.baseorg.OrgMVID,aa.baseorg.OrgMVID,P_YS_CTM_CTM-REPORT_1591555682727886920
+opponent,opponent,P_YS_CTM_CTM-REPORT_1778039872759005215
+receiptType,receiptType,P_YS_CTM_CTM-REPORT_1778039872759005224
+noteno,noteno,P_YS_CTM_CTM-REPORT_1778039872759005248
+sorttype,sorttype,P_YS_CTM_CTM-REPORT_1778039872759005272
+billdirection,billdirection,P_YS_CTM_CTM-REPORT_1778039872759005275
+projectCode,projectCode,P_YS_CTM_CTM-REPORT_1778039872759005281
+notetype,notetype,P_YS_CTM_CTM-REPORT_1778039872759005305
+srcvbillno,srcvbillno,P_YS_CTM_CTM-REPORT_1778039872759005347
+showacceptancer,showacceptancer,P_YS_CTM_CTM-REPORT_1778039872759005356
+币种(value),Currency (value),P_YS_CTM_CTMFA-UI_1588682555758477401
+银行账号id(value),-,P_YS_CTM_CTMTHRE-UI_1686685007844738636
+单据[%s]未审核，不可进行弃审！,Doc [%s] has not been approved. Approval cannot be revoked,P_YS_CTM_DRFT-BE_0001209718
+单据[%s]%s,Doc [%s]%s,P_YS_CTM_DRFT-BE_0001209747
+单据[%s]删除凭证失败：%s,Failed to delete the voucher of Doc [%s]: %s,P_YS_CTM_DRFT-BE_0001209766
+单据[%s]未审核，不能进行弃审！,Doc [%s] has not been approved. Approval cannot be revoked,P_YS_CTM_DRFT-BE_0001209768
+单据[%s]，单据未审核，不可弃审！,Doc [%s] has not been approved. Approval cannot be revoked,P_YS_CTM_DRFT-BE_0001209771
+单据[%s]审核日期小于单据日期，不可审核！,The approval date of Doc [%s] is earlier than the Doc date. Cannot approve,P_YS_CTM_DRFT-BE_0001209837
+单据[%s]已审核，不可重复审核！,Doc [%s] has been approved. Cannot approve again,P_YS_CTM_DRFT-BE_0001209839
+单据[%s]，查询到银企联客户账号信息为空！,Cannot find the bank-enterprise link customer account Info in Doc [%s],P_YS_CTM_DRFT-BE_0001209872
+单据[%s]审核日期小于单据日期，不能审核！,The approval date of Doc [%s] is earlier than the Doc date. Cannot approve,P_YS_CTM_DRFT-BE_0001209886
+"单据[%s],审核日期小于单据日期，不能审核！",The approval date of Doc [%s] is earlier than the Doc date. Cannot approve,P_YS_CTM_DRFT-BE_0001209916
+单据[%s],Doc [%s],P_YS_CTM_DRFT-BE_0001209918
+单据[%s]，单据已审核，不能重复审核！,Doc [%s] has been approved. Cannot approve again,P_YS_CTM_DRFT-BE_0001209919
+单据[%s]已审核，不能进行重复审核！,Doc [%s] has been approved. Cannot approve again,P_YS_CTM_DRFT-BE_0001209929
+单据[%s]已删除,Doc [%s] has been deleted,P_YS_CTM_DRFT-BE_0001209934
+单据[%s]，查询到银企联账户信息为空！,Cannot find the bank-enterprise link account Info in Doc [%s],P_YS_CTM_DRFT-BE_0001209938
+单据删除凭证失败：%s,Failed to delete the voucher upon revoking approval of the Doc: %s,P_YS_CTM_DRFT-BE_0001212763
+单据编码[%s]更新状态失败，%s！,"Failed to update the status of Doc [%s], %s",P_YS_CTM_DRFT-BE_0001228307
+策略编码[%s]已启用，不可重复启用！,Policy [%s] has been enabled. Cannot enable again,P_YS_CTM_DRFT-BE_0001228308
+收款方银行账号[%s]未启用，不能停用！,Payee bank account [%s] is not enabled. Cannot disable,P_YS_CTM_DRFT-BE_0001228309
+单据编码[%s]的执行状态为成功，不需要更新状态！,The execution status of Doc [%s] is successful. No need to update the status,P_YS_CTM_DRFT-BE_0001228311
+调拨编码[%s]未审核，不能进行弃审！,Transfer [%s] has not been approved. Approval cannot be revoked,P_YS_CTM_DRFT-BE_0001228312
+共：%s张单据；%s张审核通过；%s张审核未通过！,"%s Docs in total, of which, %s approved and %s failed",P_YS_CTM_DRFT-BE_0001228313
+单据[%s]暂未结算，请稍后重试,Doc [%s] has not been settled. Please try again later,P_YS_CTM_DRFT-BE_0001228315
+"单据[%s],未查询到银企联账户银行类别！",Failed to find the bank category of the bank-enterprise link account in Doc [%s],P_YS_CTM_DRFT-BE_0001228318
+单据[%s]暂未结算，请稍后重试!,Doc [%s] has not been settled. Please try again later,P_YS_CTM_DRFT-BE_0001228321
+调拨编码[%s]弃审失败，%s,"Failed to revoke approval of transfer [%s], %s",P_YS_CTM_DRFT-BE_0001228324
+收款方银行账号[%s]已启用，不可重复启用！,Payee bank account [%s] has been enabled. Cannot enable again,P_YS_CTM_DRFT-BE_0001228326
+单据生成归集付款结算单失败，%s！,"Failed to generate the collection payment settlement Doc from the Doc, %s",P_YS_CTM_DRFT-BE_0001228328
+单据弃审失败，%s,"Failed to revoke approval of the Doc, %s",P_YS_CTM_DRFT-BE_0001228330
+单据[%s]，单据已核准，不可弃审！,Doc [%s] has been approved. Approval cannot be revoked,P_YS_CTM_DRFT-BE_0001228332
+策略编码[%s]已停用，不可重复停用！,Policy [%s] has been disabled. Cannot disable again,P_YS_CTM_DRFT-BE_0001228334
+策略编码[%s]未审核，不可启用！,Policy [%s] has not been approved. Cannot enable,P_YS_CTM_DRFT-BE_0001228338
+共：%s个策略；%s个启用通过；%s个启用未通过！,"%s policies in total, of which, %s enabled and %s not enabled",P_YS_CTM_DRFT-BE_0001228339
+生成下拨付款单失败，%s！,"Failed to generate the allocation payment Doc, %s",P_YS_CTM_DRFT-BE_0001228342
+单据[%s]没用创建执行任务，无法启用！,No execution task created for Doc [%s]. Cannot enable,P_YS_CTM_DRFT-BE_0001228347
+单据[%s]，单据已启用，不能重复启用！,Doc [%s] has been enabled. Cannot enable again,P_YS_CTM_DRFT-BE_0001228348
+单据[%s]没用创建执行任务，无法停用！,No execution task created for Doc [%s]. Cannot disable,P_YS_CTM_DRFT-BE_0001228349
+共：%s个策略；%s个审核通过；%s个审核未通过！,"%s policies in total, of which, %s approved and %s failed",P_YS_CTM_DRFT-BE_0001228351
+单据[%s]已执行成功，不需要更新状态,Doc [%s] has been executed successfully. No need to update the status,P_YS_CTM_DRFT-BE_0001228354
+单据[%s]，单据未审核，不可拒绝！,Doc [%s] has not been approved. Cannot reject,P_YS_CTM_DRFT-BE_0001228355
+单据[%s]，单据未审核，不能启用！,Doc [%s] has not been approved. Cannot enable,P_YS_CTM_DRFT-BE_0001228360
+单据[%s]，保存付款单失败，请稍后重试,Failed to save payment Doc [%s]. Please try again later,P_YS_CTM_DRFT-BE_0001228362
+调拨编码[%s]审核失败，%s,"Failed to approve transfer [%s], %s",P_YS_CTM_DRFT-BE_0001228364
+策略编码[%s]没用创建执行任务，无法启用！,No execution task created for policy [%s]. Cannot enable,P_YS_CTM_DRFT-BE_0001228367
+单据[%s]推送归集付款结算单失败！,Failed to push the collection payment settlement Doc from Doc [%s],P_YS_CTM_DRFT-BE_0001228369
+单据[%s]，单据未审核，不可核审！,Doc [%s] has not been approved. Cannot approve,P_YS_CTM_DRFT-BE_0001228374
+策略编码[%s],Policy [%s],P_YS_CTM_DRFT-BE_0001228375
+策略编码[%s]审核日期小于单据日期，不能审核！,The approval date of policy [%s] is earlier than the Doc date. Cannot approve,P_YS_CTM_DRFT-BE_0001228380
+单据[%s]更新状态失败，%s！,"Failed to update the status of Doc [%s], %s",P_YS_CTM_DRFT-BE_0001228381
+单据[%s]状态更新失败，%s,"Failed to update the status of Doc [%s], %s",P_YS_CTM_DRFT-BE_0001228382
+共：%s个策略；%s个弃审通过；%s个弃审未通过！,"%s policies in total, of which, %s with approval revoked successfully and %s failed",P_YS_CTM_DRFT-BE_0001228384
+策略编码[%s]已审核不能删除！,Policy [%s] has been approved. Cannot delete,P_YS_CTM_DRFT-BE_0001228389
+策略编码[%s]未审核，不可进行弃审！,Policy [%s] has not been approved. Approval cannot be revoked,P_YS_CTM_DRFT-BE_0001228390
+共：%s个单据；%s个启用成功；%s个启用失败！,"%s Docs in total, of which, %s enabled successfully and %s failed",P_YS_CTM_DRFT-BE_0001228392
+单据[%s]，保存付款单失败，原因：%s,Failed to save payment Doc [%s]. Reason: %s,P_YS_CTM_DRFT-BE_0001228393
+单据更新状态失败，%s！,"Failed to update the Doc status, %s",P_YS_CTM_DRFT-BE_0001228395
+单据审核失败，%s,"Failed to approve the Doc, %s",P_YS_CTM_DRFT-BE_0001228400
+策略[%s]未启用！,Policy [%s] not enabled,P_YS_CTM_DRFT-BE_0001228403
+单据状态更新失败，%s,"Failed to update the Doc status, %s",P_YS_CTM_DRFT-BE_0001228404
+单据[%s]，单据未启用，不能停用！,Doc [%s] is not enabled. Cannot disable,P_YS_CTM_DRFT-BE_0001228406
+系统时间错误！ %d 毫秒内拒绝生成雪花ID！,System time error. Refuse to generate snowflake ID within %d ms,P_YS_CTM_DRFT-BE_0001228407
+共：%s张单据；%s张更新状态成功；%s张更新状态失败！,"%s Docs in total, of which, %s with the statuses updated successfully and %s failed",P_YS_CTM_DRFT-BE_0001228408
+单据[%s]推送归集收款结算单失败！,Failed to push the collection settlement Doc from Doc [%s],P_YS_CTM_DRFT-BE_0001228412
+单据[%s]，申请状态不为”申请中”，不可拒绝！,The application status of Doc [%s] is not Applying. Cannot reject,P_YS_CTM_DRFT-BE_0001228413
+共：%s个策略；%s个停用通过；%s个停用未通过！,"%s policies in total, of which, %s disabled and %s not disabled",P_YS_CTM_DRFT-BE_0001228416
+付款方银行账号【%s】已停用，不可重复停用！,Payer bank account [%s] has been disabled. Cannot disable again,P_YS_CTM_DRFT-BE_0001228419
+单据[%s]，申请状态不为”申请中”，不可核审！,The application status of Doc [%s] is not Applying. Cannot approve,P_YS_CTM_DRFT-BE_0001228423
+单据[%s]生成归集付款结算单失败，%s！,"Failed to generate the collection payment settlement Doc from Doc [%s], %s",P_YS_CTM_DRFT-BE_0001228424
+实时查询账户余额失败，请稍后重试:%s,Failed to query the account balance in real time. Please try again later: %s,P_YS_CTM_DRFT-BE_0001228428
+付款方银行账号【%s】已启用，不可重复启用！,Payer bank account [%s] has been enabled. Cannot enable again,P_YS_CTM_DRFT-BE_0001228431
+调拨编码[%s]已审核，不可重复审核！,Transfer [%s] has been approved. Cannot approve again,P_YS_CTM_DRFT-BE_0001228434
+策略编码[%s]没用创建执行任务，无法停用！,No execution task created for policy [%s]. Cannot disable,P_YS_CTM_DRFT-BE_0001228442
+共：%s个单据；%s个停用成功；%s个停用失败！,"%s Docs in total, of which, %s disabled successfully and %s failed",P_YS_CTM_DRFT-BE_0001228444
+策略编码[%s]已审核，不可重复审核！,Policy [%s] has been approved. Cannot approve again,P_YS_CTM_DRFT-BE_0001228451
+调拨编码[%s]已审核的单据不能删除！,The Doc with transfer [%s] approved cannot be deleted,P_YS_CTM_DRFT-BE_0001228460
+"单据[%s],未查询到下拨策略信息！",Failed to find the allocation policy Info in Doc [%s],P_YS_CTM_DRFT-BE_0001228461
+单据[%s]已执行成功，不需要更新状态！,Doc [%s] has been executed successfully. No need to update the status,P_YS_CTM_DRFT-BE_0001228463
+共：%s张单据；%s张弃审成功；%s张弃审失败！,"%s Docs in total, of which, %s with approval revoked successfully and %s failed",P_YS_CTM_DRFT-BE_0001228464
+"单据[%s],%s","Doc [%s], %s",P_YS_CTM_DRFT-BE_0001559753
+状态%s，不可撤销！,Status %s. Cannot cancel,P_YS_CTM_DRFT-BE_0001560094
+"校验失败, 结果[%s]","Verification failed, result [%s]",P_YS_CTM_DRFT-BE_1487790861990756841
+"根据签约账号:[%s], 查询不到客户号",No customer No. found according to signed account [%s],P_YS_CTM_DRFT-BE_1487790861990756853
+"第%d行,查找不到编制子表信息!",Failed to find preparation sub-table information in line %d.,P_YS_CTM_DRFT-BE_1587259736172527620
+"【%s】编制单的下期计划明细计划日期应在计划期间内,请修改后再保存!",The plan date in the next period plan details of [%s] preparation document should be within the plan period. Please modify it before saving.,P_YS_CTM_DRFT-BE_1587259736172527668
+调用资金调度服务失败:%s,Failed to call the funds transfer service: %s,P_YS_CTM_DRFT-BE_1587259736172527671
+"【%s】编制单的本期计划明细计划日期应在计划期间内,请修改后再保存!",The plan date in the current period plan details of [%s] preparation document should be within the plan period. Please modify it before saving.,P_YS_CTM_DRFT-BE_1587259736172527707
+"【%s】编制单的【%s】下期计划额度要大于等于该计划项目对应的计划明细金额总和,请修改后再保存!","In [%s] preparation document, the next period plan quota of [%s] should be greater than or equal to the sum of the amount in the plan details corresponding to this plan item. Please modify it before saving.",P_YS_CTM_DRFT-BE_1587259736172527728
+"【%s】编制单的【%s】下下期计划额度要大于等于该计划项目对应的计划明细金额总和,请修改后再保存!","In [%s] preparation document, the period-after-next plan quota of [%s] should be greater than or equal to the sum of the amount in the plan details corresponding to the plan item. Please modify it before saving",P_YS_CTM_DRFT-BE_1587259736172527731
+第%d行，调整后计划总额度小于累计下拨预付金额，汇总失败！,"In line %d, the adjusted total plan quota is less than the cumulative allocated prepayment amount. Summary failed",P_YS_CTM_DRFT-BE_1587259736172527737
+"【%s】编制单的【%s】需要编制本期计划明细,请编制后再保存!",Current period plan details need to be prepared for [%s] preparation document's [%s]. Please prepare before saving.,P_YS_CTM_DRFT-BE_1587259736172527740
+"【%s】编制单的下下期计划明细计划日期应在计划期间内,请修改后再保存!",The plan date in the period-after-next plan details of [%s] preparation document should be within the plan period. Please modify it before saving.,P_YS_CTM_DRFT-BE_1587259736172527776
+"第%d行,未编制计划，请先编制！","In line %d, no plan has been prepared. Please prepare first.",P_YS_CTM_DRFT-BE_1587259736172527785
+默认下拨比例总和必须为100%！,The total allocation proportion must be 100% by default.,P_YS_CTM_DRFT-FE_1589436434198036491
+总比例已达100%！,The total proportion has reached 100%.,P_YS_CTM_DRFT-FE_1589436434198036503
+下拨比例总和必须为100%！,The total allocation proportion must be 100%.,P_YS_CTM_DRFT-FE_1589436434198036572
+贴现年利率%,Discount Annual Interest Rate %,P_YS_CTM_DRFT-MD_1528788996304928810
+担保比例%,Guarantee Proportion %,P_YS_CTM_DRFT-MD_1531835004296888380
+bankName,bankName,P_YS_CTM_DRFT-REPORT_1805523935442239596
+质押率%,Pledge rate%,P_YS_CTM_DRFT-UI_1487927897217302933
+质押率(%),Pledge rate (%),P_YS_CTM_DRFT-UI_1487927897217302936
+创建调度任务失败：%s,Failed to create a scheduling task: %s,P_YS_CTM_FDTR-BE_1591839193520668956
+状态%s，不可删除！,Status %s. Cannot delete.,P_YS_CTM_FDTR-BE_1591839193520669238
+业务组织(value),Business Organization (value),P_YS_CTM_FDTR-UI_1590899566337065258
+单据类型(value),Document Type (value),P_YS_CTM_FDTR-UI_1590899566337065516
+启用状态(value),Enabled Status (value),P_YS_CTM_FDTR-UI_1590899566337065552
+银行账号(value),Bank Account Number (value),P_YS_CTM_FDTR-UI_1590899566337067121
+"单据[%s]已经删除,请刷新页面！",Doc [%s] has been deleted. Please refresh the page,P_YS_CTM_GRM-BE_0001457465
+单据[%s]已经审核无法删除,Doc [%s] has been approved. Cannot delete,P_YS_CTM_GRM-BE_0001457487
+单据审批状态【%s】，不可驳回！,Doc approval status [%s]. Cannot reject,P_YS_CTM_GRM-BE_0001457488
+单据[%s]状态%s，不可撤回！,"Doc [%s], status %s. Cannot withdraw",P_YS_CTM_GRM-BE_0001457498
+单据审批状态【%s】，不可审批！,Doc approval status [%s]. Cannot approve,P_YS_CTM_GRM-BE_0001457520
+状态%s，不可重复提交！,Status %s. Cannot submit again,P_YS_CTM_GRM-BE_0001457543
+状态%s，不可撤回！,Status %s. Cannot withdraw,P_YS_CTM_GRM-BE_0001457546
+共[%s]条数据；[%s]条启用成功；[%s]条启用失败,Total data: [%s]; enabled successfully: [%s]; failed: [%s],P_YS_CTM_GRM-BE_0001473550
+审批状态【%s】，不可驳回！,Approval status [%s]. Cannot reject,P_YS_CTM_GRM-BE_0001502448
+审批状态【%s】，不可撤回！,The approval status is [%s]. Cannot withdraw,P_YS_CTM_GRM-BE_0001562951
+单号：【%s】在系统中不存在，请检查后再操作！,Document No. [%s] does not exist in the system. Please check before operating,P_YS_CTM_GRM-BE_1734345435313602567
+单号：【%s】在系统中不存在，请检查后提交,Document No. [%s] does not exist in the system. Please check before submitting,P_YS_CTM_GRM-BE_1734345435313602585
+抵(质)押率%,Mortgage (Pledge) Rate (%),P_YS_CTM_GRM-UI_0001455573
+抵押率（%）,Mortgage Rate (%),P_YS_CTM_GRM-UI_0001455579
+质押率（%）,Pledge Rate (%),P_YS_CTM_GRM-UI_0001455734
+动拨比例(%),Obsolete,P_YS_CTM_LCM-UI_1514351747189965090
+状态%s，不可审批！,Status %s. Cannot approve,P_YS_CTM_LGM-BE_0001387213
+"单据%s,状态%s,不可审核!","Doc %s, status %s. Cannot approve",P_YS_CTM_LGM-BE_0001387221
+状态%s，不可撤销驳回！,Status %s. Cannot cancel rejection.,P_YS_CTM_LGM-BE_0001387222
+单据状态为[%s]，无法删除！,Doc status is [%s]. Cannot delete it,P_YS_CTM_LGM-BE_0001387229
+"单据%s,状态%s,不可重复提交!","Doc %s, status %s. Cannot submit again",P_YS_CTM_LGM-BE_0001387238
+单据[%s]数据无效，请刷新后重试,The data of Doc [%s] is invalid. Please refresh and try again,P_YS_CTM_LGM-BE_0001387240
+"单据[%s],状态[%s],不可撤回!","Doc [%s], status [%s]. Cannot withdraw",P_YS_CTM_LGM-BE_0001387241
+，单据状态为[%s]，无法删除！,", Doc status is [%s]. Cannot delete it",P_YS_CTM_LGM-BE_0001387246
+"单据%s,状态%s,不可撤销!","Doc %s, status %s. Cannot withdraw",P_YS_CTM_LGM-BE_0001387255
+"单据%s,状态%s,不可撤回!","Doc %s, status %s. Cannot withdraw",P_YS_CTM_LGM-BE_0001387264
+状态%s，不可驳回！,Status %s. Cannot reject ,P_YS_CTM_LGM-BE_0001387274
+单据%s未提交，无法撤回,Doc %s is not submitted. Cannot withdraw,P_YS_CTM_LGM-BE_0001401536
+单据%s已审核，不能进行重复审核！,Doc %s has been approved. Cannot approve again,P_YS_CTM_LGM-BE_0001401542
+单据%s审核日期小于单据日期，不能审核！,The approval date of Doc %s is earlier than the Doc date. Cannot approve,P_YS_CTM_LGM-BE_0001401544
+单据%s,Doc %s,P_YS_CTM_LGM-BE_0001401553
+"单据%s状态[%s],不可重复提交!",Doc %s status [%s]. Cannot submit again,P_YS_CTM_LGM-BE_0001401574
+单据%s不在审批中，无法撤回！,Doc %s is not being approved and cannot be withdrawn,P_YS_CTM_LGM-BE_0001401579
+单据[%s]状态为%s，审批失败！,The status of Doc [%s] is %s. Approval failed,P_YS_CTM_LGM-BE_1534513277167992844
+单据[%s]状态为%s，不可撤销驳回！,The status of Doc [%s] is %s. Cannot cancel rejection,P_YS_CTM_LGM-BE_1534513277167992892
+单据[%s]状态为%s，不可重复提交!,The status of Doc [%s] is %s. Cannot submit again.,P_YS_CTM_LGM-BE_1534513277167992967
+单据[%s]状态为%s，不可驳回！,The status of Doc [%s] is %s. Cannot reject,P_YS_CTM_LGM-BE_1534513277167993006
+数据库中未找到该id：%s，entityName：%s,"Failed to find the ID in the database: %s, entityName: %s",P_YS_CTM_LGM-BE_1534513277167993048
+保证金比例(%),Guarantee Fund Ratio (%),P_YS_CTM_LGM-UI_0001396700
+资金结算通信异常[%s],Funds Settlement communication exception [%s],P_YS_CTM_STCT-BE_0001315163
+年利率不能大于100%,The annual IR cannot be greater than 100%,P_YS_CTM_STCT-BE_0001315198
+%s领域未启用！,%s field is not enabled,P_YS_CTM_STCT-BE_0001315251
+共：%s张单据；%s张预提成功；%s张预提失败！,"%s document(s) in total, of which %s accrued successfully and %s failed in the accrual.",P_YS_CTM_STCT-BE_1583386302729420874
+按比例增减%,Increase/Decrease by Proportion %,P_YS_CTM_STCT-BE_1583386302729420898
+共：%s张单据；%s张测算成功；%s张测算失败！,"%s document(s) in total, of which %s estimated successfully and %s failed in the estimation.",P_YS_CTM_STCT-BE_1583386302729421105
+共：%s张单据；%s张反预提成功；%s张反预提失败！,"%s document(s) in total, of which %s with accrual canceled successfully and %s failed in the accrual canceling.",P_YS_CTM_STCT-BE_1583386302729421135
+查询每日头寸余额异常:%s,Exception querying the daily position balance: %s,P_YS_CTM_STCT-BE_1617842291311378436
+同步失败的编制主体是：%s，有在途单据不可修改业务控制方式！,Preparation entity failed in synchronization: %s. Cannot modify the business control method when an in-transit document is available.,P_YS_CTM_STCT-BE_1619016475240562712
+同步失败的编制主体是：%s，%s,"Preparation entity failed in synchronization: %s, %s",P_YS_CTM_STCT-BE_1619016475240562718
+业务控制生效日期请设置%s年%s月%s日之后的日期！,Please set a date after %s (year) %s (month) %s (date) for the effective date of business control.,P_YS_CTM_STCT-BE_1619016475240562730
+编号为：[%s]已经启用！,Number: [%s] has been enabled,P_YS_CTM_STWB-BE_0001496717
+共:%d条数据，其中%d条数据更新成功，%d条数据更新失败,"%d pieces of data in total, of which, %d pieces of data updated successfully and %d pieces failed",P_YS_CTM_STWB-BE_0001519985
+编号为：[%s]已经停用！,No. [%s] has been disabled,P_YS_CTM_STWB-BE_0001519986
+待结算回调出现异常:%s,Exception in pending settlement callback: %s,P_YS_CTM_STWB-BE_1478704497886232742
+audit,-,P_YS_CTM_STWB-MD_0001544199
+实际结算主体(原值)id,Actual settlement entity (original value) id,P_YS_CTM_STWB-UI_1481672474919174150
+单据[%s]状态[%s]，不可以撤回!,Doc [%s] is in [%s] status. Cannot withdraw,P_YS_CTM_TLM-BE_0001611932
+单据[%s]为%s状态，无法删除！,Doc [%s] is in %s status. Cannot delete,P_YS_CTM_TLM-BE_0001612044
+单据[%s]为[%s]状态，撤回失败！,Doc [%s] is in [%s] status. Failed to withdraw,P_YS_CTM_TLM-BE_0001612077
+单据[%s]被锁定，请稍后重试！,Doc [%s] has been locked. Please try again later,P_YS_CTM_TLM-BE_0001612109
+融资&投资,Financing & Investment,P_YS_CTM_TLM-BE_0001612911
+加减点(BP),Plus/Minus Point (BP),P_YS_CTM_TLM-BE_0001612957
+状态%s，不可终止！,Status: %s. Cannot terminate,P_YS_CTM_TLM-BE_1431165197043105918
+%s被锁定，请稍后重试,%s is locked. Please try again later,P_YS_CTM_TLM-BE_1431165197043106020
+%s[%s]已被引用，不允许停用！,"%s[%s] has been referenced, and cannot be disabled",P_YS_CTM_TLM-BE_1463455852106088538
+[%s]不存在,[%s] does not exist,P_YS_CTM_TLM-BE_1463455852106088565
+%s[%s]为启用状态，不可删除！,%s: [%s] is in enabled status. Cannot delete,P_YS_CTM_TLM-BE_1463455852106088628
+%s不存在，请重新刷新页面！,%s does not exist. Please refresh again,P_YS_CTM_TLM-BE_1463455852106088718
+%s[%s]不是最新状态，请稍后重试！,%s: [%s] is not in the latest status. Please try again later,P_YS_CTM_TLM-BE_1463455852106088754
+%s[%s]被锁定，请稍后重试！,%s: [%s] has been locked. Please try again,P_YS_CTM_TLM-BE_1463455852106088760
+%s不是最新状态，请刷新页面,%s is not in the latest status. Please refresh,P_YS_CTM_TLM-BE_1463455852106088892
+%s编码已被占用，请稍后重试,"%s encoding is already in use, please try again later",P_YS_CTM_TLM-BE_1473694358336700427
+%s编码重复，请重新输入！,"Duplicate %s code, please re-enter!",P_YS_CTM_TLM-BE_1473694358336700454
+%s名称重复，请重新输入！,"Duplicate %s name, please re-enter!",P_YS_CTM_TLM-BE_1473694358336700469
+%s名称已被占用，请稍后重试,"%s name is already in use, please try again later",P_YS_CTM_TLM-BE_1473694358336700472
+%s不存在，请刷新页面后重试!,"%s does not exist, please refresh the page and try again!",P_YS_CTM_TLM-BE_1475225849421103116
+%s[%s]已被引用，不可删除！,%s: [%s] has been used and cannot be deleted,P_YS_CTM_TLM-BE_1478323998143545353
+等级%s的起始分值不能大于截止分值,The starting score of grade %s cannot be greater than the ending score.,P_YS_CTM_TLM-BE_1478323998143545365
+机构类型[%s]对应的等级设置数据为空,The grade setting data corresponding to institution [%s] is blank.,P_YS_CTM_TLM-BE_1478323998143545398
+会计主体[%s]对[%s]已维护黑名单，请勿重复维护！,Accounting entity [%s] has maintained a blacklist for [%s]. Please do not maintain repeatedly,P_YS_CTM_TLM-BE_1524265562507051035
+机构类型[%s]不存在启用状态的等级设置,Institution type [%s] does not involve enabled level settings,P_YS_CTM_TLM-BE_1524265562507051038
+利随本清&周期计息,Matches Principal Repayment & Periodic Interest-bearing,P_YS_CTM_TLM-FE_1513627744581189647
+计划日期大于关联现金流计划的结束日期[yyyy-mm-dd]，不可保存！,The plan date is later than the end date [yyyy-mm-dd] of the associated cash flow plan. Cannot save.,P_YS_CTM_TLM-FE_1614797898253336606
+外汇&利率,Foreign Exchange&Interest Rate,P_YS_CTM_TLM-FE_1748102876981362697
+本执行单：<%=msg%>，是否确认提交？,<%=msg%>: Confirm to submit this execution Doc?,P_YS_CTM_TLM-FE_1781089711853404160
+利率(%),IR (%),P_YS_CTM_TLM-UI_0001614976
+加减点（BP）,Plus/Minus Point (BP),P_YS_CTM_TLM-UI_0001614997
+转存利率（%）,Redeposit IR (%),P_YS_CTM_TLM-UI_0001615521
+协议利率(%),Agreed IR (%),P_YS_CTM_TLM-UI_1419526986714841094
+申购单利率（%）,Purchase Requisition IR (%),P_YS_CTM_TLM-UI_1419526986714841115
+保证金比例（%）,Guarantee Fund Ratio (%),P_YS_CTM_TLM-UI_1431172807725678592
+申购单利率(%),Purchase Requisition IR (%),P_YS_CTM_TLM-UI_1463474689832649220
+费用项目(投资)ID,Expense Item (Investment) ID,P_YS_CTM_TLM-UI_1504163552216744495
+费用项目(融资)ID,Expense Item (Financing) ID,P_YS_CTM_TLM-UI_1504163552216744501
+实际利率（%）（每个预提周期）,Actual IR (%) (Per Accrual Cycle),P_YS_CTM_TLM-UI_1505013448927346695
+交割日期：YYYY-MM-DD,Delivery Date: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668152922177550
+交割日期从：YYYY-MM-DD,Delivery Date From: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668152922177553
+到期日期：YYYY-MM-DD,Expiration Date: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668152922177556
+首次重置日期：YYYY-MM-DD,First Reset Date: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668152922177562
+交割日期至：YYYY-MM-DD,Delivery Date To: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668152922177568
+起息日期：YYYY-MM-DD,Interest-bearing Start Date: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668152922177574
+签约日期：YYYY-MM-DD,Signing Date: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668333310804031
+开始日期：YYYY-MM-DD,Start Date: YYYY-MM-DD,P_YS_CTM_TLM-UI_1758668333310804103
+换出首次交割日：YYYY-MM-DD,First delivery date of swap-out: YYYY-MM-DD,P_YS_CTM_TLM-UI_1768200274500911117
+换入首次交割日：YYYY-MM-DD,First delivery date of swapping in: YYYY-MM-DD,P_YS_CTM_TLM-UI_1768200274500911120
+询价日期：YYYY-MM-DD,RFQ Date: YYYY-MM-DD,P_YS_CTM_TLM-UI_1768200274500911126
+担保比例%(全业务口径),Guarantee Proportion% (Full Service Aperture),P_YS_CTM_TLM-UI_1800475270087442784
+担保比例%(监管口径),Guarantee Proportion% (Regulatory Aperture),P_YS_CTM_TLM-UI_1800475270087442931
+换入目标价格(%),Swap-in Target Price(%),P_YS_CTM_TLM-UI_1821591098856308827
+换出目标价格(%),Out Target Price(%),P_YS_CTM_TLM-UI_1821591098856308920
+监管比例（%）,Regulatory Ratio(%),P_YS_CTM_TLM-UI_1821652912025633253
+共[%s]条数据；[%s]条停用成功；[%s]条停用失败,A total of [%s] data items; [%s] successful deactivation; [%s] deactivation failed,P_YS_CTM_TMSP-BE_1474377120697810984
+"数据已被引用:应用名称:%s, ,RUI:%s","Data has been referenced: App Name :%s,, RUI:%s",P_YS_CTM_TMSP-BE_1803793742204239910
+输入此资金业务对象档案所属的对私(false)/对公(true)的值 (必输),Enter the value (required) of Private (false)/Public (true) for the funds business object file,P_YS_CTM_TMSP-UI_1478827308191056027
+年费率（%）,Annual Fee Rate (%),P_YS_CTM_YONBIP-FI-CTMCAM-MD_1694675072959119371
+年费率(%),Annual Fee Rate (%),P_YS_CTM_YONBIP-FI-CTMGRM-MD_1706027161148719113
+资产负债率(%),Asset/liability ratio(%),P_YS_CTM_YONBIP-FI-CTMGRM-MD_1775773014803611667
+可担保比例(%),Warrantable Proportion(%),P_YS_CTM_YONBIP-FI-CTMGRM-MD_1775773014803611682
+持股比例(%),Holdings Proportion(%),P_YS_CTM_YONBIP-FI-CTMGRM-MD_1775773014803611688
+下浮比例%,Float-down Percentage %,P_YS_CTM_YONBIP-FI-CTMLCM-MD_1513714167884808204
+受益人(供应商)id,Beneficiary (Supplier) ID,P_YS_CTM_YONBIP-FI-CTMLCM-MD_1513714167884808360
+上浮比例%,Float-up Percentage %,P_YS_CTM_YONBIP-FI-CTMLCM-MD_1513714167884808468
+申请人(供应商)id,Applicant (Supplier) ID,P_YS_CTM_YONBIP-FI-CTMLCM-MD_1513714167884808552
+申请人(客户)id,Applicant (Customer) ID,P_YS_CTM_YONBIP-FI-CTMLCM-MD_1513714167884808591
+受益人(客户)id,Beneficiary (Customer) ID,P_YS_CTM_YONBIP-FI-CTMLCM-MD_1513714167884808816
+利率（%）,Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_0001613625
+提前赎回利率（%）,Early Redemption IR (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_0001613653
+基准利率（%）,Benchmark IR (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_0001613717
+展期利率（%）,Extension IR (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_0001613718
+最近一次利率（%）,Last interest rate(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_0001614027
+协议利率（%）,Agreed interest rate(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_0001614029
+实际利率（%）,Actual Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1505015347310755878
+基准利率(%),Benchmark Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1513762073978339342
+承销比例（%）,Consignment Sales Proportion (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1536850392212045948
+预计利率（%）,Predicted Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1546306114896789520
+yes：关联保证金的历史数据（历史数据已提交结束时不释放保证金，未提交的提交后去掉这个标志）,"Yes: Historical data of the associated guarantee fund (the guarantee fund will not be released when the historical data has been submitted, and this flag will be removed after the unsubmitted data is submitted)",P_YS_CTM_YONBIP-FI-CTMTLM-MD_1664458895706292366
+允许内部借贷:yes/no,Allow Internal Debit/Credit: Yes/No,P_YS_CTM_YONBIP-FI-CTMTLM-MD_1690257578824564775
+预计利率(%),Predicted Interest Rate(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226212
+预计换出利率(%),Predicted Exchange-out IR(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226305
+掉期利率(%),Swap Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226350
+换入利率(%),Exchange-In Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226422
+换出利率(%),Foreign Exchange Purchase Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226503
+转让利率(%),Transfer Interest Rate (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226614
+预计换入利率(%),Predicted Incoming IR(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226641
+操作主体上年度末资产负债率(%),Liability/Asset Ratio of Operating Entity at End of Last Year (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757895934982226755
+换出保底价格(%),Foreign Exchange Purchase Guaranteed Price (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757901398175383556
+换出市场参考价(%),Foreign Exchange Purchase Market Reference Price (%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1757901398175383562
+换入保底价格(%),Swap-in Committed Price(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1769996008923070546
+换入市场参考价(%),Market Reference Price(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1769996008923070552
+承销费率（%）,Underwriting Rate(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1769996008923070603
+封顶利率（%）,Capped Rate(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1769996008923070654
+承销费率(%),Underwriting Rate(%),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1777941612496158742
+差点（bps）,Difference (bps),P_YS_CTM_YONBIP-FI-CTMTLM-MD_1800098506976264636
+ext,ext,P_YS_CTM_YONBIP-FI-CTMTMSP-MD_1549401557956559082
+涨跌幅(BP),Increase/Decrease Range (BP),P_YS_CTM_YONBIP-FI-CTMTMSP-MD_1556050356315095204
+点击添加的字段（<{VAR}.当前年>、<{LABEL}.用户>、<{PARAM}.参数名称>）进行动态标题设置。,"Click the added fields (<{VAR}.Current Year>, <{LABEL}.User>, and <{PARAM}.Parameter Name>) to set the dynamic title.",P_YS_DMP_ANALYTIC-FE_1733456583222886432
+识别{name}成功,{name} recognized successfully,P_YS_DMP_ANALYTIC-FE_1733456583222886699
+您将失去{name}此对象的权限,You will lose the permission to {name} the object,P_YS_DMP_ANALYTIC-FE_1733456583222886825
+是否要删除{dbName}数据源,Delete the {dbName} data source?,P_YS_DMP_ANALYTIC-FE_1733456583222887293
+成功找到{count}个结果,{count} result(s) found,P_YS_DMP_ANALYTIC-FE_1733456583222888292
+值应在{min}与{max}之间，请重新输入,The value should be between {min} and {max}. Please re-enter,P_YS_DMP_ANALYTIC-FE_1733456583222888490
+{num}个表无法匹配,{Num} tables cannot be matched,P_YS_DMP_ANALYTIC-FE_1733456583222888691
+当前数据源{dbName}已被对象引用，是否修改？,The current data source {dbName} has been referenced by an object. Continue to modify?,P_YS_DMP_ANALYTIC-FE_1733456583222888943
+长度应在{min}与{max}之间，请重新输入,The length should be between {min} and {max}. Please re-enter,P_YS_DMP_ANALYTIC-FE_1733456583222889024
+暂不支持{name}格式语句执行,It's not supported to execute statement in {name} format,P_YS_DMP_ANALYTIC-FE_1733456583222889177
+是否要删除<%=dbName%>数据源,Do you want to delete the <%=dbName%> data source,P_YS_DMP_ANALYTIC-FE_1743799405642776658
