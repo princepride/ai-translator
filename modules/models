@@ -1,0 +1,147 @@
+import collections
+import os.path
+import sys
+import gc
+import threading
+
+import torch
+import re
+import safetensors.torch
+from omegaconf import OmegaConf
+from os import mkdir
+from urllib import request
+import ldm.modules.midas as midas
+
+from ldm.util import instantiate_from_config
+
+from modules import paths, shared, modelloader, devices, script_callbacks, sd_vae, sd_disable_initialization, errors, hashes, sd_models_config, sd_unet, sd_models_xl, cache, extra_networks, processing, lowvram, sd_hijack
+from modules.timer import Timer
+import tomesd
+
+model_dir = "Stable-diffusion"
+model_path = os.path.abspath(os.path.join(paths.models_path, model_dir))
+
+checkpoints_list = {}
+checkpoint_aliases = {}
+checkpoint_alisases = checkpoint_aliases  # for compatibility with old name
+checkpoints_loaded = collections.OrderedDict()
+
+class CheckpointInfo:
+    def __init__(self, filename):
+        self.filename = filename
+        abspath = os.path.abspath(filename)
+
+        self.is_safetensors = os.path.splitext(filename)[1].lower() == ".safetensors"
+
+        if shared.cmd_opts.ckpt_dir is not None and abspath.startswith(shared.cmd_opts.ckpt_dir):
+            name = abspath.replace(shared.cmd_opts.ckpt_dir, '')
+        elif abspath.startswith(model_path):
+            name = abspath.replace(model_path, '')
+        else:
+            name = os.path.basename(filename)
+
+        if name.startswith("\\") or name.startswith("/"):
+            name = name[1:]
+
+        def read_metadata():
+            metadata = read_metadata_from_safetensors(filename)
+            self.modelspec_thumbnail = metadata.pop('modelspec.thumbnail', None)
+
+            return metadata
+
+        self.metadata = {}
+        if self.is_safetensors:
+            try:
+                self.metadata = cache.cached_data_for_file('safetensors-metadata', "checkpoint/" + name, filename, read_metadata)
+            except Exception as e:
+                errors.display(e, f"reading metadata for {filename}")
+
+        self.name = name
+        self.name_for_extra = os.path.splitext(os.path.basename(filename))[0]
+        self.model_name = os.path.splitext(name.replace("/", "_").replace("\\", "_"))[0]
+        self.hash = model_hash(filename)
+
+        self.sha256 = hashes.sha256_from_cache(self.filename, f"checkpoint/{name}")
+        self.shorthash = self.sha256[0:10] if self.sha256 else None
+
+        self.title = name if self.shorthash is None else f'{name} [{self.shorthash}]'
+        self.short_title = self.name_for_extra if self.shorthash is None else f'{self.name_for_extra} [{self.shorthash}]'
+
+        self.ids = [self.hash, self.model_name, self.title, name, self.name_for_extra, f'{name} [{self.hash}]']
+        if self.shorthash:
+            self.ids += [self.shorthash, self.sha256, f'{self.name} [{self.shorthash}]', f'{self.name_for_extra} [{self.shorthash}]']
+
+    def register(self):
+        checkpoints_list[self.title] = self
+        for id in self.ids:
+            checkpoint_aliases[id] = self
+
+    def calculate_shorthash(self):
+        self.sha256 = hashes.sha256(self.filename, f"checkpoint/{self.name}")
+        if self.sha256 is None:
+            return
+
+        shorthash = self.sha256[0:10]
+        if self.shorthash == self.sha256[0:10]:
+            return self.shorthash
+
+        self.shorthash = shorthash
+
+        if self.shorthash not in self.ids:
+            self.ids += [self.shorthash, self.sha256, f'{self.name} [{self.shorthash}]', f'{self.name_for_extra} [{self.shorthash}]']
+
+        old_title = self.title
+        self.title = f'{self.name} [{self.shorthash}]'
+        self.short_title = f'{self.name_for_extra} [{self.shorthash}]'
+
+        replace_key(checkpoints_list, old_title, self.title, self)
+        self.register()
+
+        return self.shorthash
+    
+def read_metadata_from_safetensors(filename):
+    import json
+
+    with open(filename, mode="rb") as file:
+        metadata_len = file.read(8)
+        metadata_len = int.from_bytes(metadata_len, "little")
+        json_start = file.read(2)
+
+        assert metadata_len > 2 and json_start in (b'{"', b"{'"), f"{filename} is not a safetensors file"
+        json_data = json_start + file.read(metadata_len-2)
+        json_obj = json.loads(json_data)
+
+        res = {}
+        for k, v in json_obj.get("__metadata__", {}).items():
+            res[k] = v
+            if isinstance(v, str) and v[0:1] == '{':
+                try:
+                    res[k] = json.loads(v)
+                except Exception:
+                    pass
+
+        return res
+
+def list_models():
+    checkpoints_list.clear()
+    checkpoint_aliases.clear()
+
+    cmd_ckpt = shared.cmd_opts.ckpt
+    if shared.cmd_opts.no_download_sd_model or cmd_ckpt != shared.sd_model_file or os.path.exists(cmd_ckpt):
+        model_url = None
+    else:
+        model_url = "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors"
+
+    model_list = modelloader.load_models(model_path=model_path, model_url=model_url, command_path=shared.cmd_opts.ckpt_dir, ext_filter=[".ckpt", ".safetensors"], download_name="v1-5-pruned-emaonly.safetensors", ext_blacklist=[".vae.ckpt", ".vae.safetensors"])
+
+    if os.path.exists(cmd_ckpt):
+        checkpoint_info = CheckpointInfo(cmd_ckpt)
+        checkpoint_info.register()
+
+        shared.opts.data['sd_model_checkpoint'] = checkpoint_info.title
+    elif cmd_ckpt is not None and cmd_ckpt != shared.default_sd_model_file:
+        print(f"Checkpoint in --ckpt argument not found (Possible it was moved to {model_path}: {cmd_ckpt}", file=sys.stderr)
+
+    for filename in model_list:
+        checkpoint_info = CheckpointInfo(filename)
+        checkpoint_info.register()

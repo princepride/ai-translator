@@ -1,5 +1,4 @@
 """this module defines internal paths used by program and is safe to import before dependencies are installed in launch.py"""
-
 import argparse
 import os
 import sys

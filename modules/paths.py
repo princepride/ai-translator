@@ -2,8 +2,6 @@ import os
 import sys
 from modules.paths_internal import models_path, script_path, data_path, extensions_dir, extensions_builtin_dir  # noqa: F401
 
-import modules.safe  # noqa: F401
-
 
 def mute_sdxl_imports():
     """create fake modules that SDXL wants to import but doesn't actually use for our purposes"""

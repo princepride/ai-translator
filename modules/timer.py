@@ -1,7 +1,4 @@
 import time
-import argparse
-
-
 class TimerSubcategory:
     def __init__(self, timer, category):
         self.timer = timer
@@ -23,7 +20,6 @@ class TimerSubcategory:
         self.timer.add_time_to_record(self.original_base_category + self.category, elapsed_for_subcategroy)
         self.timer.subcategory_level -= 1
         self.timer.record(self.category, disable_log=True)
-
 
 class Timer:
     def __init__(self, print_log=False):
@@ -81,11 +77,6 @@ class Timer:
     def reset(self):
         self.__init__()
 
-
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("--log-startup", action='store_true', help="print a detailed log of what's happening at startup")
-args = parser.parse_known_args()[0]
-
-startup_timer = Timer(print_log=args.log_startup)
+startup_timer = Timer()
 
 startup_record = None
