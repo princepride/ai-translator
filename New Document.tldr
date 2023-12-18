@@ -66,9 +66,9 @@
     {
       "id": "pointer:pointer",
       "typeName": "pointer",
-      "x": 248.3713747760429,
-      "y": 455.1902399852581,
-      "lastActivityTimestamp": 1702883736055,
+      "x": 910.6111359886821,
+      "y": 405.2913770394103,
+      "lastActivityTimestamp": 1702888462060,
       "meta": {}
     },
     {
@@ -79,9 +79,9 @@
       "typeName": "page"
     },
     {
-      "x": 160.80476199562423,
-      "y": -172.87500065193387,
-      "z": 1.1051475674383542,
+      "x": 200.1645036794663,
+      "y": 88.05580246169325,
+      "z": 0.8059233388251817,
       "meta": {},
       "id": "camera:page:page",
       "typeName": "camera"
@@ -89,10 +89,8 @@
     {
       "editingShapeId": null,
       "croppingShapeId": null,
-      "selectedShapeIds": [
-        "shape:PpVrljseGOtRExrxHW_C3"
-      ],
-      "hoveredShapeId": "shape:PpVrljseGOtRExrxHW_C3",
+      "selectedShapeIds": [],
+      "hoveredShapeId": null,
       "erasingShapeIds": [],
       "hintingShapeIds": [],
       "focusedGroupId": null,
@@ -124,7 +122,7 @@
       "screenBounds": {
         "x": 0,
         "y": 0,
-        "w": 1137.5999755859375,
+        "w": 1488,
         "h": 543.2000122070312
       },
       "zoomBrush": null,
@@ -245,7 +243,7 @@
       "typeName": "shape"
     },
     {
-      "x": 77.60000610351562,
+      "x": 2.1586026052639227,
       "y": 300.4000244140625,
       "rotation": 0,
       "isLocked": false,
@@ -253,8 +251,8 @@
       "meta": {},
       "type": "geo",
       "props": {
-        "w": 255.20001220703122,
-        "h": 121.0999984741211,
+        "w": 331.4414034982517,
+        "h": 210.1999969482422,
         "geo": "rectangle",
         "color": "black",
         "labelColor": "black",
@@ -262,10 +260,10 @@
         "dash": "draw",
         "size": "m",
         "font": "draw",
-        "text": "Model\n●Load Model\n●Generate\n●Train Model\n●Save Model",
+        "text": "Model\n●Load Model(__init__)\n●Generate\n●Train Model\n●Save Model",
         "align": "start",
         "verticalAlign": "middle",
-        "growY": 59.400001525878906,
+        "growY": 0,
         "url": ""
       },
       "parentId": "page:page",
