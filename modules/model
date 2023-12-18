@@ -1,0 +1,24 @@
+from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
+from abc import ABC, abstractmethod
+from typing import List
+
+class Model(ABC):
+    @abstractmethod
+    def load(self, modelname, **kwargs) -> bool:
+        pass
+    @abstractmethod
+    def generate(self, input, **kwargs) -> str:
+        pass
+    @abstractmethod
+    def fine_tune(self, dict, **kwargs) -> bool:
+        pass
+    @abstractmethod
+    def save(self, path, **kwargs) -> bool:
+        pass
+
+class MBartModel(Model):
+    def load(self, modelname):
+        self.model = MBartForConditionalGeneration.from_pretrained(modelname)
+        self.tokenizer = MBart50TokenizerFast.from_pretrained(modelname)
+
+    def generate(self, input, target_language):
