@@ -66,9 +66,9 @@
     {
       "id": "pointer:pointer",
       "typeName": "pointer",
-      "x": 1029.9537609001372,
-      "y": 211.62017998975892,
-      "lastActivityTimestamp": 1702881977324,
+      "x": 413.7361347669739,
+      "y": 154.4892804363051,
+      "lastActivityTimestamp": 1702883536345,
       "meta": {}
     },
     {
@@ -79,9 +79,9 @@
       "typeName": "page"
     },
     {
-      "x": -123.70917984245084,
-      "y": 281.09532607278044,
-      "z": 0.8865156727076999,
+      "x": -34.297033258255524,
+      "y": 148.31981593663667,
+      "z": 1.077906832410635,
       "meta": {},
       "id": "camera:page:page",
       "typeName": "camera"
@@ -153,7 +153,7 @@
       "meta": {},
       "type": "geo",
       "props": {
-        "w": 499.40812806659414,
+        "w": 500,
         "h": 123.9138911368916,
         "geo": "rectangle",
         "color": "black",
@@ -162,7 +162,7 @@
         "dash": "draw",
         "size": "m",
         "font": "draw",
-        "text": "FileReader\n●Extral Text(path, **kwargs) → List(text)",
+        "text": "FileReader\n●Extract Text(path, **kwargs) → List(text)",
         "align": "start",
         "verticalAlign": "middle",
         "growY": 0,
@@ -191,7 +191,7 @@
         "dash": "draw",
         "size": "m",
         "font": "draw",
-        "text": "Excel FileReader\n●Extral Text(path, start_row, end_row, target_column) → List(text)",
+        "text": "Excel FileReader\n●Extract Text(path, start_row, end_row, target_column) → List(text)",
         "align": "start",
         "verticalAlign": "middle",
         "growY": 0,
