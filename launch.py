@@ -1,5 +1,14 @@
 from modules import initialize
+import yaml
 initialize.imports()
+
+file_path = './configs/baseConfig.yml'
+
+with open(file_path, 'r') as file:
+    yaml_data = yaml.load(file, Loader=yaml.FullLoader)
+
+# 打印读取的YAML数据
+print(yaml_data['model_path']['mbart'])
 
 def webui():
     import time
