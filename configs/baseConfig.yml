@@ -1,4 +1,4 @@
 model_path:
-  t5: /models/T5
-  lora: /models/Lora
-  mbart: /models/MBart
+  t5: ./models/T5
+  lora: ./models/Lora
+  mbart: ./models/MBart
