@@ -43,7 +43,7 @@ def webui():
     available_lora_models = list(lora_model_dict.keys())
     available_languages = ["中文", "English"]
 
-    def upload_and_process_file(input_file, target_column, start_index, start_row, end_row, original_language, target_language, selected_gpu, selected_model):
+    def upload_and_process_file(input_file, target_column, start_row, end_row, original_language, target_language, selected_gpu, selected_model):
         file_name = input_file.name
         with open(file_name, 'r', encoding='utf-8') as f:
             file_content = f.read()
@@ -69,7 +69,7 @@ def webui():
                         input_file = gr.File()
                         with gr.Row():
                             target_column = gr.Textbox(value="E", label="目标列")
-                            start_index = gr.Number(value=1, label="起始编号")
+                            # start_index = gr.Number(value=1, label="起始编号")
                             start_row = gr.Number(value=1, label="起始行")
                             end_row = gr.Number(value=10, label="终止行")
                         with gr.Row():
