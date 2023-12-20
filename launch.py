@@ -16,6 +16,7 @@ def webui():
     import pandas as pd
     import torch
     import gradio as gr
+    from utils.path_utils import get_folders, path_foldername_mapping
     def get_gpu_info():
         print(torch.__version__)
         gpu_info = ["CPU"]
@@ -27,9 +28,19 @@ def webui():
             pass
         return gpu_info
     available_gpus = get_gpu_info()
-
-    available_models = ["Model A", "Model B", "Model C"]
-
+    model_list = []
+    lora_model_list = []
+    for key in yaml_data['model_path'].keys():
+        if key == "lora":
+            lora_model_list += get_folders(yaml_data['model_path'][key])
+        else:
+            model_list += get_folders(yaml_data['model_path'][key])
+    print(lora_model_list)
+    print(model_list)
+    model_dict = path_foldername_mapping(model_list)
+    lora_model_dict = path_foldername_mapping(lora_model_list)
+    available_models = list(model_dict.keys())
+    available_lora_models = list(lora_model_dict.keys())
     available_languages = ["中文", "English"]
 
     def upload_and_process_file(input_file, target_column, start_index, start_row, end_row, original_language, target_language, selected_gpu, selected_model):
@@ -66,8 +77,8 @@ def webui():
                             target_language = gr.Dropdown(choices=available_languages, label="目标语言", value=available_languages[1])
                         with gr.Row():
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
-                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型", value=available_models[0])
-                            selected_model = gr.Dropdown(choices=available_models, label="选择Lora模型", value=available_models[0])
+                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型", value=available_models[0] if len(available_models) else "")
+                            selected_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
                         output_text = gr.DataFrame()
@@ -81,8 +92,8 @@ def webui():
                             target_language = gr.Dropdown(choices=available_languages, label="目标语言", value=available_languages[1])
                         with gr.Row():
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
-                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型", value=available_models[0])
-                            selected_model = gr.Dropdown(choices=available_models, label="选择Lora模型", value=available_models[0])
+                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型", value=available_models[0] if len(available_models) else "")
+                            selected_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
                         gr.Textbox(label="输出文本")
