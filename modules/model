@@ -86,3 +86,4 @@ class MBartModel(Model):
         )
         output = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
         return output
+    

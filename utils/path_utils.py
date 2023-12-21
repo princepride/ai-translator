@@ -22,7 +22,7 @@ def path_parsing(path, suffix):
 
     return result
 
-def get_folders(path):
+def get_folders(path, model_type):
     """
     返回指定路径下的文件夹列表
 
@@ -38,7 +38,7 @@ def get_folders(path):
     for root, dirs, files in os.walk(path):
         # 只添加文件夹到结果列表中
         for folder in dirs:
-            result.append(os.path.join(root, folder))
+            result.append({"model_type":model_type, "path":os.path.join(root, folder)})
 
         # 避免进入子文件夹，只需要处理当前层级的文件夹
         break
@@ -83,6 +83,6 @@ def path_foldername_mapping(paths):
     folder_mapping = {}
     for path in paths:
         # 使用 os.path.basename 获取文件夹名
-        folder_name = os.path.basename(path)
-        folder_mapping[folder_name] = path
+        folder_name = os.path.basename(path["path"])
+        folder_mapping[folder_name] = {"path":path["path"], "model_type":path["model_type"]}
     return folder_mapping

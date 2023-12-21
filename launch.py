@@ -32,9 +32,9 @@ def webui():
     lora_model_list = []
     for key in yaml_data['model_path'].keys():
         if key == "lora":
-            lora_model_list += get_folders(yaml_data['model_path'][key])
+            lora_model_list += get_folders(yaml_data['model_path'][key], key)
         else:
-            model_list += get_folders(yaml_data['model_path'][key])
+            model_list += get_folders(yaml_data['model_path'][key], key)
     print(lora_model_list)
     print(model_list)
     model_dict = path_foldername_mapping(model_list)
@@ -46,23 +46,11 @@ def webui():
     available_languages = ["中文", "English"]
 
     def upload_and_process_file(input_file, target_column, start_row, end_row, original_language, target_language, selected_gpu, selected_model):
-        file_name = input_file.name
-        
-        with open(file_name, 'r', encoding='utf-8') as f:
-            file_content = f.read()
-
-        total_steps = 2
-        for step in range(total_steps):
-            time.sleep(1)
-            log_message = f"正在处理步骤 {step + 1}/{total_steps}"
-            sys.stdout.write(f"\r{log_message}")
-            sys.stdout.flush()
-
-        result = f"\n文件 '{file_name}' 处理完成，内容为:\n{file_content}\n"
-        result += f"目标列: {target_column}\n起始行: {start_row}\n终止行: {end_row}\n"
-        result += f"原始语言：{original_language}\n目标语言: {target_language}\n"
-        result += f"选择的GPU: {selected_gpu}\n选择的模型: {selected_model}"
-        return {"value":[["文件",file_name],["选择的模型",selected_model]], "header":["parameter", "value"]}
+        file_path = input_file.name
+        reader = FileReaderFactory.create_reader(file_path)
+        texts = reader.extract_text(file_path, target_column, start_row, end_row)
+        print(texts)
+        return {"value":[["文件",file_path],["选择的模型",selected_model]], "header":["parameter", "value"]}
 
     with gr.Blocks() as interface:
         with gr.Tabs():
