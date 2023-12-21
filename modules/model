@@ -1,6 +1,6 @@
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Type
 
 class Model(ABC):
     @abstractmethod
@@ -87,3 +87,15 @@ class MBartModel(Model):
         output = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
         return output
     
+class ModelFactory:
+    @staticmethod
+    def create_model(model_type, modelname, **kwargs) -> Type[Model]:
+        model_mapping = {
+            'mbart': MBartModel,
+        }
+        model_class = model_mapping.get(model_type)
+
+        if model_class:
+            return model_class(modelname, **kwargs)
+        else:
+            raise ValueError(f"Unsupported model type: {model_type}")
