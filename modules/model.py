@@ -1,10 +1,11 @@
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from abc import ABC, abstractmethod
 from typing import Type
+import torch
 
 class Model(ABC):
     @abstractmethod
-    def __init__(self, modelname, **kwargs):
+    def __init__(self, modelname, selected_gpu, **kwargs):
         pass
     @abstractmethod
     def generate(self, input, **kwargs) -> str:
@@ -17,8 +18,12 @@ class Model(ABC):
         pass
 
 class MBartModel(Model):
-    def __init__(self, modelname):
-        self.model = MBartForConditionalGeneration.from_pretrained(modelname)
+    def __init__(self, modelname, selected_gpu):
+        gpu_info = self.get_gpu_info()
+        if selected_gpu < len(gpu_info):
+            torch.cuda.set_device(selected_gpu)
+        self.selected_gpu = selected_gpu
+        self.model = MBartForConditionalGeneration.from_pretrained(modelname).to(self.selected_gpu)
         self.tokenizer = MBart50TokenizerFast.from_pretrained(modelname)
 
     def language_mapping(self, original_language):
@@ -78,10 +83,11 @@ class MBartModel(Model):
         }
         return d[original_language]
     
-    def generate(self, input, target_language):
-        encoded_hi = self.tokenizer(input, return_tensors="pt")
+    def generate(self, input, original_language, target_language):
+        assert original_language == "English"
+        input_ids = self.tokenizer(input, return_tensors="pt").to(self.selected_gpu)
         generated_tokens = self.model.generate(
-            **encoded_hi,
+            **input_ids,
             forced_bos_token_id=self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
         )
         output = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
@@ -89,13 +95,13 @@ class MBartModel(Model):
     
 class ModelFactory:
     @staticmethod
-    def create_model(model_type, modelname, **kwargs) -> Type[Model]:
+    def create_model(model_type, modelname, selected_gpu, **kwargs) -> Type[Model]:
         model_mapping = {
             "mbart": MBartModel,
         }
         model_class = model_mapping.get(model_type)
 
         if model_class:
-            return model_class(modelname, **kwargs)
+            return model_class(modelname, selected_gpu, **kwargs)
         else:
             raise ValueError(f"Unsupported model type: {model_type}")

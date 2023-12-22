@@ -11,12 +11,11 @@ with open(file_path, 'r') as file:
 print(yaml_data['model_path']['mbart'])
 
 def webui():
-    import time
-    import sys
     import torch
     import gradio as gr
     from utils.path_utils import get_folders, path_foldername_mapping
     from modules.file import FileReaderFactory
+    from modules.model import ModelFactory
     def get_gpu_info():
         print(torch.__version__)
         gpu_info = ["CPU"]
@@ -46,8 +45,11 @@ def webui():
         reader = FileReaderFactory.create_reader(file_path)
         texts = reader.extract_text(file_path, target_column, start_row, end_row)
         selected = available_lora_models[selected_model]
-        model_instance = ModelFactory.create_model(model_type, modelname)
-        return {"value":[["文件",file_path],["选择的模型",selected_model]], "header":["parameter", "value"]}
+        model_instance = ModelFactory.create_model(selected["model_type"], selected["path"], selected_gpu)
+        outputs = []
+        for input_text in texts:
+            outputs.append(model_instance.generate(input_text, original_language, target_language))
+        return outputs
 
     with gr.Blocks() as interface:
         with gr.Tabs():
