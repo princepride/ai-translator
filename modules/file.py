@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 from openpyxl import Workbook, load_workbook
+from openpyxl.utils import column_index_from_string
 import csv
 import os
 
@@ -16,14 +17,23 @@ class FileWriter(ABC):
 
 class ExcelFileReader(FileReader):
     def extract_text(self, file_path, target_column, start_row, end_row) -> List[str]:
+        start_row = int(start_row)
+        end_row = int(end_row)
+        
         workbook = load_workbook(file_path)
-        sheet = workbook.active  # Assuming we are working with the active sheet
+        sheet = workbook.active
         texts = []
+
+        # Convert the target_column letter to an index
+        target_column_index = column_index_from_string(target_column)
+
         for row in range(start_row, end_row + 1):
-            cell_value = sheet.cell(row=row, column=target_column).value
+            cell_value = sheet.cell(row=row, column=target_column_index).value
             if cell_value is not None:
                 texts.append(str(cell_value))
+
         return texts
+
     
 class CSVFileReader(FileReader):
     def extract_text(self, file_path, target_column, start_row, end_row) -> List[str]:
@@ -40,6 +50,7 @@ class CSVFileReader(FileReader):
     
 class ExcelFileWriter(FileWriter):
     def write_text(self, file_path, texts, start_row, end_row, target_column) -> bool:
+        assert end_row - start_row == len(texts)
         try:
             try:
                 workbook = load_workbook(file_path)

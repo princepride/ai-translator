@@ -2,3 +2,62 @@ model_path:
   t5: ./models/T5
   lora: ./models/Lora
   mbart: ./models/MBart
+available_languages:
+  - Arabic
+  - Czech
+  - German
+  - English
+  - Spanish
+  - Estonian
+  - Finnish
+  - French
+  - Gujarati
+  - Hindi
+  - Italian
+  - Japanese
+  - Kazakh
+  - Korean
+  - Lithuanian
+  - Latvian
+  - Burmese
+  - Nepali
+  - Dutch
+  - Romanian
+  - Russian
+  - Sinhala
+  - Turkish
+  - Vietnamese
+  - Chinese
+  - Afrikaans
+  - Azerbaijani
+  - Bengali
+  - Persian
+  - Hebrew
+  - Croatian
+  - Indonesian
+  - Georgian
+  - Khmer
+  - Macedonian
+  - Malayalam
+  - Mongolian
+  - Marathi
+  - Polish
+  - Pashto
+  - Portuguese
+  - Swedish
+  - Swahili
+  - Tamil
+  - Telugu
+  - Thai
+  - Tagalog
+  - Ukrainian
+  - Urdu
+  - Xhosa
+  - Galician
+  - Slovene
+default_original_language: English
+default_target_language: Chinese
+excel_config:
+  default_target_column: I
+  default_start_row: 1
+  default_end_row: 2
