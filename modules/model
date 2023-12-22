@@ -91,7 +91,7 @@ class ModelFactory:
     @staticmethod
     def create_model(model_type, modelname, **kwargs) -> Type[Model]:
         model_mapping = {
-            'mbart': MBartModel,
+            "mbart": MBartModel,
         }
         model_class = model_mapping.get(model_type)
 

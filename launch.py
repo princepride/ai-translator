@@ -35,13 +35,9 @@ def webui():
             lora_model_list += get_folders(yaml_data['model_path'][key], key)
         else:
             model_list += get_folders(yaml_data['model_path'][key], key)
-    print(lora_model_list)
-    print(model_list)
     model_dict = path_foldername_mapping(model_list)
-    print(model_dict)
     lora_model_dict = path_foldername_mapping(lora_model_list)
     available_models = list(model_dict.keys())
-    print(available_models)
     available_lora_models = list(lora_model_dict.keys())
     available_languages = ["中文", "English"]
 
@@ -49,7 +45,8 @@ def webui():
         file_path = input_file.name
         reader = FileReaderFactory.create_reader(file_path)
         texts = reader.extract_text(file_path, target_column, start_row, end_row)
-        print(texts)
+        selected = available_lora_models[selected_model]
+        model_instance = ModelFactory.create_model(model_type, modelname)
         return {"value":[["文件",file_path],["选择的模型",selected_model]], "header":["parameter", "value"]}
 
     with gr.Blocks() as interface:
