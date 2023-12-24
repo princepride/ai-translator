@@ -59,5 +59,6 @@ default_original_language: English
 default_target_language: Chinese
 excel_config:
   default_target_column: I
+  default_start_column: J
   default_start_row: 1
   default_end_row: 2

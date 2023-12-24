@@ -71,7 +71,7 @@ def webui():
                             target_column = gr.Textbox(value=yaml_data["excel_config"]["default_target_column"], label="目标列")
                             start_row = gr.Number(value=yaml_data["excel_config"]["default_start_row"], label="起始行")
                             end_row = gr.Number(value=yaml_data["excel_config"]["default_end_row"], label="终止行")
-                            start_column = gr.Number(value=1, label="结果写入列")
+                            start_column = gr.Textbox(value=yaml_data["excel_config"]["default_start_column"], label="结果写入列")
                         with gr.Row():
                             original_language = gr.Dropdown(choices=available_languages, label="原始语言", value=yaml_data["default_original_language"])
                             target_languages = gr.Dropdown(choices=available_languages, label="目标语言", value=yaml_data["default_target_language"], multiselect=True)

@@ -59,12 +59,19 @@ class ExcelFileWriter(FileWriter):
                 workbook = load_workbook(file_path)
             except FileNotFoundError:
                 workbook = Workbook()
+            # Create a copy of the active sheet
+            original_sheet = workbook.active
+            copied_sheet = workbook.copy_worksheet(original_sheet)
+            copied_sheet.title = "translated"
             sheet = workbook.active
             language_type = len(texts[0])
             for i in range(start_row, end_row+1):
                 for j in range(language_type):
                     sheet.cell(row=i, column=start_column + j, value=texts[i-start_row][j]['generated_translation'][0])
-            workbook.save(file_path)
+            directory, original_filename = os.path.split(file_path)
+            new_filename = original_filename.replace(".", "_translated.")
+            new_file_path = os.path.join(directory, new_filename)
+            workbook.save(new_file_path)
             return True
 
         except Exception as e:
