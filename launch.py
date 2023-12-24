@@ -14,7 +14,7 @@ def webui():
     import torch
     import gradio as gr
     from utils.path_utils import get_folders, path_foldername_mapping
-    from modules.file import FileReaderFactory
+    from modules.file import FileReaderFactory, ExcelFileWriter
     from modules.model import ModelFactory
     def get_gpu_info():
         print(torch.__version__)
@@ -41,7 +41,7 @@ def webui():
     available_lora_models = list(lora_model_dict.keys())
     available_languages = yaml_data["available_languages"]
 
-    def upload_and_process_file(input_file, target_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model):
+    def upload_and_process_file(input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model):
         # selected_model = "mbart-large-50-one-to-many-mmt"
         file_path = input_file.name
         reader = FileReaderFactory.create_reader(file_path)
@@ -51,6 +51,8 @@ def webui():
         outputs = []
         for input_text in texts:
             outputs.append(model_instance.generate(input_text, original_language, target_languages))
+        excel_writer = ExcelFileWriter()
+        excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
         return outputs
     
     def translate(input_text, original_language, target_languages, selected_gpu, selected_model):
@@ -67,7 +69,7 @@ def webui():
                         input_file = gr.File()
                         with gr.Row():
                             target_column = gr.Textbox(value=yaml_data["excel_config"]["default_target_column"], label="目标列")
-                            # start_index = gr.Number(value=1, label="起始编号")
+                            start_column = gr.Number(value=1, label="结果写入列")
                             start_row = gr.Number(value=yaml_data["excel_config"]["default_start_row"], label="起始行")
                             end_row = gr.Number(value=yaml_data["excel_config"]["default_end_row"], label="终止行")
                         with gr.Row():
@@ -82,8 +84,7 @@ def webui():
                     with gr.Column():
                         output_frame = gr.DataFrame()
                         output_text = gr.Textbox(label="输出文本")
-                # translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_index, start_row, end_row, original_language, target_language, selected_gpu, selected_model], outputs=output_text)
-                translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model], outputs=output_text)
+                translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model], outputs=output_text)
             with gr.TabItem("Text Translator"):
                 with gr.Row():
                     with gr.Column():

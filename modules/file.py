@@ -49,16 +49,21 @@ class CSVFileReader(FileReader):
         
     
 class ExcelFileWriter(FileWriter):
-    def write_text(self, file_path, texts, start_row, end_row, target_column) -> bool:
+    def write_text(self, file_path, texts, start_column, start_row, end_row) -> bool:
         assert end_row - start_row == len(texts)
+        start_row = int(start_row)
+        end_row = int(end_row)
+        start_column = column_index_from_string(start_column)
         try:
             try:
                 workbook = load_workbook(file_path)
             except FileNotFoundError:
                 workbook = Workbook()
             sheet = workbook.active
-            for row_num, text in enumerate(texts, start=start_row):
-                sheet.cell(row=row_num, column=target_column, value=text)
+            language_type = len(texts[0])
+            for i in range(start_row, end_row+1):
+                for j in range(language_type):
+                    sheet.cell(row=i, column=start_column + j, value=texts[i-start_row][j]['generated_translation'][0])
             workbook.save(file_path)
             return True
 
