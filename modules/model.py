@@ -2,6 +2,7 @@ from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from abc import ABC, abstractmethod
 from typing import Type
 import torch
+import torch.nn.functional as F
 
 class Model(ABC):
     @abstractmethod
@@ -84,14 +85,38 @@ class MBartModel(Model):
     
     def generate(self, input, original_language, target_languages):
         assert original_language == "English"
+
+        # Tokenize input
         input_ids = self.tokenizer(input, return_tensors="pt").to(self.selected_gpu)
+
         output = []
+
         for target_language in target_languages:
+            # Generate logits
+            with torch.no_grad():
+                logits = self.model(**input_ids).logits
+
+            # Get language code for the target language
+            target_lang_code = self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
+
+            # Extract probability for the target language
+            target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
+            target_lang_prob = target_lang_prob[target_lang_code].item()
+
+            # Generate translation
             generated_tokens = self.model.generate(
                 **input_ids,
-                forced_bos_token_id=self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
+                forced_bos_token_id=target_lang_code
             )
-            output.append(self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True))
+            generated_translation = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+
+            # Append result to output
+            output.append({
+                "target_language": target_language,
+                "generated_translation": generated_translation,
+                "target_language_probability": target_lang_prob
+            })
+
         return output
     def fine_tune(self, dict, **kwargs) -> bool:
         pass
