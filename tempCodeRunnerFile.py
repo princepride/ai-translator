@@ -1,1 +1,0 @@
-path_foldername_mapping

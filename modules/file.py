@@ -50,7 +50,7 @@ class CSVFileReader(FileReader):
     
 class ExcelFileWriter(FileWriter):
     def write_text(self, file_path, texts, start_column, start_row, end_row) -> bool:
-        assert end_row - start_row == len(texts)
+        assert end_row - start_row + 1 == len(texts)
         start_row = int(start_row)
         end_row = int(end_row)
         start_column = column_index_from_string(start_column)
@@ -71,6 +71,7 @@ class ExcelFileWriter(FileWriter):
             directory, original_filename = os.path.split(file_path)
             new_filename = original_filename.replace(".", "_translated.")
             new_file_path = os.path.join(directory, new_filename)
+            print("new_file_path", new_file_path)
             workbook.save(new_file_path)
             return True
 
