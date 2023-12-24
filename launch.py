@@ -18,7 +18,7 @@ def webui():
     from modules.model import ModelFactory
     def get_gpu_info():
         print(torch.__version__)
-        gpu_info = ["CPU"]
+        gpu_info = ["cpu"]
         try:
             if torch.cuda.is_available():
                 gpu_count = torch.cuda.device_count()
@@ -37,23 +37,27 @@ def webui():
     model_dict = path_foldername_mapping(model_list)
     lora_model_dict = path_foldername_mapping(lora_model_list)
     available_models = list(model_dict.keys())
+    gr.Dropdown.update(choices=available_models)
     available_lora_models = list(lora_model_dict.keys())
     available_languages = yaml_data["available_languages"]
 
-    def upload_and_process_file(input_file, target_column, start_row, end_row, original_language, target_language, selected_gpu, selected_model):
-        print("input_file", input_file)
+    def upload_and_process_file(input_file, target_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model):
+        # selected_model = "mbart-large-50-one-to-many-mmt"
         file_path = input_file.name
         reader = FileReaderFactory.create_reader(file_path)
         texts = reader.extract_text(file_path, target_column, start_row, end_row)
-        print("model_dict", model_dict)
-        print("selected_model", selected_model)
         selected = model_dict[selected_model]
-        print("selected", selected)
         model_instance = ModelFactory.create_model(selected["model_type"], selected["path"], selected_gpu)
         outputs = []
         for input_text in texts:
-            outputs.append(model_instance.generate(input_text, original_language, target_language))
+            outputs.append(model_instance.generate(input_text, original_language, target_languages))
         return outputs
+    
+    def translate(input_text, original_language, target_languages, selected_gpu, selected_model):
+        # selected_model = "mbart-large-50-one-to-many-mmt"
+        selected = model_dict[selected_model]
+        model_instance = ModelFactory.create_model(selected["model_type"], selected["path"], selected_gpu)
+        return model_instance.generate(input_text, original_language, target_languages)
 
     with gr.Blocks() as interface:
         with gr.Tabs():
@@ -68,32 +72,33 @@ def webui():
                             end_row = gr.Number(value=yaml_data["excel_config"]["default_end_row"], label="终止行")
                         with gr.Row():
                             original_language = gr.Dropdown(choices=available_languages, label="原始语言", value=yaml_data["default_original_language"])
-                            target_language = gr.Dropdown(choices=available_languages, label="目标语言", value=yaml_data["default_target_language"])
+                            target_languages = gr.Dropdown(choices=available_languages, label="目标语言", value=yaml_data["default_target_language"], multiselect=True)
                         with gr.Row():
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
-                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型", value=available_models[0] if len(available_models) else "")
+                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
                             # selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
-                            selected_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
+                            selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
                         output_frame = gr.DataFrame()
                         output_text = gr.Textbox(label="输出文本")
                 # translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_index, start_row, end_row, original_language, target_language, selected_gpu, selected_model], outputs=output_text)
-                translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_row, end_row, original_language, target_language, selected_gpu, selected_model], outputs=output_text)
+                translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model], outputs=output_text)
             with gr.TabItem("Text Translator"):
                 with gr.Row():
                     with gr.Column():
-                        gr.Textbox(label="输入文本")
+                        input_text = gr.Textbox(label="输入文本")
                         with gr.Row():
-                            original_language = gr.Dropdown(choices=available_languages, label="原始语言", value=available_languages[0])
-                            target_language = gr.Dropdown(choices=available_languages, label="目标语言", value=available_languages[1])
+                            original_language = gr.Dropdown(choices=available_languages, label="原始语言", value=yaml_data["default_original_language"])
+                            target_languages = gr.Dropdown(choices=available_languages, label="目标语言", value=yaml_data["default_target_language"], multiselect=True)
                         with gr.Row():
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
-                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型", value=available_models[0] if len(available_models) else "")
-                            selected_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
+                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
+                            selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
                         output_text = gr.Textbox(label="输出文本")
+                translate_button.click(translate, inputs=[input_text, original_language, target_languages, selected_gpu, selected_model], outputs=output_text)
     interface.launch()
 
 if __name__ == "__main__":

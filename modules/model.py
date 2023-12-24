@@ -19,8 +19,7 @@ class Model(ABC):
 
 class MBartModel(Model):
     def __init__(self, modelname, selected_gpu):
-        gpu_info = self.get_gpu_info()
-        if selected_gpu < len(gpu_info):
+        if selected_gpu != "cpu":
             torch.cuda.set_device(selected_gpu)
         self.selected_gpu = selected_gpu
         self.model = MBartForConditionalGeneration.from_pretrained(modelname).to(self.selected_gpu)
@@ -83,15 +82,21 @@ class MBartModel(Model):
         }
         return d[original_language]
     
-    def generate(self, input, original_language, target_language):
+    def generate(self, input, original_language, target_languages):
         assert original_language == "English"
         input_ids = self.tokenizer(input, return_tensors="pt").to(self.selected_gpu)
-        generated_tokens = self.model.generate(
-            **input_ids,
-            forced_bos_token_id=self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
-        )
-        output = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+        output = []
+        for target_language in target_languages:
+            generated_tokens = self.model.generate(
+                **input_ids,
+                forced_bos_token_id=self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
+            )
+            output.append(self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True))
         return output
+    def fine_tune(self, dict, **kwargs) -> bool:
+        pass
+    def save(self, path, **kwargs) -> bool:
+        pass
     
 class ModelFactory:
     @staticmethod
