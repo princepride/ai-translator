@@ -48,9 +48,7 @@ def webui():
         texts = reader.extract_text(file_path, target_column, start_row, end_row)
         selected = model_dict[selected_model]
         model_instance = ModelFactory.create_model(selected["model_type"], selected["path"], selected_gpu)
-        outputs = []
-        for input_text in texts:
-            outputs.append(model_instance.generate(input_text, original_language, target_languages))
+        outputs = model_instance.generate(texts, original_language, target_languages)
         excel_writer = ExcelFileWriter()
         excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
         return outputs
