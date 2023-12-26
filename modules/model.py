@@ -4,6 +4,21 @@ from typing import Type
 import torch
 import torch.nn.functional as F
 
+def get_gpu_index(gpu_info, target_gpu_name):
+    """
+    从 GPU 信息中获取目标 GPU 的索引
+    Args:
+        gpu_info (list): 包含 GPU 名称的列表
+        target_gpu_name (str): 目标 GPU 的名称
+
+    Returns:
+        int: 目标 GPU 的索引，如果未找到则返回 -1
+    """
+    for i, name in enumerate(gpu_info):
+        if target_gpu_name.lower() in name.lower():
+            return i
+    return -1
+
 class Model(ABC):
     @abstractmethod
     def __init__(self, modelname, selected_gpu, **kwargs):
@@ -21,9 +36,14 @@ class Model(ABC):
 class MBartModel(Model):
     def __init__(self, modelname, selected_gpu):
         if selected_gpu != "cpu":
-            torch.cuda.set_device(selected_gpu)
-        self.selected_gpu = selected_gpu
-        self.model = MBartForConditionalGeneration.from_pretrained(modelname).to(self.selected_gpu)
+            gpu_count = torch.cuda.device_count()
+            gpu_info = [torch.cuda.get_device_name(i) for i in range(gpu_count)]
+            selected_gpu_index = get_gpu_index(gpu_info, selected_gpu)
+            self.device_name = f"cuda:{selected_gpu_index}"
+        else:
+            self.device_name = "cpu"
+        print("device_name", self.device_name)
+        self.model = MBartForConditionalGeneration.from_pretrained(modelname).to(self.device_name)
         self.tokenizer = MBart50TokenizerFast.from_pretrained(modelname)
 
     def language_mapping(self, original_language):
@@ -87,7 +107,7 @@ class MBartModel(Model):
         assert original_language == "English"
 
         # Tokenize input
-        input_ids = self.tokenizer(input, return_tensors="pt").to(self.selected_gpu)
+        input_ids = self.tokenizer(input, return_tensors="pt").to(self.device_name)
 
         output = []
 
