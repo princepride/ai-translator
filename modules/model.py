@@ -134,17 +134,12 @@ class MBartModel(Model):
     def generate(self, inputs, original_language, target_languages):
         assert original_language == "English"
         # Estimate batch size based on memory usage
-        available_memory = torch.cuda.get_device_properties(self.device_name).total_memory
-        max_tokens_per_batch = available_memory // self.model.config.max_length // 4  # Approximate memory usage
-        max_batch_size = max_tokens_per_batch // self.model.config.max_position_embeddings
-        batch_size = min(len(inputs), max_batch_size)
-        batches = [inputs[i:i + batch_size] for i in range(0, len(inputs), batch_size)]
-        temp_outputs = []
-        for batch in batches:
+        if self.device_name == "cpu":
             # Tokenize input
-            input_ids = self.tokenizer(batch, return_tensors="pt", padding=True).to(self.device_name)
-            temp = []
+            input_ids = self.tokenizer(inputs, return_tensors="pt").to(self.device_name)
+            output = []
             for target_language in target_languages:
+                # Generate logits
                 with torch.no_grad():
                     logits = self.model(**input_ids).logits
                 # Get language code for the target language
@@ -152,36 +147,63 @@ class MBartModel(Model):
                 # Extract probability for the target language
                 target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
                 target_lang_prob = target_lang_prob[target_lang_code].item()
+                # Generate translation
                 generated_tokens = self.model.generate(
                     **input_ids,
-                    forced_bos_token_id=target_lang_code,
+                    forced_bos_token_id=target_lang_code
                 )
                 generated_translation = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
                 # Append result to output
-                temp.append({
+                output.append({
                     "target_language": target_language,
                     "generated_translation": generated_translation,
                     "target_language_probability": target_lang_prob
                 })
-            temp_outputs.append(temp)
-        print("#############################################################################################")
-        print(temp_outputs)
-        outputs = []
-        for temp_output in temp_outputs:
-            length = len(temp_output[0]["generated_translation"])
-            for i in range(length):
+            return output
+        else:
+            available_memory = torch.cuda.get_device_properties(self.device_name).total_memory
+            max_tokens_per_batch = available_memory // self.model.config.max_length // 4  # Approximate memory usage
+            max_batch_size = max_tokens_per_batch // self.model.config.max_position_embeddings
+            batch_size = min(len(inputs), max_batch_size)
+            batches = [inputs[i:i + batch_size] for i in range(0, len(inputs), batch_size)]
+            temp_outputs = []
+            for batch in batches:
+                # Tokenize input
+                input_ids = self.tokenizer(batch, return_tensors="pt", padding=True).to(self.device_name)
                 temp = []
-                for trans in temp_output:
+                for target_language in target_languages:
+                    with torch.no_grad():
+                        logits = self.model(**input_ids).logits
+                    # Get language code for the target language
+                    target_lang_code = self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
+                    # Extract probability for the target language
+                    target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
+                    target_lang_prob = target_lang_prob[target_lang_code].item()
+                    generated_tokens = self.model.generate(
+                        **input_ids,
+                        forced_bos_token_id=target_lang_code,
+                    )
+                    generated_translation = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+                    # Append result to output
                     temp.append({
-                        "target_language": trans["target_language"],
-                        "generated_translation": trans['generated_translation'][i],
-                        "target_language_probability": trans["target_language_probability"]
+                        "target_language": target_language,
+                        "generated_translation": generated_translation,
+                        "target_language_probability": target_lang_prob
                     })
-                outputs.append(temp)
-        print("#############################################################################################")
-        print(outputs)
-        print("length", len(outputs))
-        return outputs
+                temp_outputs.append(temp)
+            outputs = []
+            for temp_output in temp_outputs:
+                length = len(temp_output[0]["generated_translation"])
+                for i in range(length):
+                    temp = []
+                    for trans in temp_output:
+                        temp.append({
+                            "target_language": trans["target_language"],
+                            "generated_translation": trans['generated_translation'][i],
+                            "target_language_probability": trans["target_language_probability"]
+                        })
+                    outputs.append(temp)
+            return outputs
     def fine_tune(self, dict, **kwargs) -> bool:
         pass
     def save(self, path, **kwargs) -> bool:
