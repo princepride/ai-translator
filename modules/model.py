@@ -45,8 +45,20 @@ class T5Model(Model):
         print("device_name", self.device_name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(modelname).to(self.device_name)
         self.tokenizer = AutoTokenizer.from_pretrained(modelname)
-    def generate(self, input, **kwargs) -> str:
-        pass
+    def generate(self, inputs, original_language, target_languages) -> str:
+        m = len(inputs)
+        n = len(target_languages)
+        outputs = [[None] * n for _ in m]
+        for i in range(len(target_languages)):
+            prompt = [f"""translate {original_language} to {target_languages[i]}:{input}""" for input in inputs]
+            input_ids = self.tokenizer(prompt, return_tensors="pt").input_ids
+            generated_tokens = self.model.generate(input_ids)
+            for j in range(len(generated_tokens)):
+                outputs[j][i] = {
+                    "target_language": target_languages[i],
+                    "generated_translation": self.tokenizer.decode(generated_tokens[j]),
+                }
+        return outputs
     @abstractmethod
     def fine_tune(self, dict, **kwargs) -> bool:
         pass
