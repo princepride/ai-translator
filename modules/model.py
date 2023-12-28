@@ -3,6 +3,12 @@ from abc import ABC, abstractmethod
 from typing import Type
 import torch
 import torch.nn.functional as F
+from peft import PeftModel, PeftConfig
+
+def is_support_lora(model_type):
+    if model_type == "t5":
+        return True
+    return False
 
 def get_gpu_index(gpu_info, target_gpu_name):
     """
@@ -45,6 +51,11 @@ class T5Model(Model):
         print("device_name", self.device_name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(modelname, torch_dtype=torch.bfloat16).to(self.device_name)
         self.tokenizer = AutoTokenizer.from_pretrained(modelname)
+
+    def merge_lora(self, lora_model_path):
+        print("lora_model_path", lora_model_path)
+        self.model = PeftModel.from_pretrained(self.model, lora_model_path, torch_dtype=torch.bfloat16, is_trainable=False)
+
     def generate(self, inputs, original_language, target_languages) -> str:
         m = len(inputs)
         n = len(target_languages)
