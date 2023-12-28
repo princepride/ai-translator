@@ -1,4 +1,4 @@
-from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
+from transformers import MBartForConditionalGeneration, MBart50TokenizerFast, AutoModelForSeq2SeqLM, AutoTokenizer
 from abc import ABC, abstractmethod
 from typing import Type
 import torch
@@ -24,6 +24,27 @@ class Model(ABC):
     def __init__(self, modelname, selected_gpu, **kwargs):
         pass
     @abstractmethod
+    def generate(self, input, **kwargs) -> str:
+        pass
+    @abstractmethod
+    def fine_tune(self, dict, **kwargs) -> bool:
+        pass
+    @abstractmethod
+    def save(self, path, **kwargs) -> bool:
+        pass
+
+class T5Model(Model):
+    def __init__(self, modelname, selected_gpu):
+        if selected_gpu != "cpu":
+            gpu_count = torch.cuda.device_count()
+            gpu_info = [torch.cuda.get_device_name(i) for i in range(gpu_count)]
+            selected_gpu_index = get_gpu_index(gpu_info, selected_gpu)
+            self.device_name = f"cuda:{selected_gpu_index}"
+        else:
+            self.device_name = "cpu"
+        print("device_name", self.device_name)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(modelname).to(self.device_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(modelname)
     def generate(self, input, **kwargs) -> str:
         pass
     @abstractmethod
@@ -214,6 +235,7 @@ class ModelFactory:
     def create_model(model_type, modelname, selected_gpu, **kwargs) -> Type[Model]:
         model_mapping = {
             "mbart": MBartModel,
+            "t5": T5Model, 
         }
         model_class = model_mapping.get(model_type)
 
