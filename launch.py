@@ -38,7 +38,7 @@ def webui():
     lora_model_dict = path_foldername_mapping(lora_model_list)
     available_models = list(model_dict.keys())
     gr.Dropdown.update(choices=available_models)
-    available_lora_models = list(lora_model_dict.keys())
+    available_lora_models = ["None"] + list(lora_model_dict.keys())
     available_languages = yaml_data["available_languages"]
 
     def upload_and_process_file(input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model):
@@ -77,7 +77,7 @@ def webui():
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
                             selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
                             # selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
-                            selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
+                            selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
                         output_frame = gr.DataFrame()
@@ -93,7 +93,7 @@ def webui():
                         with gr.Row():
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
                             selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
-                            selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型", value=available_lora_models[0] if len(available_lora_models) else "")
+                            selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
                         output_text = gr.Textbox(label="输出文本")
