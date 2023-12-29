@@ -45,7 +45,7 @@ def webui():
         texts = reader.extract_text(file_path, target_column, start_row, end_row)
         selected = model_dict[selected_model]
         model_instance = ModelFactory.create_model(selected["model_type"], selected["path"], selected_gpu)
-        if selected_lora_model and is_support_lora(selected["model_type"]):
+        if selected_lora_model != "" and selected_lora_model != "None" and is_support_lora(selected["model_type"]):
             model_instance.merge_lora(lora_model_dict[selected_lora_model]["path"])
         outputs = model_instance.generate(texts, original_language, target_languages)
         excel_writer = ExcelFileWriter()
@@ -60,7 +60,7 @@ def webui():
             model_instance.merge_lora(selected_lora_model)
         return model_instance.generate(input_text, original_language, target_languages)
 
-    with gr.Blocks() as interface:
+    with gr.Blocks(title="yonyou translator") as interface:
         with gr.Tabs():
             with gr.TabItem("Excel Translator"):
                 with gr.Row():
@@ -99,7 +99,7 @@ def webui():
                     with gr.Column():
                         output_text = gr.Textbox(label="输出文本")
                 translate_button.click(translate, inputs=[input_text, original_language, target_languages, selected_gpu, selected_model, selected_lora_model], outputs=output_text)
-    interface.launch()
+    interface.launch(share=True, favicon_path="https://upload.wikimedia.org/wikipedia/commons/7/7a/Yonyou_logo.jpg")
 
 if __name__ == "__main__":
     webui()
