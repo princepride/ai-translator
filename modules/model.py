@@ -1,8 +1,14 @@
-from transformers import MBartForConditionalGeneration, MBart50TokenizerFast, AutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import MBartForConditionalGeneration, MBart50TokenizerFast, AutoModelForSeq2SeqLM, AutoTokenizer, GenerationConfig
 from abc import ABC, abstractmethod
 from typing import Type
 import torch
 import torch.nn.functional as F
+from peft import PeftModel, PeftConfig
+
+def is_support_lora(model_type):
+    if model_type == "t5":
+        return True
+    return False
 
 def get_gpu_index(gpu_info, target_gpu_name):
     """
@@ -45,6 +51,12 @@ class T5Model(Model):
         print("device_name", self.device_name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(modelname, torch_dtype=torch.bfloat16).to(self.device_name)
         self.tokenizer = AutoTokenizer.from_pretrained(modelname)
+
+    def merge_lora(self, lora_model_path):
+        print("lora_model_path", lora_model_path)
+        self.model = PeftModel.from_pretrained(self.model, lora_model_path, torch_dtype=torch.bfloat16, is_trainable=False)
+        self.tokenizer = AutoTokenizer.from_pretrained(lora_model_path)
+
     def generate(self, inputs, original_language, target_languages) -> str:
         m = len(inputs)
         n = len(target_languages)
@@ -52,7 +64,8 @@ class T5Model(Model):
         for i in range(len(target_languages)):
             prompt = [f"""translate {original_language} to {target_languages[i]}:{input}""" for input in inputs]
             input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True).input_ids.to(self.device_name)
-            generated_tokens = self.model.generate(input_ids)
+            print("input_ids", input_ids)
+            generated_tokens = self.model.generate(input_ids=input_ids, generation_config=GenerationConfig(max_new_tokens=200, num_beams=1))
             for j in range(len(generated_tokens)):
                 outputs[j][i] = {
                     "target_language": target_languages[i],
