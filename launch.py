@@ -34,7 +34,7 @@ def webui():
     model_dict = path_foldername_mapping(model_list)
     lora_model_dict = path_foldername_mapping(lora_model_list)
     available_models = list(model_dict.keys())
-    gr.Dropdown.update(choices=available_models)
+    # gr.Dropdown.update(choices=available_models)
     available_lora_models = ["None"] + list(lora_model_dict.keys())
     available_languages = yaml_data["available_languages"]
 
