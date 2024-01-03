@@ -3,9 +3,13 @@ import yaml
 initialize.imports()
 
 file_path = './configs/baseConfig.yml'
+model_explains_path = './configs/modelExplains.yml'
 
 with open(file_path, 'r') as file:
     yaml_data = yaml.load(file, Loader=yaml.FullLoader)
+
+with open(model_explains_path, 'r') as file:
+    model_explains = yaml.load(file, Loader=yaml.FullLoader)
 
 def webui():
     import torch
@@ -59,6 +63,13 @@ def webui():
         if selected_lora_model != "" and selected_lora_model != "None" and is_support_lora(selected["model_type"]):
             model_instance.merge_lora(selected_lora_model)
         return model_instance.generate(input_text, original_language, target_languages)
+    
+    # 定义回调函数，当 Dropdown 的值变化时更新 Textbox 的内容
+    def update_model_explanation(selected_model):
+        res = ""
+        for key in model_explains[selected_model].keys():
+            res += key + ': ' + model_explains[selected_model][key] + '\n'
+        return res # model_explains[selected["model_type"]]  # 获取模型解释的函数
 
     with gr.Blocks(title="yonyou translator") as interface:
         with gr.Tabs():
@@ -81,8 +92,10 @@ def webui():
                             selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
-                        output_frame = gr.DataFrame()
+                        # output_frame = gr.DataFrame()
+                        model_explanation_textbox = gr.Textbox(text="", label="模型介绍", lines=5)
                         output_text = gr.Textbox(label="输出文本")
+                selected_model.change(update_model_explanation, selected_model, model_explanation_textbox)
                 translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model, selected_lora_model], outputs=output_text)
             with gr.TabItem("Text Translator"):
                 with gr.Row():
@@ -97,7 +110,9 @@ def webui():
                             selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
+                        model_explanation_textbox = gr.Textbox(text="", label="模型介绍", lines=5)
                         output_text = gr.Textbox(label="输出文本")
+                selected_model.change(update_model_explanation, selected_model, model_explanation_textbox)
                 translate_button.click(translate, inputs=[input_text, original_language, target_languages, selected_gpu, selected_model, selected_lora_model], outputs=output_text)
     interface.launch(share=True, favicon_path="https://upload.wikimedia.org/wikipedia/commons/7/7a/Yonyou_logo.jpg")
 

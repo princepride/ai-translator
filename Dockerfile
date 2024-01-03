@@ -1,7 +1,7 @@
 FROM huggingface/transformers-pytorch-gpu
 
 # 安装 gradio
-RUN pip install gradio
+RUN pip install gradio yaml peft
 
 # 设置工作目录
 WORKDIR /app
