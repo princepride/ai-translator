@@ -5,16 +5,16 @@ flan-t5-xl-float16:
   Lora model: support
 flan-t5-xl-float16-3200-datasize-lora:
   Model Type: t5-lora
-  Notification: This model can only embedding with other model
+  Notification: This model can only embedding with other model, and this model is fine tuned on a subset training data 3200 size.
 mbart-large-50-one-to-many-mmt:
   Model Type: mbart
   Chinese as input: Not support
   Chinese as output: support
   Lora model: Not support
-  Notification: This model only have fine-tune version, not support lora model
+  Notification: This model only have fine-tune version, not support lora model.
 mbart-large-50-one-to-many-mmt-finetuned:
   Model Type: mbart
   Chinese as input: Not support
   Chinese as output: support
   Lora model: Not support
-  Notification: This model only have fine-tune version, not support lora model
+  Notification: This model only have fine-tune version, not support lora model.

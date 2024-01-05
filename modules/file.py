@@ -73,11 +73,10 @@ class ExcelFileWriter(FileWriter):
             new_file_path = os.path.join(directory, new_filename)
             print("new_file_path", new_file_path)
             workbook.save(new_file_path)
-            return True
+            return new_file_path
 
         except Exception as e:
-            print(f"Error writing to Excel: {e}")
-            return False
+            raise FileExistsError("Error writing to Excel: {e}")
         
 class FileReaderFactory:
     @staticmethod
