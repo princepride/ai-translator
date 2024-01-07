@@ -1,4 +1,4 @@
-from transformers import MBartForConditionalGeneration, MBart50TokenizerFast, AutoModelForSeq2SeqLM, AutoTokenizer, GenerationConfig
+from transformers import MBartForConditionalGeneration, MBart50TokenizerFast, AutoModelForSeq2SeqLM, AutoTokenizer, GenerationConfig, pipeline
 from abc import ABC, abstractmethod
 from typing import Type
 import torch
@@ -76,6 +76,20 @@ class T5Model(Model):
         pass
     def save(self, path, **kwargs) -> bool:
         pass
+
+class NllbModel(Model):
+    def __init__(self, modelname, selected_gpu):
+        if selected_gpu != "cpu":
+            gpu_count = torch.cuda.device_count()
+            gpu_info = [torch.cuda.get_device_name(i) for i in range(gpu_count)]
+            selected_gpu_index = get_gpu_index(gpu_info, selected_gpu)
+            self.device_name = f"cuda:{selected_gpu_index}"
+        else:
+            self.device_name = "cpu"
+        print("device_name", self.device_name)
+        self.original_model = AutoModelForSeq2SeqLM.from_pretrained(modelname, torch_dtype=torch.bfloat16)
+        self.tokenizer = AutoTokenizer.from_pretrained(modelname)
+        # self.translator = pipeline('translation', model=self.original_model, tokenizer=self.tokenizer, src_lang=original_language, tgt_lang=target_language, device=device)
 
 class MBartModel(Model):
     def __init__(self, modelname, selected_gpu):
