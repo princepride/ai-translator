@@ -1,7 +1,50 @@
-## 模型下载
+## AI_Translator Instructions
 
-在models文件夹下，按照模型类型下载模型，运行指令：
+### Setup
 
-`git clone git@hf.co:<model>`
+**Requirements:** In order to set up the project locally, you need to first satisfy the following requirements:
 
-不同类型模型放到不同文件夹
+1. Docker installed on your computer. Here is the installation guide for docker [Install Docker Engine | Docker Documentaion](https://docs.docker.com/engine/install/)
+2. Docker-compose install on your computer. Here is the installation guide for docker-compose [Install Docker Compose | Docker Documentation](https://docs.docker.com/compose/install/)
+
+
+
+### Run
+
+1. **Clone the Res:** 
+
+   Clone this res to your local machine. Use the command:
+
+   ```git clone https://github.com/princepride/ai-translator.git```
+
+2. **Navigate to the Dockerfile Directory:**
+
+​	Change directory to where the Dockerfile is located:
+
+​	```cd [path to the Dockerfile directory]```
+
+3. **Build the Docker Image:**
+
+   Build your Docker image using:
+
+   ```docker build -t [your-image-name].```
+
+   **note:** don't forget "." in the command
+
+4. **Run the Docker Container:**
+
+   Run it using:
+
+   ```docker run -it [your-image-name]```
+
+5. **Launch:**
+
+   In the terminal of your python project platform such as: pycharm, Vscode...
+
+   Enjoy the AI-Translator using the command:
+
+   ```launch.py```
+
+
+
+***Tips*** Ensure to replace `[your-image-name]` and `[path to the Dockerfile directory]` with actual image name and directory path.
