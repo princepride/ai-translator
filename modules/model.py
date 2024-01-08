@@ -194,7 +194,7 @@ class MBartModel(Model):
             return output
         else:
             # 最大批量大小 = 可用 GPU 内存字节数 / 4 / （张量大小 + 可训练参数）
-            max_batch_size = 50
+            max_batch_size = 100
             # Ensure batch size is within model limits:
             batch_size = min(len(inputs), max_batch_size)
             batches = [inputs[i:i + batch_size] for i in range(0, len(inputs), batch_size)]
