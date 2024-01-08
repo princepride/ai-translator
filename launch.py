@@ -17,6 +17,7 @@ def webui():
     from utils.path_utils import get_folders, path_foldername_mapping
     from modules.file import FileReaderFactory, ExcelFileWriter
     from modules.model import ModelFactory, is_support_lora
+    import time
     def get_gpu_info():
         print(torch.__version__)
         gpu_info = ["cpu"]
@@ -44,6 +45,7 @@ def webui():
 
     def upload_and_process_file(input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model, selected_lora_model):
         # selected_model = "mbart-large-50-one-to-many-mmt"
+        start_time = time.time()
         file_path = input_file.name
         reader = FileReaderFactory.create_reader(file_path)
         texts = reader.extract_text(file_path, target_column, start_row, end_row)
@@ -57,7 +59,8 @@ def webui():
             output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
         except Exception as e:
             raise gr.Error(e.args)
-        return outputs, output_file
+        end_time = time.time()
+        return str(outputs)+f"Total time: {int(end_time-start_time)}", output_file
     
     def translate(input_text, original_language, target_languages, selected_gpu, selected_model, selected_lora_model):
         # selected_model = "mbart-large-50-one-to-many-mmt"
