@@ -60,7 +60,7 @@ def webui():
         except Exception as e:
             raise gr.Error(e.args)
         end_time = time.time()
-        return str(outputs)+f"Total time: {int(end_time-start_time)}", output_file
+        return f"Total process time: {int(end_time-start_time)}s", output_file
     
     def translate(input_text, original_language, target_languages, selected_gpu, selected_model, selected_lora_model):
         # selected_model = "mbart-large-50-one-to-many-mmt"

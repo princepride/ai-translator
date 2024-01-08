@@ -194,13 +194,13 @@ class MBartModel(Model):
             return output
         else:
             # 最大批量大小 = 可用 GPU 内存字节数 / 4 / （张量大小 + 可训练参数）
-            max_batch_size = 100
+            max_batch_size = 10
             # Ensure batch size is within model limits:
             batch_size = min(len(inputs), max_batch_size)
             batches = [inputs[i:i + batch_size] for i in range(0, len(inputs), batch_size)]
             temp_outputs = []
             processed_num = 0
-            for batch in batches:
+            for index, batch in enumerate(batches):
                 # Tokenize input
                 input_ids = self.tokenizer(batch, return_tensors="pt", padding=True).to(self.device_name)
                 temp = []
@@ -227,7 +227,8 @@ class MBartModel(Model):
                 del input_ids
                 temp_outputs.append(temp)
                 processed_num += len(batch)
-                print("Already processed number: ", processed_num)
+                if (index + 1) * max_batch_size % 200 == 0:
+                    print("Already processed number: ", (index + 1) * max_batch_size)
             outputs = []
             for temp_output in temp_outputs:
                 length = len(temp_output[0]["generated_translation"])

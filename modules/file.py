@@ -76,7 +76,7 @@ class ExcelFileWriter(FileWriter):
             return new_file_path
 
         except Exception as e:
-            raise FileExistsError("Error writing to Excel: {e}")
+            raise FileExistsError(f"Error writing to Excel: {e}")
         
 class FileReaderFactory:
     @staticmethod
