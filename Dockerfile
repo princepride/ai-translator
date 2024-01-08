@@ -1,10 +1,6 @@
 FROM huggingface/transformers-pytorch-gpu
 LABEL maintainer="EggcakeXue<e1132271@u.nus.edu>"
 
-#根据需求写具体路径
-ENV MYPATH /usr/local
-WORKDIR $MYPATH
-
 # 设置 python 环境变量
 ENV PYTHONUNBUFFERED 1
 
