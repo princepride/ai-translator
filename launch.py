@@ -43,7 +43,7 @@ def webui():
     available_lora_models = ["None"] + list(lora_model_dict.keys())
     available_languages = yaml_data["available_languages"]
 
-    def upload_and_process_file(input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model, selected_lora_model):
+    def upload_and_process_file(input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, batch_size, selected_model, selected_lora_model):
         # selected_model = "mbart-large-50-one-to-many-mmt"
         start_time = time.time()
         file_path = input_file.name
@@ -54,7 +54,7 @@ def webui():
         if selected_lora_model != "" and selected_lora_model != "None" and is_support_lora(selected["model_type"]):
             model_instance.merge_lora(lora_model_dict[selected_lora_model]["path"])
         try:
-            outputs = model_instance.generate(texts, original_language, target_languages)
+            outputs = model_instance.generate(texts, original_language, target_languages, batch_size)
             excel_writer = ExcelFileWriter()
             output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
         except Exception as e:
@@ -97,6 +97,7 @@ def webui():
                             target_languages = gr.Dropdown(choices=available_languages, label="目标语言", value=yaml_data["default_target_language"], multiselect=True)
                         with gr.Row():
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
+                            batch_size = gr.Number(value=10, label="批处理大小")
                             selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
                             # selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型")
@@ -108,7 +109,7 @@ def webui():
                         output_file = gr.File(label="翻译文件下载")
                 selected_model.change(update_model_explanation, [selected_model, selected_lora_model], model_explanation_textbox)
                 selected_lora_model.change(update_model_explanation, [selected_model, selected_lora_model], model_explanation_textbox)
-                translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, selected_model, selected_lora_model], outputs=[output_text, output_file])
+                translate_button.click(upload_and_process_file, inputs=[input_file, target_column, start_column, start_row, end_row, original_language, target_languages, selected_gpu, batch_size, selected_model, selected_lora_model], outputs=[output_text, output_file])
             with gr.TabItem("Text Translator"):
                 with gr.Row():
                     with gr.Column():

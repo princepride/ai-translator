@@ -57,7 +57,7 @@ class T5Model(Model):
         self.model = PeftModel.from_pretrained(self.model, lora_model_path, torch_dtype=torch.bfloat16, is_trainable=False)
         self.tokenizer = AutoTokenizer.from_pretrained(lora_model_path)
 
-    def generate(self, inputs, original_language, target_languages) -> str:
+    def generate(self, inputs, original_language, target_languages, max_batch_size) -> str:
         m = len(inputs)
         n = len(target_languages)
         outputs = [[None] * n for _ in range(m)]
@@ -162,13 +162,13 @@ class MBartModel(Model):
         }
         return d[original_language]
 
-    def generate(self, inputs, original_language, target_languages):
+    def generate(self, inputs, original_language, target_languages, max_batch_size):
         if original_language != "English":
             raise ValueError("Unsupported original language. Only 'English' is allowed.")
         # Estimate batch size based on memory usage
         if self.device_name == "cpu":
             # Tokenize input
-            input_ids = self.tokenizer(inputs, return_tensors="pt").to(self.device_name)
+            input_ids = self.tokenizer(inputs, return_tensors="pt", padding=True).to(self.device_name)
             output = []
             for target_language in target_languages:
                 # Generate logits
@@ -191,10 +191,22 @@ class MBartModel(Model):
                     "generated_translation": generated_translation,
                     "target_language_probability": target_lang_prob
                 })
-            return output
+            outputs = []
+            print(output)
+            length = len(output[0]["generated_translation"])
+            for i in range(length):
+                temp = []
+                for trans in output:
+                    temp.append({
+                        "target_language": trans["target_language"],
+                        "generated_translation": trans['generated_translation'][i],
+                        "target_language_probability": trans["target_language_probability"]
+                    })
+                outputs.append(temp)
+            return outputs
         else:
             # 最大批量大小 = 可用 GPU 内存字节数 / 4 / （张量大小 + 可训练参数）
-            max_batch_size = 10
+            # max_batch_size = 10
             # Ensure batch size is within model limits:
             batch_size = min(len(inputs), max_batch_size)
             batches = [inputs[i:i + batch_size] for i in range(0, len(inputs), batch_size)]
