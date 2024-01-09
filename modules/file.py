@@ -46,7 +46,6 @@ class CSVFileReader(FileReader):
                     if cell_value:
                         texts.append(str(cell_value))
         return texts
-        
     
 class ExcelFileWriter(FileWriter):
     def write_text(self, file_path, texts, start_column, start_row, end_row) -> bool:
