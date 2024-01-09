@@ -2,5 +2,5 @@ gradio==4.13.0
 openpyxl==3.1.2
 peft==0.7.1
 PyYAML==6.0.1
-torch==2.0.1+cu118
 transformers==4.36.2
+pyyaml==6.0.1

@@ -104,7 +104,7 @@ def webui():
                         translate_button = gr.Button("Translate")
                     with gr.Column():
                         # output_frame = gr.DataFrame()
-                        model_explanation_textbox = gr.Textbox(text="", label="模型介绍", lines=5)
+                        model_explanation_textbox = gr.Textbox(label="模型介绍", lines=5)
                         output_text = gr.Textbox(label="输出文本")
                         output_file = gr.File(label="翻译文件下载")
                 selected_model.change(update_model_explanation, [selected_model, selected_lora_model], model_explanation_textbox)
@@ -123,7 +123,7 @@ def webui():
                             selected_lora_model = gr.Dropdown(choices=available_lora_models, label="选择Lora模型")
                         translate_button = gr.Button("Translate")
                     with gr.Column():
-                        model_explanation_textbox = gr.Textbox(text="", label="模型介绍", lines=5)
+                        model_explanation_textbox = gr.Textbox(label="模型介绍", lines=5)
                         output_text = gr.Textbox(label="输出文本", lines=5)
                 selected_model.change(update_model_explanation, [selected_model, selected_lora_model], model_explanation_textbox)
                 selected_lora_model.change(update_model_explanation, [selected_model, selected_lora_model], model_explanation_textbox)
