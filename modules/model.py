@@ -101,7 +101,6 @@ class MBartModel(Model):
         else:
             self.device_name = "cpu"
         print("device_name", self.device_name)
-        torch.cuda.empty_cache()
         self.model = MBartForConditionalGeneration.from_pretrained(modelname).to(self.device_name)
         self.tokenizer = MBart50TokenizerFast.from_pretrained(modelname)
 
@@ -208,7 +207,7 @@ class MBartModel(Model):
             # 最大批量大小 = 可用 GPU 内存字节数 / 4 / （张量大小 + 可训练参数）
             # max_batch_size = 10
             # Ensure batch size is within model limits:
-            batch_size = min(len(inputs), max_batch_size)
+            batch_size = min(len(inputs), int(max_batch_size))
             batches = [inputs[i:i + batch_size] for i in range(0, len(inputs), batch_size)]
             temp_outputs = []
             processed_num = 0
