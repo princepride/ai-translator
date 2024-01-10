@@ -4,11 +4,28 @@ from typing import Type
 import torch
 import torch.nn.functional as F
 from peft import PeftModel, PeftConfig
+from modules.file import ExcelFileWriter
 
 def is_support_lora(model_type):
     if model_type == "t5":
         return True
     return False
+
+def process_gpu_translate_result(temp_outputs, batch_size):
+    outputs = []
+    for temp_output in temp_outputs:
+        length = len(temp_output[0]["generated_translation"])
+        for i in range(length):
+            temp = []
+            for trans in temp_output:
+                temp.append({
+                    "target_language": trans["target_language"],
+                    "generated_translation": trans['generated_translation'][i],
+                    "target_language_probability": trans["target_language_probability"]
+                })
+            outputs.append(temp)
+    excel_writer = ExcelFileWriter()
+    excel_writer.write_text(r"./temp/empty.xlsx", outputs, 'A', 1, batch_size)
 
 def get_gpu_index(gpu_info, target_gpu_name):
     """
@@ -191,7 +208,6 @@ class MBartModel(Model):
                     "target_language_probability": target_lang_prob
                 })
             outputs = []
-            print(output)
             length = len(output[0]["generated_translation"])
             for i in range(length):
                 temp = []
@@ -238,8 +254,9 @@ class MBartModel(Model):
                 del input_ids
                 temp_outputs.append(temp)
                 processed_num += len(batch)
-                if (index + 1) * max_batch_size % 200 == 0:
-                    print("Already processed number: ", (index + 1) * max_batch_size)
+                if (index + 1) * max_batch_size % 1000 == 0:
+                    print("Already processed number: ", int((index + 1) * max_batch_size))
+                    process_gpu_translate_result(temp_outputs, (index + 1) * max_batch_size)
             outputs = []
             for temp_output in temp_outputs:
                 length = len(temp_output[0]["generated_translation"])

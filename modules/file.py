@@ -69,7 +69,7 @@ class ExcelFileWriter(FileWriter):
                 for j in range(language_type):
                     sheet.cell(row=i, column=start_column + j, value=texts[i-start_row][j]['generated_translation'])
             directory, original_filename = os.path.split(file_path)
-            new_filename = original_filename.replace(".", "_translated.")
+            new_filename = original_filename.replace(".", f"_{start_row}_{end_row}_translated.")
             new_file_path = os.path.join(directory, new_filename)
             print("new_file_path", new_file_path)
             workbook.save(new_file_path)
