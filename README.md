@@ -1,8 +1,5 @@
 
 
----
-lang: en
----
 [English](README.md) | [中文](README_CN.md)
 
 ## AI_Translator Instructions
