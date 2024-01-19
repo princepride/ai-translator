@@ -18,7 +18,7 @@ pip3 install -r requirements.txt
 
 ### **Install the models from huggingface**
 
-Navigate to the specific folder to download model, run the following code: 
+Navigate to the specific folder to download model, run the following code:
 
 ```
 git lfs install
