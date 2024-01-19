@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README_CN.md)
 
-## AI_Translator Instructions
+# AI_Translator Installation
 
 ## Install NVIDIA Toolkit
 
@@ -20,7 +20,7 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 pip3 install -r requirements.txt
 ```
 
-### **Install the models from huggingface**
+## **Install the models from huggingface**
 
 Navigate to the specific folder to download model, run the following code:
 
@@ -29,10 +29,24 @@ git lfs install
 git clone git@hf.co:
 ```
 
-### **Launch:**
+## **Launch:**
 
 In the terminal of your python project platform such as: pycharm, Vscode...
 
 Enjoy the AI-Translator using the command:
 
 ``launch.py``
+
+# AI_Translator Instructions
+
+## Step 1:
+
+![1705652320228](https://file+.vscode-resource.vscode-cdn.net/d%3A/Project/ai-translator/image/README_CN/1705652320228.png)
+
+## Step 2:
+
+![1705653144370](https://file+.vscode-resource.vscode-cdn.net/d%3A/Project/ai-translator/image/README_CN/1705653144370.png)
+
+## Step 3:
+
+![1705653166073](https://file+.vscode-resource.vscode-cdn.net/d%3A/Project/ai-translator/image/README_CN/1705653166073.png)
