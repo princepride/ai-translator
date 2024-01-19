@@ -41,12 +41,12 @@ Enjoy the AI-Translator using the command:
 
 ## Step 1:
 
-![1705652320228](https://file+.vscode-resource.vscode-cdn.net/d%3A/Project/ai-translator/image/README_CN/1705652320228.png)
+![1705652320228](image/README_CN/1705652320228.png)
 
 ## Step 2:
 
-![1705653144370](https://file+.vscode-resource.vscode-cdn.net/d%3A/Project/ai-translator/image/README_CN/1705653144370.png)
+![1705653144370](image/README_CN/1705653144370.png)
 
 ## Step 3:
 
-![1705653166073](https://file+.vscode-resource.vscode-cdn.net/d%3A/Project/ai-translator/image/README_CN/1705653166073.png)
+![1705653166073](image/README_CN/1705653166073.png)
