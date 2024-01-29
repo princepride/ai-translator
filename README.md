@@ -1,12 +1,14 @@
-
-
 [English](README.md) | [中文](README_CN.md)
 
 # AI_Translator Installation
 
+## Install NVIDIA Driver
+
+[nvidia driver download link](https://www.nvidia.com/download/index.aspx)
+
 ## Install NVIDIA Toolkit
 
-[https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads)
+[nvidia toolkit download link](https://developer.nvidia.com/cuda-downloads)
 
 ## Install pytorch with gpu version
 
