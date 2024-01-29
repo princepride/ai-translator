@@ -6,9 +6,21 @@
 
 [nvidia driver download link](https://www.nvidia.com/download/index.aspx)
 
+Run the following command to check whether NVIDIA Driver is installed:
+
+```
+nvidia-smi
+```
+
 ## Install NVIDIA Toolkit
 
 [nvidia toolkit download link](https://developer.nvidia.com/cuda-downloads)
+
+Run the following command to check whether NVIDIA Toolkit is installed:
+
+```
+nvcc --version
+```
 
 ## Install pytorch with gpu version
 

@@ -6,9 +6,21 @@
 
 [NVIDIA 驱动下载链接](https://www.nvidia.com/download/index.aspx)
 
+安装完成后，运行以下指令看是否安装成功：
+
+```
+nvidia-smi
+```
+
 ### 安装 NVIDIA Toolkit
 
 [NVIDIA Toolkit 下载链接](https://developer.nvidia.com/cuda-downloads)
+
+安装完成后，运行以下指令看是否安装成功：
+
+```
+nvcc --version
+```
 
 ### 安装支持 GPU 的 PyTorch 版本
 
