@@ -108,6 +108,47 @@ class NllbModel(Model):
         self.tokenizer = AutoTokenizer.from_pretrained(modelname)
         # self.translator = pipeline('translation', model=self.original_model, tokenizer=self.tokenizer, src_lang=original_language, tgt_lang=target_language, device=device)
 
+    def language_mapping(self, original_language):
+        d = {
+            "Achinese": "ace_Latn", # 假设使用拉丁字母脚本的亚齐语
+            "Arabic": "ar_AR", # 通用阿拉伯语
+            "Bengali": "ben_Beng", # 孟加拉语
+            "Bashkir": "bak_Cyrl", # 巴什基尔语，使用西里尔字母
+            "Belarusian": "bel_Cyrl", # 白俄罗斯语
+            "Bambara": "bam_Latn", # 班巴拉语
+            "Bulgarian": "bul_Cyrl", # 保加利亚语
+            "Czech": "ces_Latn", # 捷克语
+            "Chinese (Simplified)": "zho_Hans", # 简体中文
+            "Chinese (Traditional)": "zho_Hant", # 繁体中文
+            "Dutch": "nld_Latn", # 荷兰语
+            "English": "eng_Latn", # 英语
+            "French": "fra_Latn", # 法语
+            "German": "deu_Latn", # 德语
+            "Gujarati": "guj_Gujr", # 古吉拉特语
+            "Hebrew": "heb_Hebr", # 希伯来语
+            "Hindi": "hin_Deva", # 印地语
+            "Italian": "ita_Latn", # 意大利语
+            "Japanese": "jpn_Jpan", # 日语
+            "Kazakh": "kaz_Cyrl", # 哈萨克语
+            "Korean": "kor_Hang", # 韩语
+            "Lithuanian": "lit_Latn", # 立陶宛语
+            "Malayalam": "mal_Mlym", # 马拉雅拉姆语
+            "Marathi": "mar_Deva", # 马拉地语
+            "Nepali": "ne_NP", # 尼泊尔语
+            "Persian": "pes_Arab", # 波斯语
+            "Polish": "pol_Latn", # 波兰语
+            "Portuguese": "pt_XX", # 葡萄牙语
+            "Russian": "rus_Cyrl", # 俄语
+            "Sinhala": "sin_Sinh", # 僧伽罗语
+            "Tamil": "tam_Taml", # 泰米尔语
+            "Turkish": "tur_Latn", # 土耳其语
+            "Ukrainian": "ukr_Cyrl", # 乌克兰语
+            "Urdu": "urd_Arab", # 乌尔都语
+            "Vietnamese": "vie_Latn", # 越南语
+            # 更多语言映射...
+        }
+        return d[original_language]
+    
 class MBartModel(Model):
     def __init__(self, modelname, selected_gpu):
         if selected_gpu != "cpu":
