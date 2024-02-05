@@ -18,3 +18,9 @@ mbart-large-50-one-to-many-mmt-finetuned:
   Chinese as output: support
   Lora model: Not support
   Notification: This model only have fine-tune version, not support lora model.
+nllb-200-distilled-1.3B:
+  Model Type: nllb
+  Chinese as input: support
+  Chinese as output: support
+  Lora model: support
+  Notification: 

@@ -104,7 +104,7 @@ class NllbModel(Model):
         else:
             self.device_name = "cpu"
         print("device_name", self.device_name)
-        self.original_model = AutoModelForSeq2SeqLM.from_pretrained(modelname, torch_dtype=torch.bfloat16)
+        self.original_model = AutoModelForSeq2SeqLM.from_pretrained(modelname)
         self.tokenizer = AutoTokenizer.from_pretrained(modelname)
         # self.translator = pipeline('translation', model=self.original_model, tokenizer=self.tokenizer, src_lang=original_language, tgt_lang=target_language, device=device)
 
@@ -145,9 +145,103 @@ class NllbModel(Model):
             "Ukrainian": "ukr_Cyrl", # 乌克兰语
             "Urdu": "urd_Arab", # 乌尔都语
             "Vietnamese": "vie_Latn", # 越南语
-            # 更多语言映射...
         }
         return d[original_language]
+    
+    def generate(self, inputs, original_language, target_languages, max_batch_size):
+        # Estimate batch size based on memory usage
+        if self.device_name == "cpu":
+            # Tokenize input
+            input_ids = self.tokenizer(inputs, return_tensors="pt", padding=True).to(self.device_name)
+            output = []
+            for target_language in target_languages:
+                # Generate logits
+                with torch.no_grad():
+                    logits = self.model(**input_ids).logits
+                # Get language code for the target language
+                target_lang_code = self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
+                # Extract probability for the target language
+                target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
+                target_lang_prob = target_lang_prob[target_lang_code].item()
+                # Generate translation
+                generated_tokens = self.model.generate(
+                    **input_ids,
+                    forced_bos_token_id=target_lang_code
+                )
+                generated_translation = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+                # Append result to output
+                output.append({
+                    "target_language": target_language,
+                    "generated_translation": generated_translation,
+                    "target_language_probability": target_lang_prob
+                })
+            outputs = []
+            length = len(output[0]["generated_translation"])
+            for i in range(length):
+                temp = []
+                for trans in output:
+                    temp.append({
+                        "target_language": trans["target_language"],
+                        "generated_translation": trans['generated_translation'][i],
+                        "target_language_probability": trans["target_language_probability"]
+                    })
+                outputs.append(temp)
+            return outputs
+        else:
+            # 最大批量大小 = 可用 GPU 内存字节数 / 4 / （张量大小 + 可训练参数）
+            # max_batch_size = 10
+            # Ensure batch size is within model limits:
+            batch_size = min(len(inputs), int(max_batch_size))
+            batches = [inputs[i:i + batch_size] for i in range(0, len(inputs), batch_size)]
+            temp_outputs = []
+            processed_num = 0
+            for index, batch in enumerate(batches):
+                # Tokenize input
+                input_ids = self.tokenizer(batch, return_tensors="pt", padding=True).to(self.device_name)
+                temp = []
+                for target_language in target_languages:
+                    with torch.no_grad():
+                        logits = self.model(**input_ids).logits
+                    # Get language code for the target language
+                    target_lang_code = self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
+                    # Extract probability for the target language
+                    target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
+                    target_lang_prob = target_lang_prob[target_lang_code].item()
+                    generated_tokens = self.model.generate(
+                        **input_ids,
+                        forced_bos_token_id=target_lang_code,
+                    )
+                    generated_translation = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+                    # Append result to output
+                    temp.append({
+                        "target_language": target_language,
+                        "generated_translation": generated_translation,
+                        "target_language_probability": target_lang_prob
+                    })
+                input_ids.to('cpu')
+                del input_ids
+                temp_outputs.append(temp)
+                processed_num += len(batch)
+                if (index + 1) * max_batch_size % 1000 == 0:
+                    print("Already processed number: ", int((index + 1) * max_batch_size))
+                    process_gpu_translate_result(temp_outputs, (index + 1) * max_batch_size)
+            outputs = []
+            for temp_output in temp_outputs:
+                length = len(temp_output[0]["generated_translation"])
+                for i in range(length):
+                    temp = []
+                    for trans in temp_output:
+                        temp.append({
+                            "target_language": trans["target_language"],
+                            "generated_translation": trans['generated_translation'][i],
+                            "target_language_probability": trans["target_language_probability"]
+                        })
+                    outputs.append(temp)
+            return outputs
+    def fine_tune(self, dict, **kwargs) -> bool:
+        pass
+    def save(self, path, **kwargs) -> bool:
+        pass
     
 class MBartModel(Model):
     def __init__(self, modelname, selected_gpu):

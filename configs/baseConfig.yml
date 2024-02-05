@@ -2,6 +2,7 @@ model_path:
   t5: ./models/T5
   lora: ./models/Lora
   mbart: ./models/MBart
+  nllb: ./models/nllb
 available_languages:
   - Arabic
   - Czech
