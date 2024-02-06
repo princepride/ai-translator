@@ -104,7 +104,7 @@ class NllbModel(Model):
         else:
             self.device_name = "cpu"
         print("device_name", self.device_name)
-        self.original_model = AutoModelForSeq2SeqLM.from_pretrained(modelname)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(modelname).to(self.device_name)
         self.tokenizer = AutoTokenizer.from_pretrained(modelname)
         # self.translator = pipeline('translation', model=self.original_model, tokenizer=self.tokenizer, src_lang=original_language, tgt_lang=target_language, device=device)
 
@@ -118,8 +118,8 @@ class NllbModel(Model):
             "Bambara": "bam_Latn", # 班巴拉语
             "Bulgarian": "bul_Cyrl", # 保加利亚语
             "Czech": "ces_Latn", # 捷克语
-            "Chinese (Simplified)": "zho_Hans", # 简体中文
-            "Chinese (Traditional)": "zho_Hant", # 繁体中文
+            "Chinese": "zho_Hans", # 简体中文
+            "Spanish": "spa_Latn",
             "Dutch": "nld_Latn", # 荷兰语
             "English": "eng_Latn", # 英语
             "French": "fra_Latn", # 法语
@@ -150,19 +150,14 @@ class NllbModel(Model):
     
     def generate(self, inputs, original_language, target_languages, max_batch_size):
         # Estimate batch size based on memory usage
+        self.tokenizer.src_lang = self.language_mapping(original_language)
         if self.device_name == "cpu":
             # Tokenize input
             input_ids = self.tokenizer(inputs, return_tensors="pt", padding=True).to(self.device_name)
             output = []
             for target_language in target_languages:
-                # Generate logits
-                with torch.no_grad():
-                    logits = self.model(**input_ids).logits
                 # Get language code for the target language
                 target_lang_code = self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
-                # Extract probability for the target language
-                target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
-                target_lang_prob = target_lang_prob[target_lang_code].item()
                 # Generate translation
                 generated_tokens = self.model.generate(
                     **input_ids,
@@ -173,7 +168,6 @@ class NllbModel(Model):
                 output.append({
                     "target_language": target_language,
                     "generated_translation": generated_translation,
-                    "target_language_probability": target_lang_prob
                 })
             outputs = []
             length = len(output[0]["generated_translation"])
@@ -183,7 +177,6 @@ class NllbModel(Model):
                     temp.append({
                         "target_language": trans["target_language"],
                         "generated_translation": trans['generated_translation'][i],
-                        "target_language_probability": trans["target_language_probability"]
                     })
                 outputs.append(temp)
             return outputs
@@ -200,13 +193,9 @@ class NllbModel(Model):
                 input_ids = self.tokenizer(batch, return_tensors="pt", padding=True).to(self.device_name)
                 temp = []
                 for target_language in target_languages:
-                    with torch.no_grad():
-                        logits = self.model(**input_ids).logits
                     # Get language code for the target language
                     target_lang_code = self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
                     # Extract probability for the target language
-                    target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
-                    target_lang_prob = target_lang_prob[target_lang_code].item()
                     generated_tokens = self.model.generate(
                         **input_ids,
                         forced_bos_token_id=target_lang_code,
@@ -216,7 +205,6 @@ class NllbModel(Model):
                     temp.append({
                         "target_language": target_language,
                         "generated_translation": generated_translation,
-                        "target_language_probability": target_lang_prob
                     })
                 input_ids.to('cpu')
                 del input_ids
@@ -234,7 +222,6 @@ class NllbModel(Model):
                         temp.append({
                             "target_language": trans["target_language"],
                             "generated_translation": trans['generated_translation'][i],
-                            "target_language_probability": trans["target_language_probability"]
                         })
                     outputs.append(temp)
             return outputs
@@ -416,6 +403,7 @@ class ModelFactory:
         model_mapping = {
             "mbart": MBartModel,
             "t5": T5Model, 
+            "nllb": NllbModel,
         }
         model_class = model_mapping.get(model_type)
 
