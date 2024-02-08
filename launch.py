@@ -38,9 +38,9 @@ def webui():
     lora_model_list = []
     for key in yaml_data['model_path'].keys():
         if key == "lora":
-            lora_model_list += get_folders(yaml_data['model_path'][key], key)
+            lora_model_list += get_folders(os.path.join(script_dir,yaml_data['model_path'][key]), key)
         else:
-            model_list += get_folders(yaml_data['model_path'][key], key)
+            model_list += get_folders(os.path.join(script_dir,yaml_data['model_path'][key]), key)
     model_dict = path_foldername_mapping(model_list)
     lora_model_dict = path_foldername_mapping(lora_model_list)
     available_models = list(model_dict.keys())
