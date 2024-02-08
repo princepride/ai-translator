@@ -27,18 +27,21 @@ def get_folders(path, model_type):
     返回指定路径下的文件夹列表
 
     Args:
-    - path (str): 目标路径
+    - path (str): 目标路径，可以是相对路径或绝对路径
+    - model_type (str): 模型类型
 
     Returns:
-    - List[str]: 文件夹列表
+    - List[dict]: 包含模型类型和文件夹绝对路径的字典列表
     """
     result = []
+    # 确保路径是绝对路径
+    abs_path = os.path.abspath(path)
 
     # 遍历指定路径下的所有文件和文件夹
-    for root, dirs, files in os.walk(path):
+    for root, dirs, files in os.walk(abs_path):
         # 只添加文件夹到结果列表中
         for folder in dirs:
-            result.append({"model_type":model_type, "path":os.path.join(root, folder)})
+            result.append({"model_type": model_type, "path": os.path.join(root, folder)})
 
         # 避免进入子文件夹，只需要处理当前层级的文件夹
         break
