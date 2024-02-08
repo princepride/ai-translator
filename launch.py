@@ -1,9 +1,14 @@
 from modules import initialize
 import yaml
+import os
 initialize.imports()
 
-file_path = './configs/baseConfig.yml'
-model_explains_path = './configs/modelExplains.yml'
+# 获取当前脚本所在目录的绝对路径
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# 构建baseConfig.yml和modelExplains.yml的绝对路径
+file_path = os.path.join(script_dir, 'configs', 'baseConfig.yml')
+model_explains_path = os.path.join(script_dir, 'configs', 'modelExplains.yml')
 
 with open(file_path, 'r') as file:
     yaml_data = yaml.load(file, Loader=yaml.FullLoader)
