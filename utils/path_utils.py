@@ -42,7 +42,6 @@ def get_folders(path, model_type):
         # 只添加文件夹到结果列表中
         for folder in dirs:
             result.append({"model_type": model_type, "path": os.path.join(root, folder)})
-
         # 避免进入子文件夹，只需要处理当前层级的文件夹
         break
 
