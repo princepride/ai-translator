@@ -21,7 +21,6 @@ def process_gpu_translate_result(temp_outputs, batch_size):
                 temp.append({
                     "target_language": trans["target_language"],
                     "generated_translation": trans['generated_translation'][i],
-                    "target_language_probability": trans["target_language_probability"]
                 })
             outputs.append(temp)
     excel_writer = ExcelFileWriter()
@@ -314,9 +313,6 @@ class MBartModel(Model):
                     logits = self.model(**input_ids).logits
                 # Get language code for the target language
                 target_lang_code = self.tokenizer.lang_code_to_id[self.language_mapping(target_language)]
-                # Extract probability for the target language
-                target_lang_prob = F.softmax(logits[0, -1, :])  # Assuming the last token is the target language token
-                target_lang_prob = target_lang_prob[target_lang_code].item()
                 # Generate translation
                 generated_tokens = self.model.generate(
                     **input_ids,
@@ -327,7 +323,6 @@ class MBartModel(Model):
                 output.append({
                     "target_language": target_language,
                     "generated_translation": generated_translation,
-                    "target_language_probability": target_lang_prob
                 })
             outputs = []
             length = len(output[0]["generated_translation"])
@@ -337,7 +332,6 @@ class MBartModel(Model):
                     temp.append({
                         "target_language": trans["target_language"],
                         "generated_translation": trans['generated_translation'][i],
-                        "target_language_probability": trans["target_language_probability"]
                     })
                 outputs.append(temp)
             return outputs
@@ -370,7 +364,6 @@ class MBartModel(Model):
                     temp.append({
                         "target_language": target_language,
                         "generated_translation": generated_translation,
-                        "target_language_probability": target_lang_prob
                     })
                 input_ids.to('cpu')
                 del input_ids
@@ -388,7 +381,6 @@ class MBartModel(Model):
                         temp.append({
                             "target_language": trans["target_language"],
                             "generated_translation": trans['generated_translation'][i],
-                            "target_language_probability": trans["target_language_probability"]
                         })
                     outputs.append(temp)
             return outputs
