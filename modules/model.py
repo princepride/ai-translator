@@ -144,6 +144,7 @@ class NllbModel(Model):
             "Ukrainian": "ukr_Cyrl", # 乌克兰语
             "Urdu": "urd_Arab", # 乌尔都语
             "Vietnamese": "vie_Latn", # 越南语
+            "Thai":"tha_Thai", # 泰语
         }
         return d[original_language]
     
