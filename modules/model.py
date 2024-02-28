@@ -8,6 +8,7 @@ from modules.file import ExcelFileWriter
 import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(script_dir)
 
 def is_support_lora(model_type):
     if model_type == "t5":
@@ -27,7 +28,7 @@ def process_gpu_translate_result(temp_outputs, batch_size):
                 })
             outputs.append(temp)
     excel_writer = ExcelFileWriter()
-    excel_writer.write_text(os.path.join(script_dir,r"temp/empty.xlsx"), outputs, 'A', 1, batch_size)
+    excel_writer.write_text(os.path.join(parent_dir,r"temp/empty.xlsx"), outputs, 'A', 1, batch_size)
 
 def get_gpu_index(gpu_info, target_gpu_name):
     """
