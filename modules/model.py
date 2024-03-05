@@ -149,6 +149,7 @@ class NllbModel(Model):
             "Urdu": "urd_Arab", # 乌尔都语
             "Vietnamese": "vie_Latn", # 越南语
             "Thai":"tha_Thai", # 泰语
+            "Indonesian":"ind_Latn", # 印尼语
         }
         return d[original_language]
     
