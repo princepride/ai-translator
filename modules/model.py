@@ -136,7 +136,7 @@ class NllbModel(Model):
             "Nepali": "ne_NP", # 尼泊尔语
             "Persian": "pes_Arab", # 波斯语
             "Polish": "pol_Latn", # 波兰语
-            "Portuguese": "pt_XX", # 葡萄牙语
+            "Portuguese": "por_Latn", # 葡萄牙语
             "Russian": "rus_Cyrl", # 俄语
             "Sinhala": "sin_Sinh", # 僧伽罗语
             "Tamil": "tam_Taml", # 泰米尔语
