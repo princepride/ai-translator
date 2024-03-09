@@ -5,6 +5,7 @@ from utils.path import get_models
 from utils.cuda import get_gpu_info
 import json
 import time
+import importlib.util
 
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -82,7 +83,7 @@ def webui():
         lora_list = [''] + [f for f in os.listdir(model_path) if os.path.isdir(os.path.join(model_path, f)) and not f.startswith('.')]
         return gr.Dropdown(choices=original_language_choices), gr.Dropdown(choices=target_language_choices), gr.Dropdown(choices=lora_list), model_explanation
     
-    def dynamic_translate(input_file, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
+    def translate_excel(input_file, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
         print(input_file)
         print(start_row)
         print(end_row)
@@ -94,8 +95,25 @@ def webui():
         print(batch_size)
         print(original_language)
         print(target_languages)
-        
 
+        model_file_path = os.path.join(available_models[selected_model], 'model.py')
+        # 检查文件是否存在
+        if not os.path.exists(model_file_path):
+            print(f"No model.py found in {available_models[selected_model]}")
+            return
+        spec = importlib.util.spec_from_file_location("model", model_file_path)
+        model_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(model_module)
+        
+        # 确保Model类存在于模块中
+        if hasattr(model_module, 'Model'):
+            model = model_module.Model(available_models[selected_model], selected_gpu)  # 实例化Model
+            if hasattr(model, 'language_mapping'):
+                print(model.language_mapping(original_language))  # 调用generate方法
+            else:
+                print("Model class does not have a 'generate' method.")
+        else:
+            print("No Model class found in model.py.")
 
     with gr.Blocks(title="yonyou translator") as interface:
         with gr.Tabs():
@@ -122,7 +140,7 @@ def webui():
                         output_text = gr.Textbox(label="输出文本")
                         output_file = gr.File(label="翻译文件下载")
                 selected_model.change(update_choices, inputs=[selected_model], outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
-                translate_button.click(dynamic_translate, inputs=[input_file, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages], outputs=[output_text, output_file])
+                translate_button.click(translate_excel, inputs=[input_file, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages], outputs=[output_text, output_file])
             with gr.TabItem("Text Translator"):
                 with gr.Row():
                     with gr.Column():
