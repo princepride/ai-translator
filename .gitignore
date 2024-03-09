@@ -1,5 +1,6 @@
-models/
+models/local/
 __pycache__
 *.pyc
 *.csv
 *.xlsx
+*.env

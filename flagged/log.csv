@@ -1,2 +1,0 @@
-input_file,目标列,起始行,终止行,选择GPU,选择模型,output,flag,username,timestamp
-,,1,10,CPU,Model A,,,,2023-12-05 14:24:18.079722
