@@ -49,8 +49,7 @@ class CSVFileReader(FileReader):
     
 class ExcelFileWriter(FileWriter):
     def write_text(self, file_path, texts, start_column, start_row, end_row) -> bool:
-        print(len(texts))
-        # assert end_row - start_row + 1 == len(texts)
+        assert end_row - start_row + 1 == len(texts)
         start_row = int(start_row)
         end_row = int(end_row)
         start_column = column_index_from_string(start_column)

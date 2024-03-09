@@ -53,6 +53,7 @@ def webui():
         outputs = translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages)
 
         excel_writer = ExcelFileWriter()
+        print("Finally processed number: ", len(outputs))
         output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
 
         end_time = time.time()
