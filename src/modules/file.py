@@ -31,6 +31,8 @@ class ExcelFileReader(FileReader):
             cell_value = sheet.cell(row=row, column=target_column_index).value
             if cell_value is not None:
                 texts.append(str(cell_value))
+            else:
+                texts.append("")
 
         return texts
 
