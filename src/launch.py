@@ -120,7 +120,7 @@ def webui():
             if file_path != updated_file_path:
                 input_file.name = updated_file_path
             
-            if row_selection == "All Rows":
+            if row_selection == "所有行":
                 end_row = FileReaderFactory.count_rows(updated_file_path)
 
             process_time, output_file = translate_excel(input_file, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages)
@@ -206,7 +206,7 @@ def webui():
                             selected_model = gr.Dropdown(choices=(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
-                            batch_size = gr.Number(value=1, label="批处理大小", visible=False)
+                            batch_size = gr.Number(value=1, label="批处理大小", visible=True)
                         with gr.Row():
                             original_language = gr.Dropdown(choices=available_languages, label="原始语言")
                             target_languages = gr.Dropdown(choices=available_languages, label="目标语言", multiselect=True)
