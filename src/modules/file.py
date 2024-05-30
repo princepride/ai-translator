@@ -103,6 +103,13 @@ class FileReaderFactory:
             return reader_class(), file_path
         else:
             raise ValueError(f"Unsupported file format: {extension}")
+        
+    @staticmethod
+    def count_rows(file_path):
+        workbook = load_workbook(file_path)
+        sheet = workbook.active
+        count = len([row for row in sheet if not all([cell.value is None for cell in row])])
+        return count
 
 def convert_xls_to_xlsx(file_path):
     workbook_xls = xlrd.open_workbook(file_path)
