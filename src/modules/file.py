@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 from openpyxl import Workbook, load_workbook
+import xlrd
 from openpyxl.utils import column_index_from_string
 import csv
 import os
@@ -79,11 +80,17 @@ class ExcelFileWriter(FileWriter):
         except Exception as e:
             raise FileExistsError(f"Error writing to Excel: {e}")
         
+
 class FileReaderFactory:
     @staticmethod
     def create_reader(file_path):
         _, extension = os.path.splitext(file_path)
         extension = extension.lower()
+
+        if extension == '.xls':
+            # Convert .xls to .xlsx
+            file_path = convert_xls_to_xlsx(file_path)
+            extension = '.xlsx'
 
         reader_mapping = {
             '.xlsx': ExcelFileReader,
@@ -93,6 +100,32 @@ class FileReaderFactory:
         reader_class = reader_mapping.get(extension)
 
         if reader_class:
-            return reader_class()
+            return reader_class(), file_path
         else:
             raise ValueError(f"Unsupported file format: {extension}")
+        
+    @staticmethod
+    def count_rows(file_path):
+        workbook = load_workbook(file_path)
+        sheet = workbook.active
+        count = len([row for row in sheet if not all([cell.value is None for cell in row])])
+        return count
+
+def convert_xls_to_xlsx(file_path):
+    workbook_xls = xlrd.open_workbook(file_path)
+    sheet_xls = workbook_xls.sheet_by_index(0)
+
+    workbook_xlsx = Workbook()
+    sheet_xlsx = workbook_xlsx.active
+
+    # Copy data from .xls to .xlsx
+    for row in range(sheet_xls.nrows):
+        for col in range(sheet_xls.ncols):
+            cell_value = sheet_xls.cell_value(row, col)
+            sheet_xlsx.cell(row=row+1, column=col+1, value=cell_value)
+
+    # Save the new .xlsx file
+    new_file_path = file_path.replace('.xls', '.xlsx')
+    workbook_xlsx.save(new_file_path)
+    return new_file_path
+
