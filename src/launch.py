@@ -1,6 +1,10 @@
+import csv
 import yaml
 import os
+import shutil
 import gradio as gr
+from openpyxl import Workbook, load_workbook
+from openpyxl.utils import get_column_letter
 from utils.path import get_models
 from utils.cuda import get_gpu_info
 import json
@@ -47,7 +51,7 @@ def webui():
     def translate_excel(input_file, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
         start_time = time.time()
         file_path = input_file.name
-        reader = FileReaderFactory.create_reader(file_path)
+        reader, fp = FileReaderFactory.create_reader(file_path)
         inputs = reader.extract_text(file_path, target_column, start_row, end_row)
 
         outputs = translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages)
@@ -80,6 +84,81 @@ def webui():
         else:
             print("No Model class found in model.py.")
         return outputs
+
+    def translate_folder(input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
+        start_time = time.time()
+        if not input_folder:
+            return "No files uploaded", []
+
+        folder_path = os.path.dirname(input_folder[0].name)
+        processed_files = []
+
+        # Create a new folder named 'processed' within the uploaded folder
+        processed_folder = os.path.join(folder_path, 'processed')
+        os.makedirs(processed_folder, exist_ok=True)
+
+        for input_file in input_folder:
+            file_path = input_file.name
+            print(f"Processing file: {file_path}")  # Debugging output
+            # Use the factory to create the appropriate file reader and possibly convert the file
+            try:
+                reader, updated_file_path = FileReaderFactory.create_reader(file_path)
+                print(f"Updated file path: {updated_file_path}")  # Debugging output
+            except ValueError as e:
+                print(f"Error: {e}")
+                continue
+
+            # Ensure input_file refers to the updated file path if conversion occurred
+            if file_path != updated_file_path:
+                input_file.name = updated_file_path
+
+            # Determine the number of rows and columns automatically for Excel files
+            if updated_file_path.endswith('.xlsx'):
+                try:
+                    workbook = load_workbook(updated_file_path, read_only=True)
+                    sheet = workbook.active
+                    end_row = sheet.max_row
+                    start_column = 'A'
+                    end_column = sheet.max_column
+                    target_column = start_column
+                    print(f"Excel file loaded: {updated_file_path}")  # Debugging output
+                except Exception as e:
+                    print(f"Failed to load Excel file: {updated_file_path}. Error: {e}")
+                    continue  # Skip this file if it cannot be loaded
+            elif updated_file_path.endswith('.csv'):
+                try:
+                    with open(updated_file_path, 'r', newline='') as csvfile:
+                        csv_reader = csv.reader(csvfile)
+                        end_row = sum(1 for row in csv_reader)
+                        csvfile.seek(0)  # Reset reader to read the file again
+                        start_column = 0
+                        end_column = len(next(csv_reader)) - 1  # Assuming all rows have the same number of columns
+                        target_column = start_column
+                        print(f"CSV file loaded: {updated_file_path}")  # Debugging output
+                except Exception as e:
+                    print(f"Failed to load CSV file: {updated_file_path}. Error: {e}")
+                    continue
+            else:
+                print(f"Unsupported file type: {updated_file_path}")
+                continue  # Skip unsupported file types
+
+            # Convert end_column to a letter if dealing with an Excel file
+            if updated_file_path.endswith('.xlsx'):
+                end_column_letter = get_column_letter(end_column)
+            else:
+                end_column_letter = end_column  # For CSV, keep it as an integer
+
+            # Translate the file content
+            process_time, output_file = translate_excel(input_file, 1, end_row, start_column, end_column_letter, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages)
+            
+            # Move the processed file to the 'processed' folder
+            processed_file_path = os.path.join(processed_folder, os.path.basename(output_file))
+            shutil.move(output_file, processed_file_path)
+            processed_files.append(processed_file_path)
+
+        end_time = time.time()
+        return f"Total process time: {int(end_time - start_time)}s", processed_files
+
 
     with gr.Blocks(title="yonyou translator") as interface:
         with gr.Tabs():
@@ -125,6 +204,24 @@ def webui():
                         output_text = gr.Textbox(label="输出文本", lines=5)
                 selected_model.change(update_choices, inputs=[selected_model], outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
                 translate_button.click(translate, inputs=[input_text, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages], outputs=output_text)
+            # folder translator
+            with gr.TabItem("Folder Translator"):
+                with gr.Row():
+                    with gr.Column():
+                        input_folder = gr.File(file_count="directory")
+                        selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
+                        selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
+                        selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
+                        batch_size = gr.Number(value=1, label="批处理大小", visible=False)
+                        original_language = gr.Dropdown(choices=available_languages, label="原始语言")
+                        target_languages = gr.Dropdown(choices=available_languages, label="目标语言", multiselect=True)
+                        translate_button = gr.Button("Translate")
+                    with gr.Column():
+                        model_explanation_textbox = gr.Textbox(label="模型介绍", lines=5)
+                        output_text = gr.Textbox(label="输出文本", lines=5)
+                        output_folder = gr.File(label="翻译文件夹下载")
+                selected_model.change(update_choices, inputs=[selected_model], outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
+                translate_button.click(translate_folder, inputs=[input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages], outputs= [output_text, output_folder])
     interface.launch(share=True)
     # interface.launch(debug=True)
 
