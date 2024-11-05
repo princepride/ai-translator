@@ -128,4 +128,3 @@ def convert_xls_to_xlsx(file_path):
     new_file_path = file_path.replace('.xls', '.xlsx')
     workbook_xlsx.save(new_file_path)
     return new_file_path
-
