@@ -24,9 +24,9 @@ class Model():
                 })
             else:
                 # Find and store any image tags with base64 encoded data
-                removed_images = re.findall(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", section_text)
+                removed_images = re.findall(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", input)
                 # Remove the image tags from the text
-                section_text = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", section_text)
+                input = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", input)
 
                 completion = self.client.chat.completions.create(
                     model="gpt-4o-mini",
