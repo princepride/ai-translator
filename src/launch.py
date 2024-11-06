@@ -140,6 +140,9 @@ def webui():
         print(f"Total process time: {int(end_time - start_time)}s") 
         print(f"Processed files: {processed_files}") 
         return f"Total process time: {int(end_time - start_time)}s", zip_filename
+    
+    def translate_markdown_folder():
+        pass
 
     with gr.Blocks(title="yonyou translator") as interface:
         with gr.Tabs():
@@ -186,7 +189,7 @@ def webui():
                 selected_model.change(update_choices, inputs=[selected_model], outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
                 translate_button.click(translate, inputs=[input_text, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages], outputs=output_text)
             # folder translator
-            with gr.TabItem("Folder Translator"):
+            with gr.TabItem("Folder Excel Translator"):
                 with gr.Row():
                     with gr.Column():
                         input_folder = gr.File(file_count="directory")
@@ -201,7 +204,6 @@ def webui():
                             target_column = gr.Textbox(value=yaml_data["excel_config"]["default_target_column"], label="目标列")
                             start_column = gr.Textbox(value=yaml_data["excel_config"]["default_start_column"], label="结果写入列")
                         
-
                         with gr.Row():
                             selected_model = gr.Dropdown(choices=(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
@@ -217,6 +219,37 @@ def webui():
                         output_folder = gr.File(label="翻译文件夹下载")
                 selected_model.change(update_choices, inputs=[selected_model], outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
                 translate_button.click(translate_folder, inputs=[input_folder, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages, row_selection], outputs= [output_text, output_folder])
+            with gr.TabItem("Folder Markdown Translator"):
+                with gr.Row():
+                    with gr.Column():
+                        input_folder = gr.File(file_count="directory", label="选择Markdown文件夹")
+                        row_selection.change(update_row_selection, inputs=row_selection, outputs=end_row)
+                        
+                        with gr.Row():
+                            selected_model = gr.Dropdown(choices=available_models.keys(), label="选择基模型")
+                            selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
+                            selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
+                            batch_size = gr.Number(value=1, label="批处理大小", visible=True)
+                        with gr.Row():
+                            original_language = gr.Dropdown(choices=available_languages, label="原始语言")
+                            target_languages = gr.Dropdown(choices=available_languages, label="目标语言", multiselect=True)
+                        translate_button = gr.Button("Translate")
+
+                    with gr.Column():
+                        model_explanation_textbox = gr.Textbox(label="模型介绍", lines=5)
+                        output_text = gr.Textbox(label="输出文本", lines=5)
+                        output_folder = gr.File(label="翻译文件夹下载")
+
+                # Link actions to the dropdown and button
+                selected_model.change(update_choices, 
+                                    inputs=[selected_model], 
+                                    outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
+                translate_button.click(translate_markdown_folder, 
+                                    inputs=[input_folder, start_row, end_row, 
+                                            selected_model, selected_lora_model, selected_gpu, batch_size, 
+                                            original_language, target_languages, row_selection], 
+                                    outputs=[output_text, output_folder])
+
     interface.launch(share=True)
     # interface.launch(debug=True)
 
