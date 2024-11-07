@@ -4,3 +4,4 @@ __pycache__
 *.csv
 *.xlsx
 *.env
+/src/models/local
