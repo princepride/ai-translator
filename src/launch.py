@@ -93,7 +93,7 @@ def webui():
         return outputs
 
 
-    def translate_folder(input_folder, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages, row_selection):
+    def translate_excel_folder(input_folder, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages, row_selection):
         start_time = time.time()
         if not input_folder:
             return "No files uploaded", []
@@ -141,8 +141,58 @@ def webui():
         print(f"Processed files: {processed_files}") 
         return f"Total process time: {int(end_time - start_time)}s", zip_filename
     
-    def translate_markdown_folder():
-        pass
+    def translate_markdown_folder(input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
+        start_time = time.time()
+        if not input_folder:
+            return "No files uploaded", []
+
+        folder_path = os.path.dirname(input_folder[0].name)
+        processed_files = []
+
+        # Create a new folder named 'processed' within the uploaded folder
+        processed_folder = os.path.join(folder_path, 'processed')
+        os.makedirs(processed_folder, exist_ok=True)
+
+        for input_file in input_folder:
+            file_path = input_file.name
+
+            # Read the markdown file content
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+            except Exception as e:
+                print(f"Error reading file {file_path}: {e}")
+                continue
+
+            # Split content by "\n\n" and translate each part
+            text_segments = content.split('\n\n')
+            translated_segments = translate(text_segments, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages)
+
+            # Recombine the translated segments with "\n\n" and write to a new markdown file
+            translated_content = '\n\n'.join(translated_segments)
+            output_file_path = os.path.join(processed_folder, os.path.basename(file_path))
+
+            try:
+                with open(output_file_path, 'w', encoding='utf-8') as f:
+                    f.write(translated_content)
+            except Exception as e:
+                print(f"Error writing file {output_file_path}: {e}")
+                continue
+
+            processed_files.append(output_file_path)
+
+        # Create a zip file with all processed files
+        zip_filename = os.path.join(folder_path, "processed_markdown_files.zip")
+        with zipfile.ZipFile(zip_filename, 'w') as zipf:
+            for file in processed_files:
+                zipf.write(file, os.path.basename(file))
+                print(f"File {file} added to zip.")
+
+        end_time = time.time()
+        print(f"Total process time: {int(end_time - start_time)}s")
+        print(f"Processed files: {processed_files}")
+        
+        return f"Total process time: {int(end_time - start_time)}s", zip_filename
 
     with gr.Blocks(title="yonyou translator") as interface:
         with gr.Tabs():
@@ -218,7 +268,7 @@ def webui():
                         output_text = gr.Textbox(label="输出文本", lines=5)
                         output_folder = gr.File(label="翻译文件夹下载")
                 selected_model.change(update_choices, inputs=[selected_model], outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
-                translate_button.click(translate_folder, inputs=[input_folder, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages, row_selection], outputs= [output_text, output_folder])
+                translate_button.click(translate_excel_folder, inputs=[input_folder, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages, row_selection], outputs= [output_text, output_folder])
             with gr.TabItem("Folder Markdown Translator"):
                 with gr.Row():
                     with gr.Column():
@@ -245,9 +295,7 @@ def webui():
                                     inputs=[selected_model], 
                                     outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
                 translate_button.click(translate_markdown_folder, 
-                                    inputs=[input_folder, start_row, end_row, 
-                                            selected_model, selected_lora_model, selected_gpu, batch_size, 
-                                            original_language, target_languages, row_selection], 
+                                    inputs=[input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages], 
                                     outputs=[output_text, output_folder])
 
     interface.launch(share=True)
