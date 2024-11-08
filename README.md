@@ -1,6 +1,4 @@
-[English](README.md) | [中文](README_CN.md)
-
-## AI_Translator 安装说明
+# AI_Translator 安装说明
 
 ## 安装 NVIDIA Driver
 
