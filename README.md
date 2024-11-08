@@ -1,66 +1,91 @@
 [English](README.md) | [中文](README_CN.md)
 
-# AI_Translator Installation
+## AI_Translator 安装说明
 
-## Install NVIDIA Driver
+## 安装 NVIDIA Driver
 
-[nvidia driver download link](https://www.nvidia.com/download/index.aspx)
+[NVIDIA 驱动下载链接](https://www.nvidia.com/download/index.aspx)
 
-Run the following command to check whether NVIDIA Driver is installed:
+安装完成后，运行以下指令看是否安装成功：
 
 ```
 nvidia-smi
 ```
 
-## Install NVIDIA Toolkit
+### 安装 NVIDIA Toolkit
 
-[nvidia toolkit download link](https://developer.nvidia.com/cuda-downloads)
+[NVIDIA Toolkit 下载链接](https://developer.nvidia.com/cuda-downloads)
 
-Run the following command to check whether NVIDIA Toolkit is installed:
+安装完成后，运行以下指令看是否安装成功：
 
 ```
 nvcc --version
 ```
 
-## Install pytorch with gpu version
+### 安装支持 GPU 的 PyTorch 版本
 
 ```
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
-## Install the other package from requirements
+### 从 requirements 安装其他包
 
 ```
 pip3 install -r requirements.txt
 ```
 
-## **Install the models from huggingface**
+## **从 huggingface 安装模型**
 
-Navigate to the specific folder to download model, run the following code:
+导航至 `/src/models/local` 文件夹下载模型，运行以下代码：
 
 ```
 git lfs install
-git clone git@hf.co:
 ```
 
-## **Launch:**
+### 安装 nllb-200-distilled-1.3B 模型
 
-In the terminal of your python project platform such as: pycharm, Vscode...
+```
+git clone https://princepride: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@huggingface.co/yonyou-sg/nllb-200-distilled-1.3B
+```
 
-Enjoy the AI-Translator using the command:
+### 安装 Qwen2.5-7B-Instruct 模型
 
-``launch.py``
+```
+git clone https://princepride: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@huggingface.co/yonyou-sg/Qwen2.5-7B-Instruct
+```
 
-# AI_Translator Instructions
+### 安装 Qwen2-7B-Instruct-Full-Finetune  模型
 
-## Step 1:
+```
+git clone https://princepride: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@huggingface.co/yonyou-sg/Qwen2-7B-Instruct-Full-Finetune 
+```
+
+## **启动：**
+
+在你的 Python 项目平台（如 PyCharm、Vscode...）的终端中，
+
+使用以下命令享受 AI 翻译器：
+
+`python launch.py`
+
+# AI_Translator 使用说明
+
+## 第一步：
 
 ![1705652320228](image/README_CN/1705652320228.png)
 
-## Step 2:
+## 第二步：
 
 ![1705653144370](image/README_CN/1705653144370.png)
 
-## Step 3:
+## 第三步：
 
 ![1705653166073](image/README_CN/1705653166073.png)
+
+应用提供了Excel批量翻译功能和markdown批量翻译功能，如果Excel格式类似，可以通过指定翻译列和写入列，批量翻译Excel
+
+![1731035178327](image/README/1731035178327.png)
+
+## 一键部署
+
+把文件：`./deploy/ai_translator.ipynb 放到Google drive里，双击用Colab打开，点击一键部署即可`
