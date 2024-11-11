@@ -1,17 +1,18 @@
-import csv
 import zipfile
 import yaml
 import os
 import shutil
 import gradio as gr
-from openpyxl import Workbook, load_workbook
-from openpyxl.utils import get_column_letter
 from utils.path import get_models
 from utils.cuda import get_gpu_info
 import json
 import time
 import importlib.util
 from modules.file import FileReaderFactory, ExcelFileWriter
+from docx import Document
+import markdown
+from bs4 import BeautifulSoup
+import mammoth
 
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -141,6 +142,35 @@ def webui():
         print(f"Processed files: {processed_files}") 
         return f"Total process time: {int(end_time - start_time)}s", zip_filename
     
+    def word_to_markdown(word_path):
+        # 将 Word 文件转换为 Markdown 格式
+        with open(word_path, "rb") as docx_file:
+            result = mammoth.convert_to_markdown(docx_file)
+            return result.value
+
+    def markdown_to_word(md_content, word_path):
+        # 将 Markdown 内容转换为 Word 文件
+        soup = BeautifulSoup(markdown.markdown(md_content), 'html.parser')
+        doc = Document()
+
+        for element in soup.descendants:
+            if element.name == 'h1':
+                doc.add_heading(element.get_text(), level=1)
+            elif element.name == 'h2':
+                doc.add_heading(element.get_text(), level=2)
+            elif element.name == 'h3':
+                doc.add_heading(element.get_text(), level=3)
+            elif element.name == 'p':
+                doc.add_paragraph(element.get_text())
+            elif element.name == 'ul':
+                for li in element.find_all('li'):
+                    doc.add_paragraph(f'- {li.get_text()}', style='List Bullet')
+            elif element.name == 'ol':
+                for li in element.find_all('li'):
+                    doc.add_paragraph(li.get_text(), style='List Number')
+
+        doc.save(word_path)
+
     def translate_markdown_folder(input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
         start_time = time.time()
         if not input_folder:
@@ -149,40 +179,45 @@ def webui():
         folder_path = os.path.dirname(input_folder[0].name)
         processed_files = []
 
-        # Create a new folder named 'processed' within the uploaded folder
+        # 创建保存翻译文件的文件夹
         processed_folder = os.path.join(folder_path, 'processed')
         os.makedirs(processed_folder, exist_ok=True)
 
         for input_file in input_folder:
             file_path = input_file.name
-
-            # Read the markdown file content
-            try:
+            file_name, file_ext = os.path.splitext(file_path)
+            
+            # 识别并转换 Word 文件
+            if file_ext.lower() == '.docx':
+                md_content = word_to_markdown(file_path)
+                file_is_word = True
+            elif file_ext.lower() == '.md':
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-            except Exception as e:
-                print(f"Error reading file {file_path}: {e}")
-                continue
+                    md_content = f.read()
+                file_is_word = False
+            else:
+                continue  # 跳过非 Word 或 Markdown 文件
 
-            # Split content by "\n\n" and translate each part
-            text_segments = content.split('\n\n')
+            # 拆分 Markdown 内容进行翻译
+            text_segments = md_content.split('\n\n')
             translated_segments = translate(text_segments, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages)
-
-            # Recombine the translated segments with "\n\n" and write to a new markdown file
+            
+            # 合并翻译内容
             translated_content = '\n\n'.join(translated_segments)
-            output_file_path = os.path.join(processed_folder, os.path.basename(file_path))
-
-            try:
+            
+            # 根据文件类型保存为 Markdown 或 Word
+            output_file_path = os.path.join(processed_folder, os.path.basename(file_name + ('.docx' if file_is_word else '.md')))
+            
+            if file_is_word:
+                markdown_to_word(translated_content, output_file_path)
+            else:
                 with open(output_file_path, 'w', encoding='utf-8') as f:
                     f.write(translated_content)
-            except Exception as e:
-                print(f"Error writing file {output_file_path}: {e}")
-                continue
-
+            
             processed_files.append(output_file_path)
 
-        # Create a zip file with all processed files
-        zip_filename = os.path.join(folder_path, "processed_markdown_files.zip")
+        # 将所有处理后的文件压缩成一个 zip 文件
+        zip_filename = os.path.join(folder_path, "processed_files.zip")
         with zipfile.ZipFile(zip_filename, 'w') as zipf:
             for file in processed_files:
                 zipf.write(file, os.path.basename(file))
@@ -191,7 +226,7 @@ def webui():
         end_time = time.time()
         print(f"Total process time: {int(end_time - start_time)}s")
         print(f"Processed files: {processed_files}")
-        
+
         return f"Total process time: {int(end_time - start_time)}s", zip_filename
 
     with gr.Blocks(title="yonyou translator") as interface:
