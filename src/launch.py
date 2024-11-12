@@ -12,7 +12,10 @@ from modules.file import FileReaderFactory, ExcelFileWriter
 from docx import Document
 import markdown
 from bs4 import BeautifulSoup
-import mammoth
+from docx.oxml.ns import qn
+from docx.table import Table
+from docx.text.paragraph import Paragraph
+from docx.shared import Inches
 
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -82,7 +85,7 @@ def webui():
         spec = importlib.util.spec_from_file_location("model", model_file_path)
         model_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(model_module)
-        outputs = {}
+        outputs = []
         if hasattr(model_module, 'Model'):
             model = model_module.Model(available_models[selected_model], selected_lora_model, selected_gpu)
             if hasattr(model, 'generate'):
@@ -142,18 +145,84 @@ def webui():
         print(f"Processed files: {processed_files}") 
         return f"Total process time: {int(end_time - start_time)}s", zip_filename
     
-    def word_to_markdown(word_path):
-        # 将 Word 文件转换为 Markdown 格式
-        with open(word_path, "rb") as docx_file:
-            result = mammoth.convert_to_markdown(docx_file)
-            return result.value
+    def iter_block_items(parent):
+        """
+        生成文档中所有的块级元素，按顺序包括段落和表格。
+        """
+        parent_elm = parent.element.body
+        for child in parent_elm.iterchildren():
+            if child.tag == qn('w:p'):
+                yield Paragraph(child, parent)
+            elif child.tag == qn('w:tbl'):
+                yield Table(child, parent)
+
+    def word_to_markdown(docx_path, output_dir="images"):
+        # 创建输出图片目录
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        doc = Document(docx_path)
+        md_content = ""
+
+        # 用于图片计数，生成唯一的图片名称
+        image_counter = 1
+
+        for block in iter_block_items(doc):
+            if isinstance(block, Paragraph):
+                para = block
+                # 处理图片
+                for run in para.runs:
+                    # 检查 run 中是否有图片
+                    drawing_elements = run.element.findall('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}drawing')
+                    for drawing in drawing_elements:
+                        # 提取图片
+                        blip_elements = drawing.findall('.//{http://schemas.openxmlformats.org/drawingml/2006/main}blip')
+                        for blip in blip_elements:
+                            rEmbed = blip.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed')
+                            if rEmbed:
+                                image_part = doc.part.related_parts[rEmbed]
+                                image_bytes = image_part.blob
+                                image_name = f"image_{image_counter}.png"
+                                image_path = os.path.join(output_dir, image_name)
+                                with open(image_path, 'wb') as f:
+                                    f.write(image_bytes)
+                                # 在 Markdown 中添加图片引用
+                                md_content += f"![{image_name}]({os.path.join(output_dir, image_name)})\n\n"
+                                image_counter += 1
+                # 将标题段落转换为 Markdown 语法
+                if para.style.name and para.style.name.startswith('Heading'):
+                    level = int(para.style.name.split()[1])
+                    md_content += f"{'#' * level} {para.text}\n\n"
+                elif para.text.strip():
+                    md_content += f"{para.text}\n\n"
+            elif isinstance(block, Table):
+                table = block
+                md_content += "\n"
+                # 获取表格的所有行
+                rows = table.rows
+                if len(rows) > 0:
+                    # 生成表头
+                    header_cells = rows[0].cells
+                    header = "| " + " | ".join(cell.text.strip().replace('\n', ' ') for cell in header_cells) + " |\n"
+                    md_content += header
+                    # 添加分隔行
+                    md_content += "| " + " | ".join(['---'] * len(header_cells)) + " |\n"
+                    # 添加表格内容
+                    for row in rows[1:]:
+                        row_cells = row.cells
+                        row_text = "| " + " | ".join(cell.text.strip().replace('\n', ' ') for cell in row_cells) + " |\n"
+                        md_content += row_text
+                md_content += "\n"
+
+        return md_content
 
     def markdown_to_word(md_content, word_path):
-        # 将 Markdown 内容转换为 Word 文件
-        soup = BeautifulSoup(markdown.markdown(md_content), 'html.parser')
+        # 将 Markdown 内容转换为 HTML，并启用表格和图片扩展
+        html = markdown.markdown(md_content, extensions=['tables'])
+        soup = BeautifulSoup(html, 'html.parser')
         doc = Document()
 
-        for element in soup.descendants:
+        for element in soup.contents:
             if element.name == 'h1':
                 doc.add_heading(element.get_text(), level=1)
             elif element.name == 'h2':
@@ -161,17 +230,49 @@ def webui():
             elif element.name == 'h3':
                 doc.add_heading(element.get_text(), level=3)
             elif element.name == 'p':
-                doc.add_paragraph(element.get_text())
+                # 检查段落中是否有图片
+                if element.find('img'):
+                    # 处理段落中的图片
+                    for img in element.find_all('img'):
+                        img_path = img.get('src')
+                        alt_text = img.get('alt', '')
+                        # 添加图片到文档
+                        if os.path.exists(img_path):
+                            doc.add_picture(img_path, width=Inches(4))
+                            # 添加图片的说明文字（可选）
+                            if alt_text:
+                                last_paragraph = doc.paragraphs[-1]
+                                last_paragraph.alignment = 1  # 居中对齐
+                                doc.add_paragraph(alt_text).alignment = 1
+                        else:
+                            print(f"警告：找不到图片文件 {img_path}")
+                else:
+                    doc.add_paragraph(element.get_text())
             elif element.name == 'ul':
-                for li in element.find_all('li'):
-                    doc.add_paragraph(f'- {li.get_text()}', style='List Bullet')
+                for li in element.find_all('li', recursive=False):
+                    doc.add_paragraph(li.get_text(), style='List Bullet')
             elif element.name == 'ol':
-                for li in element.find_all('li'):
+                for li in element.find_all('li', recursive=False):
                     doc.add_paragraph(li.get_text(), style='List Number')
+            elif element.name == 'table':
+                # 处理表格
+                rows = element.find_all('tr')
+                num_rows = len(rows)
+                num_cols = len(rows[0].find_all(['th', 'td']))
 
+                # 创建 Word 表格
+                table = doc.add_table(rows=num_rows, cols=num_cols)
+                table.style = 'Table Grid'  # 您可以根据需要更改表格样式
+
+                # 遍历表格的每一行
+                for i, row in enumerate(rows):
+                    cells = row.find_all(['th', 'td'])
+                    for j, cell in enumerate(cells):
+                        # 将单元格文本添加到 Word 表格中
+                        table.cell(i, j).text = cell.get_text(strip=True)
         doc.save(word_path)
 
-    def translate_markdown_folder(input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
+    def translate_markdown_folder(input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_language):
         start_time = time.time()
         if not input_folder:
             return "No files uploaded", []
@@ -200,10 +301,11 @@ def webui():
 
             # 拆分 Markdown 内容进行翻译
             text_segments = md_content.split('\n\n')
-            translated_segments = translate(text_segments, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages)
+            translated_segments = translate(text_segments, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, [target_language])
             
+            print(translated_segments)
             # 合并翻译内容
-            translated_content = '\n\n'.join(translated_segments)
+            translated_content = '\n\n'.join([translated_segment[0]["generated_translation"] for translated_segment in translated_segments])
             
             # 根据文件类型保存为 Markdown 或 Word
             output_file_path = os.path.join(processed_folder, os.path.basename(file_name + ('.docx' if file_is_word else '.md')))
@@ -317,7 +419,7 @@ def webui():
                             batch_size = gr.Number(value=1, label="批处理大小", visible=True)
                         with gr.Row():
                             original_language = gr.Dropdown(choices=available_languages, label="原始语言")
-                            target_languages = gr.Dropdown(choices=available_languages, label="目标语言", multiselect=True)
+                            target_language = gr.Dropdown(choices=available_languages, label="目标语言")
                         translate_button = gr.Button("Translate")
 
                     with gr.Column():
@@ -328,9 +430,9 @@ def webui():
                 # Link actions to the dropdown and button
                 selected_model.change(update_choices, 
                                     inputs=[selected_model], 
-                                    outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
+                                    outputs=[original_language, target_language, selected_lora_model, model_explanation_textbox])
                 translate_button.click(translate_markdown_folder, 
-                                    inputs=[input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages], 
+                                    inputs=[input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_language], 
                                     outputs=[output_text, output_folder])
 
     interface.launch(share=True)
