@@ -5,3 +5,5 @@ __pycache__
 *.xlsx
 *.env
 /src/models/local
+/src/images
+/src/media
