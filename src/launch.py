@@ -160,7 +160,27 @@ def webui():
         # 创建输出图片目录
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
+        from docx.opc.pkgreader import _SerializedRelationships, _SerializedRelationship
+        from docx.opc.oxml import parse_xml
 
+
+        def load_from_xml_v2(baseURI, rels_item_xml):
+            """
+            Return |_SerializedRelationships| instance loaded with the
+            relationships contained in *rels_item_xml*. Returns an empty
+            collection if *rels_item_xml* is |None|.
+            """
+            srels = _SerializedRelationships()
+            if rels_item_xml is not None:
+                rels_elm = parse_xml(rels_item_xml)
+                for rel_elm in rels_elm.Relationship_lst:
+                    if rel_elm.target_ref in ('../NULL', 'NULL'):
+                        continue
+                    srels._srels.append(_SerializedRelationship(baseURI, rel_elm))
+            return srels
+
+
+        _SerializedRelationships.load_from_xml = load_from_xml_v2
         doc = Document(docx_path)
         md_content = ""
 
@@ -179,7 +199,7 @@ def webui():
                         blip_elements = drawing.findall('.//{http://schemas.openxmlformats.org/drawingml/2006/main}blip')
                         for blip in blip_elements:
                             rEmbed = blip.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed')
-                            if rEmbed:
+                            if rEmbed and rEmbed in doc.part.related_parts:
                                 image_part = doc.part.related_parts[rEmbed]
                                 image_bytes = image_part.blob
                                 image_name = f"image_{image_counter}.png"
@@ -189,6 +209,8 @@ def webui():
                                 # 在 Markdown 中添加图片引用
                                 md_content += f"![{image_name}]({os.path.join(output_dir, image_name)})\n\n"
                                 image_counter += 1
+                            else:
+                                print(f"Warning: Missing image resource for {rEmbed}")
                 # 将标题段落转换为 Markdown 语法
                 if para.style.name and para.style.name.startswith('Heading'):
                     level = int(para.style.name.split()[1])
