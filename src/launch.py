@@ -261,18 +261,21 @@ def webui():
                 # 处理表格
                 rows = element.find_all('tr')
                 num_rows = len(rows)
-                num_cols = len(rows[0].find_all(['th', 'td']))
+                try:
+                    num_cols = len(rows[0].find_all(['th', 'td']))
 
-                # 创建 Word 表格
-                table = doc.add_table(rows=num_rows, cols=num_cols)
-                table.style = 'Table Grid'  # 您可以根据需要更改表格样式
+                    # 创建 Word 表格
+                    table = doc.add_table(rows=num_rows, cols=num_cols)
+                    table.style = 'Table Grid'  # 您可以根据需要更改表格样式
 
-                # 遍历表格的每一行
-                for i, row in enumerate(rows):
-                    cells = row.find_all(['th', 'td'])
-                    for j, cell in enumerate(cells):
-                        # 将单元格文本添加到 Word 表格中
-                        table.cell(i, j).text = cell.get_text(strip=True)
+                    # 遍历表格的每一行
+                    for i, row in enumerate(rows):
+                        cells = row.find_all(['th', 'td'])
+                        for j, cell in enumerate(cells):
+                            # 将单元格文本添加到 Word 表格中
+                            table.cell(i, j).text = cell.get_text(strip=True)
+                except:
+                    print(f"Unknown error")
         doc.save(word_path)
 
     def translate_markdown_folder(input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_language):
