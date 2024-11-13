@@ -238,12 +238,15 @@ def webui():
                         alt_text = img.get('alt', '')
                         # 添加图片到文档
                         if os.path.exists(img_path):
-                            doc.add_picture(img_path, width=Inches(4))
-                            # 添加图片的说明文字（可选）
-                            if alt_text:
-                                last_paragraph = doc.paragraphs[-1]
-                                last_paragraph.alignment = 1  # 居中对齐
-                                doc.add_paragraph(alt_text).alignment = 1
+                            try:
+                                doc.add_picture(img_path, width=Inches(4))
+                                # 添加图片的说明文字（可选）
+                                if alt_text:
+                                    last_paragraph = doc.paragraphs[-1]
+                                    last_paragraph.alignment = 1  # 居中对齐
+                                    doc.add_paragraph(alt_text).alignment = 1
+                            except:
+                                print(f"警告：处理图片时发生未知错误 {img_path}")
                         else:
                             print(f"警告：找不到图片文件 {img_path}")
                 else:
