@@ -434,10 +434,10 @@ def webui():
                         output_folder = gr.File(label="翻译文件夹下载")
                 selected_model.change(update_choices, inputs=[selected_model], outputs=[original_language, target_languages, selected_lora_model, model_explanation_textbox])
                 translate_button.click(translate_excel_folder, inputs=[input_folder, start_row, end_row, start_column, target_column, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages, row_selection], outputs= [output_text, output_folder])
-            with gr.TabItem("Folder Markdown Translator"):
+            with gr.TabItem("Folder Markdown & Docx Translator"):
                 with gr.Row():
                     with gr.Column():
-                        input_folder = gr.File(file_count="directory", label="选择Markdown文件夹")
+                        input_folder = gr.File(file_count="directory", label="选择包含Markdown或Docx文件夹")
                         row_selection.change(update_row_selection, inputs=row_selection, outputs=end_row)
                         
                         with gr.Row():
