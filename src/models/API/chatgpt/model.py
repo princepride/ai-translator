@@ -17,11 +17,12 @@ class Model():
                     "target_language":target_language,
                     "generated_translation":input
                 })
-            elif input.strip() == '':
+            elif not re.search(r'[A-Za-z\u4e00-\u9fff]', input.strip()):
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input
                 })
+
             else:
                 # Find and store any image tags with base64 encoded data
                 removed_images = re.findall(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", input)
@@ -31,7 +32,7 @@ class Model():
                 completion = self.client.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=[
-                        {"role": "system", "content": f"你是一个ERP系统中译英专家，你任务是把markdown格式的文本，保留其格式并从{original_language}翻译成{target_language}，不要添加多余的内容。"},
+                        {"role": "system", "content": f"You are an expert in translating Chinese to English for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}, preserving its formatting without adding extra content."},
                         {"role": "user", "content": input},
                     ],
                     temperature=0

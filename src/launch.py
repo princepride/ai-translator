@@ -16,6 +16,7 @@ from docx.oxml.ns import qn
 from docx.table import Table
 from docx.text.paragraph import Paragraph
 from docx.shared import Inches
+from pptx import Presentation
 
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -316,35 +317,55 @@ def webui():
             file_path = input_file.name
             file_name, file_ext = os.path.splitext(file_path)
             
-            # 识别并转换 Word 文件
-            if file_ext.lower() == '.docx':
-                md_content = word_to_markdown(file_path)
-                file_is_word = True
-            elif file_ext.lower() == '.md':
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    md_content = f.read()
-                file_is_word = False
-            else:
-                continue  # 跳过非 Word 或 Markdown 文件
+            if file_ext.lower() == '.pptx':
+                prs = Presentation(file_path)
 
-            # 拆分 Markdown 内容进行翻译
-            text_segments = md_content.split('\n\n')
-            translated_segments = translate(text_segments, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, [target_language])
-            
-            print(translated_segments)
-            # 合并翻译内容
-            translated_content = '\n\n'.join([translated_segment[0]["generated_translation"] for translated_segment in translated_segments])
-            
-            # 根据文件类型保存为 Markdown 或 Word
-            output_file_path = os.path.join(processed_folder, os.path.basename(file_name + ('.docx' if file_is_word else '.md')))
-            
-            if file_is_word:
-                markdown_to_word(translated_content, output_file_path)
+                run_list = []
+                text_list = []
+                for slide in prs.slides:
+                    for shape in slide.shapes:
+                        # 检查shape是否包含文本
+                        if shape.has_text_frame:
+                            for paragraph in shape.text_frame.paragraphs:
+                                for run in paragraph.runs:
+                                    run_list.append(run)
+                                    text_list.append(run.text)
+                translated_segments = translate(text_list, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, [target_language])
+                for run, translated in zip(run_list, translated_segments):
+                    run.text = " " + translated[0]["generated_translation"]
+                output_file_path = os.path.join(processed_folder, os.path.basename(file_name + '.pptx'))
+                prs.save(output_file_path)
+                processed_files.append(output_file_path)
             else:
-                with open(output_file_path, 'w', encoding='utf-8') as f:
-                    f.write(translated_content)
-            
-            processed_files.append(output_file_path)
+                # 识别并转换 Word 文件
+                if file_ext.lower() == '.docx':
+                    md_content = word_to_markdown(file_path)
+                    file_is_word = True
+                elif file_ext.lower() == '.md':
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        md_content = f.read()
+                    file_is_word = False
+                else:
+                    continue  # 跳过非 Word 或 Markdown 文件
+
+                # 拆分 Markdown 内容进行翻译
+                text_segments = md_content.split('\n\n')
+                translated_segments = translate(text_segments, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, [target_language])
+                
+                print(translated_segments)
+                # 合并翻译内容
+                translated_content = '\n\n'.join([translated_segment[0]["generated_translation"] for translated_segment in translated_segments])
+                
+                # 根据文件类型保存为 Markdown 或 Word
+                output_file_path = os.path.join(processed_folder, os.path.basename(file_name + ('.docx' if file_is_word else '.md')))
+                
+                if file_is_word:
+                    markdown_to_word(translated_content, output_file_path)
+                else:
+                    with open(output_file_path, 'w', encoding='utf-8') as f:
+                        f.write(translated_content)
+                
+                processed_files.append(output_file_path)
 
         # 将所有处理后的文件压缩成一个 zip 文件
         zip_filename = os.path.join(folder_path, "processed_files.zip")
