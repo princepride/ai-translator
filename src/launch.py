@@ -484,8 +484,7 @@ def webui():
                                     inputs=[input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_language], 
                                     outputs=[output_text, output_folder])
 
-    interface.launch(share=True)
-    # interface.launch(debug=True)
+    interface.launch()
 
 if __name__ == "__main__":
     webui()
