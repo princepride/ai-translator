@@ -58,7 +58,11 @@ class Model():
                     "target_language":target_language,
                     "generated_translation":input
                 })
-
+            elif input.strip() == "此词条确认无需翻译或已废弃" or input.strip() == "!!!!!!!!" or input.strip() == "Obsolete" or input.strip() == "obsolete":
+                res.append({
+                    "target_language":target_language,
+                    "generated_translation":input
+                })
             else:
                 # Find and store any image tags with base64 encoded data
                 removed_images = re.findall(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", input)
