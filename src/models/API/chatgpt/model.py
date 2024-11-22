@@ -2,6 +2,20 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
+import pandas as pd
+
+dic = pd.read_excel(r"C:\Users\wangz\Desktop\translation\机翻预料准备-20240806\术语库\ERP常用术语-20240305.xlsx")
+
+def find_translations(input_text):
+    # 用于存储匹配结果
+    results = []
+    # 遍历术语库，找出中文词及其对应的西班牙语翻译
+    for _, row in dic.iterrows():
+        chinese_term = row['Chinese']
+        spanish_term = row['Spanish']
+        if chinese_term in input_text:
+            results.append((chinese_term, spanish_term))
+    return results
 
 def contains_special_string(sentence):
     # 定义特殊字符串的正则表达式模式字典
@@ -69,10 +83,18 @@ class Model():
                 # Remove the image tags from the text
                 input = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", input)
 
-                
-                messages = [
-                    {"role": "system", "content": f"You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}. The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding, preserving its formatting without adding extra content."},
-                ]
+                matches = find_translations(input)
+                terminology_guide = "\n".join([f"- {item1}: {item2}" for item1, item2 in matches])
+                system_prompt = f"""
+                You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
+                        
+                Here is a terminology guide to help you ensure accurate translations for common ERP terms:
+                {terminology_guide}
+
+                The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
+                """
+
+                messages = [{"role": "system", "content": system_prompt}]
 
                 special_string_list = []
                 for i in range(3):
