@@ -17,6 +17,7 @@ from docx.table import Table
 from docx.text.paragraph import Paragraph
 from docx.shared import Inches
 from pptx import Presentation
+import re
 
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -380,6 +381,108 @@ def webui():
 
         return f"Total process time: {int(end_time - start_time)}s", zip_filename
 
+    def glossary_check(input_folder, start_row, end_row, original_column, reference_column, translated_column, row_selection, remark_column) -> str:
+        def contains_special_string(sentence):
+            # 定义特殊字符串的正则表达式模式字典
+            patterns = {
+                "Content within <% ... %> should not be translated": r"<%.*?%>",  # Match <% ... %>
+                "Special symbol %s should be contained": r"%s",             # Match %s
+                "Special symbols {0}, {1}, {2}, etc., should not be translated": r"{\d+}",  # Match {0}, {1}, {2}, etc.
+                "Special symbol %d should be contained": r"%d",             # Match %d
+                "String {counts} should not be translated": r"{counts}",         # Match {counts}
+                "String (value) should not be translated": r"\(value\)",         # Match (value)
+                "String (Value) should not be translated": r"\(Value\)",         # Match (Value)
+                "String (text) should not be translated": r"\(text\)",         # Match (text)
+                "String (Text) should not be translated": r"\(Text\)",         # Match (Text)
+                "String (message) should not be translated": r"\(message\)",         # Match (message)
+                "String (Message) should not be translated": r"\(Message\)",         # Match (Message)
+                "String (group) should not be translated": r"\(group\)",         # Match (group)
+                "String (Group) should not be translated": r"\(Group\)",         # Match (Group)
+                "Content within &{...}& should not be translated": r"&{.*?}&",   # Match &{...}&
+                "String {} should be contained": r"{}",                     # Match {}
+                "Content within #...# should not be translated": r"#.*?#",       # Match #...#
+                "Content within {{...}} should not be translated": r"{{.*?}}",   # Match {{...}}
+                "Consecutive uppercase letters (AR, AP, SKU) should be contained": r"[A-Z]{2,}",     # Match consecutive uppercase letters
+                "CamelCase words (e.g., ServiceCode, LocStudio) should be contained": r"(?:[A-Z][a-z]+){2,}",  # Match CamelCase words
+                "Full links http:// should be contained": r"http://",                     # Match full links containing "http://"
+                "Full links https:// should be contained": r"https://",                   # Match full links containing "https://"
+                "Full file paths E:\, D:\, C:\ should be contained": r"[CDE]:\\",         # Match file paths with "E:\", "D:\", "C:\"
+                "Formula-like strings such as datediff(.*?,.*?,.*?) should not be translated": r"datediff\(.*?,.*?,.*?\)",  # Match datediff
+                "Strings like @BusinessFunction. ... @ should not be translated": r"@业务函数\..*?@",  # Match @BusinessFunction. ... @
+                "CamelCase words starting with a lowercase letter (e.g., serviceCode, locStudio) should not be translated": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*"  # Match camelCase words
+            }
+
+            reasons = []  # 用于存储匹配的条目
+            matched_strings = []  # 用于存储被识别的字符串
+            for reason, pattern in patterns.items():
+                matches = re.findall(pattern, sentence)
+                if matches:
+                    reasons.append(reason)
+                    matched_strings.extend(matches)
+
+            return {
+                "contains_special_string": bool(reasons),  # 如果 reasons 列表不为空，表示匹配
+                "reason": reasons,                         # 返回所有匹配条目
+                "matched_strings": matched_strings         # 返回所有被识别的字符串
+            }
+        
+        result = []
+        excel_writer = ExcelFileWriter()
+        folder_path = os.path.dirname(input_folder[0].name)
+        processed_files = []
+
+        # Create a new folder named 'processed' within the uploaded folder
+        processed_folder = os.path.join(folder_path, 'processed')
+        os.makedirs(processed_folder, exist_ok=True)
+        for input_file in input_folder:
+            file_path = input_file.name
+            file_name, file_ext = os.path.splitext(file_path)
+            if file_ext == '.xlsx':
+                if row_selection == "所有行":
+                    end_row = FileReaderFactory.count_rows(file_path)
+                reader, fp = FileReaderFactory.create_reader(file_path)
+                original_inputs = reader.extract_text(file_path, original_column, start_row, end_row)
+                reference_inputs = reader.extract_text(file_path, reference_column, start_row, end_row)
+                translated_inputs = reader.extract_text(file_path, translated_column, start_row, end_row)
+                result.append(f"{file_name}:")
+                outputs = []
+                for index, (original_input, reference_input, translated_input) in enumerate(zip(original_inputs, reference_inputs, translated_inputs)):
+                    special_string = contains_special_string(original_input)
+                    # print(outputs["matched_strings"])
+                    if special_string["contains_special_string"]:
+                        temp_miss_match = []
+                        for reason, matched_string in zip(special_string["reason"], special_string["matched_strings"]):
+                            
+                            if matched_string in translated_input:
+                                continue
+                            else:
+                                if matched_string.lower() not in reference_input.lower():
+                                    continue
+                                else:
+                                    temp_miss_match.append([matched_string, reason])
+                        if temp_miss_match != []:
+                            result.append(f"\tROW : {start_row + index}, MISSED : {','.join([miss_match[0] for miss_match in temp_miss_match])}, REASON : {','.join([miss_match[1] for miss_match in temp_miss_match])}")
+                            outputs.append(f"MISSED : {','.join([miss_match[0] for miss_match in temp_miss_match])}, REASON : {','.join([miss_match[1] for miss_match in temp_miss_match])}")
+                        else:
+                            if any(s.isupper() for s in special_string["matched_strings"]):
+                                outputs.append("SPECIAL VALUE, INCLUDE UPPERCASE LETTER")
+                            else:
+                                outputs.append("SPECIAL VALUE")
+                    else:
+                        outputs.append("")
+                output_file = excel_writer.write_list(file_path, outputs, remark_column, start_row, end_row)
+                processed_file_path = os.path.join(processed_folder, os.path.basename(output_file))
+                shutil.move(output_file, processed_file_path)
+                processed_files.append(processed_file_path)
+
+        # Create a zip file 
+        zip_filename = os.path.join(folder_path, "processed_files.zip")
+        with zipfile.ZipFile(zip_filename, 'w') as zipf:
+            for file in processed_files:
+                zipf.write(file, os.path.basename(file))
+            print(f"{file_name} 已检测完成")
+        return "\n".join(result), zip_filename
+
     with gr.Blocks(title="yonyou translator") as interface:
         with gr.Tabs():
             with gr.TabItem("Excel Translator"):
@@ -483,8 +586,34 @@ def webui():
                 translate_button.click(translate_markdown_folder, 
                                     inputs=[input_folder, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_language], 
                                     outputs=[output_text, output_folder])
+            with gr.TabItem("术语表校验"):
+                with gr.Row():
+                    with gr.Column():
+                        input_folder = gr.File(file_count="directory")
+                        with gr.Row():
+                            row_selection = gr.Radio(choices=["特定行", "所有行"], label="行选择", value="特定行")
+                            start_row = gr.Number(value=yaml_data["excel_config"]["default_start_row"], label="起始行")
+                            end_row = gr.Number(value=yaml_data["excel_config"]["default_end_row"], label="终止行", visible=True)
+                        row_selection.change(update_row_selection, inputs=row_selection, outputs=end_row)
+                        with gr.Row():
+                            original_column = gr.Textbox("J", label="原文列")
+                            reference_column = gr.Textbox("G", label="参考列")
+                            translated_column = gr.Textbox("H", label="已翻译列")
+                        with gr.Row():
+                            remark_column = gr.Textbox("I", label="备注")
+                        translate_button = gr.Button("开始检测")
+
+                    with gr.Column():
+                        output_text = gr.Textbox(label="输出文本", lines=20, show_copy_button=True)
+                        output_folder = gr.File(label="特殊词条标注文件下载")
+
+                translate_button.click(glossary_check, 
+                                    inputs=[input_folder, start_row, end_row, original_column, reference_column, translated_column, row_selection, remark_column], 
+                                    outputs=[output_text, output_folder])
 
     interface.launch(share=True)
 
 if __name__ == "__main__":
+    # 实现快速排序
+    
     webui()

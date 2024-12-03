@@ -60,25 +60,49 @@ class ExcelFileWriter(FileWriter):
             try:
                 workbook = load_workbook(file_path)
             except FileNotFoundError:
-                workbook = Workbook()
-            # Create a copy of the active sheet
-            original_sheet = workbook.active
-            copied_sheet = workbook.copy_worksheet(original_sheet)
-            copied_sheet.title = "translated"
+                raise FileNotFoundError(f"The file '{file_path}' does not exist.")
+            
+            # Use the active sheet directly
             sheet = workbook.active
             language_type = len(texts[0])
-            for i in range(start_row, end_row+1):
+            
+            # Write translations to the specified range
+            for i in range(start_row, end_row + 1):
                 for j in range(language_type):
-                    sheet.cell(row=i, column=start_column + j, value=texts[i-start_row][j]['generated_translation'])
-            directory, original_filename = os.path.split(file_path)
-            new_filename = original_filename.replace(".", f"_{start_row}_{end_row}_translated.")
-            new_file_path = os.path.join(directory, new_filename)
-            print("new_file_path", new_file_path)
-            workbook.save(new_file_path)
-            return new_file_path
+                    sheet.cell(row=i, column=start_column + j, value=texts[i - start_row][j]['generated_translation'])
+            
+            # Save the workbook with the same filename to overwrite the original file
+            workbook.save(file_path)
+            return file_path
 
         except Exception as e:
-            raise FileExistsError(f"Error writing to Excel: {e}")
+            raise Exception(f"Error writing to Excel: {e}")
+        
+    def write_list(self, file_path, texts, start_column, start_row, end_row) -> bool:
+        assert end_row - start_row + 1 == len(texts)
+        start_row = int(start_row)
+        end_row = int(end_row)
+        start_column = column_index_from_string(start_column)
+        try:
+            try:
+                workbook = load_workbook(file_path)
+            except FileNotFoundError:
+                raise FileNotFoundError(f"The file '{file_path}' does not exist.")
+            
+            # Use the active sheet directly
+            sheet = workbook.active
+            
+            # Write translations to the specified range
+            for i in range(start_row, end_row + 1):
+                sheet.cell(row=i, column=start_column, value=texts[i - start_row])
+            
+            # Save the workbook with the same filename to overwrite the original file
+            workbook.save(file_path)
+            return file_path
+
+        except Exception as e:
+            raise Exception(f"Error writing to Excel: {e}")
+
         
 
 class FileReaderFactory:
