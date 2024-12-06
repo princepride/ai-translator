@@ -21,6 +21,7 @@ JWT_ALGORITHM = "HS256"
 
 # Store magic links and their expiration (in a real app, use a proper database)
 magic_links: Dict[str, Dict] = {}
+email_whitelist = []
 
 # Email configuration
 SMTP_SERVER = "smtp.gmail.com"
@@ -95,6 +96,9 @@ def login_interface():
         result = gr.Markdown()
 
         def handle_login(email):
+            if email not in email_whitelist:
+                return "This email doesn't have access."
+
             if send_magic_link(email):
                 return "Magic link sent! Please check your email."
             return "Error sending magic link. Please try again."
@@ -153,9 +157,16 @@ async def logout():
     return response
 
 
-app = gr.mount_gradio_app(app, login_interface(), path="/login")
-app = gr.mount_gradio_app(app, main_ui, path="/app")
+def get_user_email(request: Request) -> Optional[str]:
+    jwt_token = request.cookies.get('auth_token')
+    if jwt_token is None:
+        return None
 
+    return verify_jwt_token(jwt_token)
+
+
+app = gr.mount_gradio_app(app, login_interface(), path="/login")
+app = gr.mount_gradio_app(app, main_ui, path="/app", auth_dependency=get_user_email)
 
 if __name__ == "__main__":
     uvicorn.run(app, port=8000)
