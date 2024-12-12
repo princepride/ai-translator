@@ -7,3 +7,4 @@ __pycache__
 /src/models/local
 /src/images
 /src/media
+*.zip
