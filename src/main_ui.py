@@ -72,9 +72,8 @@ def webui():
         file_path = input_file.name
         reader, fp = FileReaderFactory.create_reader(file_path)
         inputs = reader.extract_text(file_path, target_column, start_row, end_row)
-        temp_outputs = reader.extract_text(file_path, start_column, start_row, end_row)
 
-        outputs = translate(inputs, temp_outputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
+        outputs = translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
                             target_languages)
 
         excel_writer = ExcelFileWriter()
@@ -84,7 +83,7 @@ def webui():
         end_time = time.time()
         return f"Total process time: {int(end_time - start_time)}s", output_file
 
-    def translate(inputs, temp_outputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
+    def translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
                   target_languages):
         if isinstance(inputs, str):
             inputs = [inputs]
@@ -100,7 +99,7 @@ def webui():
         if hasattr(model_module, 'Model'):
             model = model_module.Model(available_models[selected_model], selected_lora_model, selected_gpu)
             if hasattr(model, 'generate'):
-                outputs = model.generate(inputs, temp_outputs, original_language, target_languages, batch_size)
+                outputs = model.generate(inputs, original_language, target_languages, batch_size)
             else:
                 print("Model class does not have a 'generate' method.")
         else:
