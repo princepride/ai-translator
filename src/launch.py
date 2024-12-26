@@ -7,11 +7,13 @@ from typing import Dict, Optional
 
 import gradio as gr
 import jwt
+import uvicorn
 from fastapi import FastAPI, Request, HTTPException, Cookie
 from fastapi.responses import RedirectResponse
 from gradio_fastapi import gradio_lifespan_init
 
 from main_ui import main_ui
+from utils.ui import get_base_url
 
 # Initialize FastAPI app
 app = FastAPI(lifespan=gradio_lifespan_init())
@@ -29,8 +31,6 @@ SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SMTP_USERNAME = "@gmail.com"  # Your email
 SMTP_PASSWORD = ""  # Your app password
-
-BASE_URL = "http://localhost:8000"
 
 
 def create_jwt_token(email: str) -> str:
@@ -52,7 +52,7 @@ def verify_jwt_token(token: str) -> Optional[str]:
         return None
 
 
-def send_magic_link(email: str) -> bool:
+def send_magic_link(base_url: str, email: str) -> bool:
     """Send a magic link to the specified email address."""
     token = secrets.token_urlsafe(32)
     expiration = datetime.now() + timedelta(minutes=15)
@@ -62,7 +62,7 @@ def send_magic_link(email: str) -> bool:
         "expiration": expiration
     }
 
-    magic_link = f"{BASE_URL}/verify/{token}"
+    magic_link = f"{base_url}/verify/{token}"
 
     msg = MIMEMultipart()
     msg['From'] = SMTP_USERNAME
@@ -92,15 +92,18 @@ def login_interface():
     """Create the login interface using Gradio."""
     with gr.Blocks() as login_block:
         gr.Markdown("## Login")
-        email_input = gr.Textbox(label="Email")
+        email_input = gr.Textbox(label="Email", placeholder='Please enter your email address.', type='email',
+                                 autofocus=True)
         submit_btn = gr.Button("Send Magic Link")
         result = gr.Markdown()
 
-        def handle_login(email):
+        def handle_login(email: str, request: gr.Request) -> str:
+            base_url = get_base_url(request)
+
             if email not in email_whitelist:
                 return "This email doesn't have access."
 
-            if send_magic_link(email):
+            if send_magic_link(base_url, email):
                 return "Magic link sent! Please check your email."
             return "Error sending magic link. Please try again."
 
@@ -168,3 +171,6 @@ def get_user_email(request: Request) -> Optional[str]:
 
 app = gr.mount_gradio_app(app, login_interface(), path="/login")
 app = gr.mount_gradio_app(app, main_ui, path="/app", auth_dependency=get_user_email)
+
+if __name__ == "__main__":
+    uvicorn.run(app, port=8000)
