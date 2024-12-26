@@ -64,7 +64,7 @@ git clone https://princepride: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@huggingface.
 
 使用以下命令享受 AI 翻译器：
 
-`python launch.py`
+`fastapi dev launch.py`
 
 # AI_Translator 使用说明
 

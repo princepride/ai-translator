@@ -1,19 +1,20 @@
-import gradio as gr
 import secrets
 import smtplib
-import jwt
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from fastapi import FastAPI, Request, Response, HTTPException, Cookie
-from fastapi.responses import RedirectResponse
-from typing import Dict, Optional
-import uvicorn
-import os
 from datetime import datetime, timedelta
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from typing import Dict, Optional
+
+import gradio as gr
+import jwt
+from fastapi import FastAPI, Request, HTTPException, Cookie
+from fastapi.responses import RedirectResponse
+from gradio_fastapi import gradio_lifespan_init
+
 from main_ui import main_ui
 
 # Initialize FastAPI app
-app = FastAPI()
+app = FastAPI(lifespan=gradio_lifespan_init())
 
 # Configuration
 JWT_SECRET = "your-jwt-secret-key"  # Change this to a secure secret key
@@ -167,6 +168,3 @@ def get_user_email(request: Request) -> Optional[str]:
 
 app = gr.mount_gradio_app(app, login_interface(), path="/login")
 app = gr.mount_gradio_app(app, main_ui, path="/app", auth_dependency=get_user_email)
-
-if __name__ == "__main__":
-    uvicorn.run(app, port=8000)
