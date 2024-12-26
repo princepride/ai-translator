@@ -72,8 +72,9 @@ def webui():
         file_path = input_file.name
         reader, fp = FileReaderFactory.create_reader(file_path)
         inputs = reader.extract_text(file_path, target_column, start_row, end_row)
+        temp_outputs = reader.extract_text(file_path, start_column, start_row, end_row)
 
-        outputs = translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
+        outputs = translate(inputs, temp_outputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
                             target_languages)
 
         excel_writer = ExcelFileWriter()
@@ -83,7 +84,7 @@ def webui():
         end_time = time.time()
         return f"Total process time: {int(end_time - start_time)}s", output_file
 
-    def translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
+    def translate(inputs, temp_outputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
                   target_languages):
         if isinstance(inputs, str):
             inputs = [inputs]
@@ -99,7 +100,7 @@ def webui():
         if hasattr(model_module, 'Model'):
             model = model_module.Model(available_models[selected_model], selected_lora_model, selected_gpu)
             if hasattr(model, 'generate'):
-                outputs = model.generate(inputs, original_language, target_languages, batch_size)
+                outputs = model.generate(inputs, temp_outputs, original_language, target_languages, batch_size)
             else:
                 print("Model class does not have a 'generate' method.")
         else:
@@ -156,23 +157,23 @@ def webui():
         print(f"Processed files: {processed_files}")
         return f"Total process time: {int(end_time - start_time)}s", zip_filename
 
-    def iter_block_items(parent):
-        """
-        生成文档中所有的块级元素，按顺序包括段落和表格。
-        """
-        parent_elm = parent.element.body
-        for child in parent_elm.iterchildren():
-            if child.tag == qn('w:p'):
-                yield Paragraph(child, parent)
-            elif child.tag == qn('w:tbl'):
-                yield Table(child, parent)
-
     def word_to_markdown(docx_path, output_dir="images"):
         # 创建输出图片目录
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         from docx.opc.pkgreader import _SerializedRelationships, _SerializedRelationship
         from docx.opc.oxml import parse_xml
+
+        def iter_block_items(parent):
+            """
+            生成文档中所有的块级元素，按顺序包括段落和表格。
+            """
+            parent_elm = parent.element.body
+            for child in parent_elm.iterchildren():
+                if child.tag == qn('w:p'):
+                    yield Paragraph(child, parent)
+                elif child.tag == qn('w:tbl'):
+                    yield Table(child, parent)
 
         def load_from_xml_v2(baseURI, rels_item_xml):
             """
@@ -517,11 +518,11 @@ def webui():
                     with gr.Column():
                         input_file = gr.File()
                         with gr.Row():
-                            start_row = gr.Number(value=yaml_data["excel_config"]["default_start_row"], label="起始行")
-                            end_row = gr.Number(value=yaml_data["excel_config"]["default_end_row"], label="终止行")
-                            target_column = gr.Textbox(value=yaml_data["excel_config"]["default_target_column"],
+                            start_row = gr.Number(value=2, label="起始行")
+                            end_row = gr.Number(value=100001, label="终止行")
+                            target_column = gr.Textbox(value="J",
                                                        label="目标列")
-                            start_column = gr.Textbox(value=yaml_data["excel_config"]["default_start_column"],
+                            start_column = gr.Textbox(value="K",
                                                       label="结果写入列")
                         with gr.Row():
                             selected_model = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型")
