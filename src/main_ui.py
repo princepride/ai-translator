@@ -1,8 +1,12 @@
 import zipfile
+from typing import Optional
+
 import yaml
 import os
 import shutil
 import gradio as gr
+from gradio.utils import NamedString
+
 from utils.path import get_models
 from utils.cuda import get_gpu_info
 import json
@@ -313,20 +317,22 @@ def webui():
                     print(f"Unknown error")
         doc.save(word_path)
 
-    def translate_markdown_folder(input_folder, selected_model, selected_lora_model, selected_gpu, batch_size,
-                                  original_language, target_language):
+    def translate_markdown_folder(translating_files: list[NamedString],
+                                  selected_model: Optional[str], selected_lora_model: Optional[str],
+                                  selected_gpu: Optional[str], batch_size: int,
+                                  original_language: Optional[str], target_language: Optional[str]):
         start_time = time.time()
-        if not input_folder:
+        if not translating_files:
             return "No files uploaded", []
 
-        folder_path = os.path.dirname(input_folder[0].name)
+        folder_path = os.path.dirname(translating_files[0].name)
         processed_files = []
 
         # 创建保存翻译文件的文件夹
         processed_folder = os.path.join(folder_path, 'processed')
         os.makedirs(processed_folder, exist_ok=True)
 
-        for input_file in input_folder:
+        for input_file in translating_files:
             file_path = input_file.name
             file_name, file_ext = os.path.splitext(file_path)
 
