@@ -11,3 +11,5 @@ python-pptx==1.0.2
 markdown==3.7
 python-dotenv
 beautifulsoup4==4.12.3
+fastapi[standard]~=0.115.6
+gradio-fastapi~=0.1.0
