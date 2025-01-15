@@ -2,20 +2,20 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
-import pandas as pd
+# import pandas as pd
 
-dic = pd.read_excel(r"D:\Projects\ai-translator\src\models\API\chatgpt\glossary.xlsx")
+# dic = pd.read_excel(r"D:\Projects\ai-translator\src\models\API\chatgpt\glossary.xlsx")
 
-def find_translations(input_text):
-    # 用于存储匹配结果
-    results = []
-    # 遍历术语库，找出中文词及其对应的西班牙语翻译
-    for _, row in dic.iterrows():
-        chinese_term = row['Chinese']
-        spanish_term = row['Spanish']
-        if chinese_term in input_text:
-            results.append((chinese_term, spanish_term))
-    return results
+# def find_translations(input_text, original_language, target_language):
+#     # 用于存储匹配结果
+#     results = []
+#     # 遍历术语库，找出中文词及其对应的西班牙语翻译
+#     for _, row in dic.iterrows():
+#         original_term = row[original_language]
+#         target_term = row[target_language]
+#         if original_term in input_text:
+#             results.append((original_term, target_term))
+#     return results
 
 def contains_special_string(sentence):
     # 定义特殊字符串的正则表达式模式字典
@@ -83,7 +83,7 @@ class Model():
                 # Remove the image tags from the text
                 input = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", input)
 
-                # matches = find_translations(input)
+                # matches = find_translations(input, original_language, target_language)
                 # terminology_guide = "\n".join([f"- {item1}: {item2}" for item1, item2 in matches])
                 # system_prompt = f"""
                 # You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
@@ -109,7 +109,7 @@ class Model():
                         messages.append({"role": "user", "content": f"You should skip the words: {', '.join(special_string_list)} do not translate, please translate it again without adding extra content."})
                     
                     completion = self.client.chat.completions.create(
-                        model="gpt-4o-mini",
+                        model="gpt-4o",
                         messages=messages,
                         temperature=0
                     )
