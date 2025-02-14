@@ -87,8 +87,7 @@ def webui():
         end_time = time.time()
         return f"Total process time: {int(end_time - start_time)}s", output_file
 
-    def translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
-                  target_languages):
+    def translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
         if isinstance(inputs, str):
             inputs = [inputs]
         model_file_path = os.path.join(available_models[selected_model], 'model.py')

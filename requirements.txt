@@ -15,3 +15,6 @@ fastapi[standard]~=0.115.6
 gradio-fastapi~=0.1.0
 pyjwt
 openai
+pdfkit
+pdfplumber
+pdf2zh
