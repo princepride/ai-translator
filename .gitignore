@@ -8,3 +8,4 @@ __pycache__
 /src/images
 /src/media
 *.zip
+*.pdf
