@@ -51,11 +51,12 @@ class CSVFileReader(FileReader):
         return texts
     
 class ExcelFileWriter(FileWriter):
-    def write_text(self, file_path, texts, start_column, start_row, end_row) -> bool:
+    def write_text(self, file_path, texts, start_column, start_row, end_row, geo_mean_confidence_column) -> bool:
         assert end_row - start_row + 1 == len(texts)
         start_row = int(start_row)
         end_row = int(end_row)
         start_column = column_index_from_string(start_column)
+        geo_mean_confidence_column = column_index_from_string(geo_mean_confidence_column)
         try:
             try:
                 workbook = load_workbook(file_path)
@@ -70,6 +71,7 @@ class ExcelFileWriter(FileWriter):
             for i in range(start_row, end_row + 1):
                 for j in range(language_type):
                     sheet.cell(row=i, column=start_column + j, value=texts[i - start_row][j]['generated_translation'])
+                    sheet.cell(row=i, column=geo_mean_confidence_column + j, value=texts[i - start_row][j]['geo_mean_confidence'])
             
             # Save the workbook with the same filename to overwrite the original file
             workbook.save(file_path)

@@ -2,20 +2,28 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
-# import pandas as pd
+import pandas as pd
+import numpy as np
 
-# dic = pd.read_excel(r"D:\Projects\ai-translator\src\models\API\chatgpt\glossary.xlsx")
+dic = pd.read_excel(r"D:\Project\ai-translator\src\models\API\chatgpt-4o-mini\glossary.xlsx")
 
-# def find_translations(input_text, original_language, target_language):
-#     # 用于存储匹配结果
-#     results = []
-#     # 遍历术语库，找出中文词及其对应的西班牙语翻译
-#     for _, row in dic.iterrows():
-#         original_term = row[original_language]
-#         target_term = row[target_language]
-#         if original_term in input_text:
-#             results.append((original_term, target_term))
-#     return results
+def find_translations(input_text, original_language, target_language):
+    # 如果 original_language 或 target_language 不是列名，直接返回 []
+    if original_language not in dic.columns or target_language not in dic.columns:
+        return []
+    
+    # 用于存储匹配结果
+    results = []
+
+    # 遍历术语库，找出中文词及其对应的翻译
+    for _, row in dic.iterrows():
+        original_term = row[original_language]
+        target_term = row[target_language]
+        if original_term in input_text:
+            results.append((original_term, target_term))
+    
+    return results
+
 
 def contains_special_string(sentence):
     # 定义特殊字符串的正则表达式模式字典
@@ -65,17 +73,20 @@ class Model():
             if input.strip().startswith("[ref1]"):
                 res.append({
                     "target_language":target_language,
-                    "generated_translation":input
+                    "generated_translation":input,
+                    "geo_mean_confidence": 1
                 })
             elif not re.search(r'[A-Za-z\u4e00-\u9fff]', input.strip()):
                 res.append({
                     "target_language":target_language,
-                    "generated_translation":input
+                    "generated_translation":input,
+                    "geo_mean_confidence": 1
                 })
             elif input.strip() == "此词条确认无需翻译或已废弃" or input.strip() == "!!!!!!!!" or input.strip() == "Obsolete" or input.strip() == "obsolete":
                 res.append({
                     "target_language":target_language,
-                    "generated_translation":input
+                    "generated_translation":input,
+                    "geo_mean_confidence": 1
                 })
             else:
                 # Find and store any image tags with base64 encoded data
@@ -83,21 +94,28 @@ class Model():
                 # Remove the image tags from the text
                 input = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", input)
 
-                # matches = find_translations(input, original_language, target_language)
-                # terminology_guide = "\n".join([f"- {item1}: {item2}" for item1, item2 in matches])
+                matches = find_translations(input, original_language, target_language)
+                terminology_guide = "\n".join([f"- {item1}: {item2}" for item1, item2 in matches])
+                if len(matches) > 0:
+                    system_prompt = f"""
+                    You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
+                            
+                    Here is a terminology guide to help you ensure accurate translations for common ERP terms:
+                    {terminology_guide}
+
+                    The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
+                    """
+                else:
+                    system_prompt = f"""
+                    You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
+
+                    The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
+                    """
+
                 # system_prompt = f"""
                 # You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
-                        
-                # Here is a terminology guide to help you ensure accurate translations for common ERP terms:
-                # {terminology_guide}
-
                 # The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
                 # """
-
-                system_prompt = f"""
-                You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
-                The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
-                """
 
                 messages = [{"role": "system", "content": system_prompt}]
 
@@ -106,16 +124,32 @@ class Model():
                     if i == 0:
                         messages.append({"role": "user", "content": input})
                     else:
-                        messages.append({"role": "user", "content": f"You should skip the words: {', '.join(special_string_list)} do not translate, please translate it again without adding extra content."})
+                        messages.append({
+                            "role": "user",
+                            "content": f"You should skip the words: {', '.join(special_string_list)} do not translate, please translate it again without adding extra content."
+                        })
                     
                     completion = self.client.chat.completions.create(
                         model="gpt-4o",
                         messages=messages,
-                        temperature=0
+                        temperature=0,
+                        logprobs=True,
+                        top_p=1
                     )
                     translated_text = completion.choices[0].message.content
+                    logprobs = [token.logprob for token in completion.choices[0].logprobs.content]
+                    probs = np.exp(logprobs)
+                    geo_mean_confidence = float(np.prod(probs) ** (1 / len(probs)))
                     messages.append({"role": "assistant", "content": translated_text})
-                    
+
+                    # 检查是否包含特殊错误消息
+                    error_messages = [
+                        "Sorry, I can't assist with that request",
+                        "It seems like your message is incomplete"
+                    ]
+                    if any(error_msg in translated_text for error_msg in error_messages):
+                        continue  # 重新进入循环进行翻译
+
                     temp = contains_special_string(input)
                     if temp["contains_special_string"]:
                         all_special_strings_retained = True
@@ -128,11 +162,13 @@ class Model():
                             break
                     else:
                         break
+
                 if removed_images:
                     translated_text += "\n" + "\n".join(removed_images)
                 res.append({
                     "target_language":target_language,
-                    "generated_translation":translated_text
+                    "generated_translation":translated_text,
+                    "geo_mean_confidence": geo_mean_confidence
                 })
         return res
 
@@ -181,4 +217,5 @@ class Model():
                     res[index] = future.result()
                 except Exception as e:
                     res[index] = [{"target_language":target_language,"generated_translation":f"Error: {e}"} for target_language in target_languages]
+        print(res)
         return res

@@ -70,7 +70,8 @@ def webui():
         return gr.Dropdown(choices=original_language_choices), gr.Dropdown(
             choices=target_language_choices), gr.Dropdown(choices=lora_list), model_explanation
 
-    def translate_excel(input_file, start_row, end_row, start_column, target_column, selected_model,
+    def translate_excel(input_file, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
+                        selected_model,
                         selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
         start_time = time.time()
         file_path = input_file.name
@@ -82,7 +83,8 @@ def webui():
 
         excel_writer = ExcelFileWriter()
         print("Finally processed number: ", len(outputs))
-        output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
+        output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row,
+                                              geo_mean_confidence_column)
 
         end_time = time.time()
         return f"Total process time: {int(end_time - start_time)}s", output_file
@@ -528,6 +530,7 @@ def webui():
                                                        label="目标列")
                             start_column = gr.Textbox(value="K",
                                                       label="结果写入列")
+                            geo_mean_confidence_column = gr.Textbox(value="L",label="置信度")
                         with gr.Row():
                             selected_model = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
@@ -545,7 +548,7 @@ def webui():
                                       outputs=[original_language, target_languages, selected_lora_model,
                                                model_explanation_textbox])
                 translate_button.click(translate_excel,
-                                       inputs=[input_file, start_row, end_row, start_column, target_column,
+                                       inputs=[input_file, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
                                                selected_model, selected_lora_model, selected_gpu, batch_size,
                                                original_language, target_languages], outputs=[output_text, output_file])
             with gr.TabItem("Text Translator"):
