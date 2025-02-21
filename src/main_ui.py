@@ -111,7 +111,7 @@ def webui():
             print("No Model class found in model.py.")
         return outputs
 
-    def translate_excel_folder(input_folder, start_row, end_row, start_column, target_column, selected_model,
+    def translate_excel_folder(input_folder, start_row, end_row, start_column, target_column, geo_mean_confidence_column, selected_model,
                                selected_lora_model, selected_gpu, batch_size, original_language, target_languages,
                                row_selection):
         start_time = time.time()
@@ -141,7 +141,7 @@ def webui():
             if row_selection == "所有行":
                 end_row = FileReaderFactory.count_rows(updated_file_path)
 
-            process_time, output_file = translate_excel(input_file, start_row, end_row, start_column, target_column,
+            process_time, output_file = translate_excel(input_file, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
                                                         selected_model, selected_lora_model, selected_gpu, batch_size,
                                                         original_language, target_languages)
 
@@ -592,7 +592,7 @@ def webui():
                                                        label="目标列")
                             start_column = gr.Textbox(value=yaml_data["excel_config"]["default_start_column"],
                                                       label="结果写入列")
-
+                            geo_mean_confidence_column = gr.Textbox(value="L",label="置信度")
                         with gr.Row():
                             selected_model = gr.Dropdown(choices=(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
@@ -611,7 +611,7 @@ def webui():
                                       outputs=[original_language, target_languages, selected_lora_model,
                                                model_explanation_textbox])
                 translate_button.click(translate_excel_folder,
-                                       inputs=[input_folder, start_row, end_row, start_column, target_column,
+                                       inputs=[input_folder, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
                                                selected_model, selected_lora_model, selected_gpu, batch_size,
                                                original_language, target_languages, row_selection],
                                        outputs=[output_text, output_folder])
