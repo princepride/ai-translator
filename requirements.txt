@@ -18,3 +18,4 @@ openai
 pdfkit
 pdfplumber
 pdf2zh
+pdf2docx
