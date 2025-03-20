@@ -5,7 +5,7 @@ import re
 import pandas as pd
 import numpy as np
 
-glossary_df = pd.read_excel(r"D:\Project\ai-translator\src\models\API\chatgpt-4o-mini\glossary.xlsx")
+glossary_df = pd.read_excel(r"D:\Projects\ai-translator\src\models\API\chatgpt-4o-mini\glossary.xlsx")
 
 import re
 import pandas as pd
@@ -15,12 +15,14 @@ def find_translations(input_text, original_language, target_language):
     if original_language not in glossary_df.columns or target_language not in glossary_df.columns:
         return []
     
-    # 过滤掉原始术语为空的行，使用向量化方法构建字典
-    valid_entries = glossary_df[glossary_df[original_language].notna()]
+    # 过滤掉原始术语或目标术语为空的行，使用向量化方法构建字典
+    valid_entries = glossary_df[glossary_df[original_language].notna() & glossary_df[target_language].notna()]
     term_dict = dict(zip(valid_entries[original_language], valid_entries[target_language]))
     
     # 构建正则表达式，利用 re.escape 对每个术语转义，再用 "|" 拼接起来
-    # 这样可以一次性匹配所有术语
+    if not term_dict:
+        return []
+    
     pattern = re.compile("|".join(map(re.escape, term_dict.keys())))
     
     # 使用正则表达式查找所有匹配项，结果可能包含重复匹配
@@ -29,6 +31,7 @@ def find_translations(input_text, original_language, target_language):
     # 根据匹配到的术语，构造结果列表
     results = [(term, term_dict[term]) for term in found_terms]
     return results
+
 
 def contains_special_string(sentence):
     # 定义特殊字符串的正则表达式模式字典
@@ -76,6 +79,18 @@ class Model():
         res = []
         for target_language in target_languages:
             if input.strip().startswith("[ref1]"):
+                res.append({
+                    "target_language":target_language,
+                    "generated_translation":input,
+                    "geo_mean_confidence": 1
+                })
+            elif input.strip().startswith("https://") or input.strip().startswith("http://"):
+                res.append({
+                    "target_language":target_language,
+                    "generated_translation":input,
+                    "geo_mean_confidence": 1
+                })
+            elif input.strip() == "":
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
@@ -151,6 +166,7 @@ class Model():
                     error_messages = [
                         "Sorry, I can't assist with that request",
                         "It seems like your message is incomplete",
+                        "Error: Connection error"
                         ""
                     ]
                     if any(error_msg in translated_text for error_msg in error_messages):

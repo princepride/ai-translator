@@ -5,23 +5,31 @@ import re
 import pandas as pd
 import numpy as np
 
-dic = pd.read_excel(r"D:\Project\ai-translator\src\models\API\chatgpt-4o-mini\glossary.xlsx")
+glossary_df = pd.read_excel(r"D:\Projects\ai-translator\src\models\API\chatgpt-4o-mini\glossary.xlsx")
+
+import re
+import pandas as pd
 
 def find_translations(input_text, original_language, target_language):
-    # 如果 original_language 或 target_language 不是列名，直接返回 []
-    if original_language not in dic.columns or target_language not in dic.columns:
+    # 如果 original_language 或 target_language 不是列名，则直接返回空列表
+    if original_language not in glossary_df.columns or target_language not in glossary_df.columns:
         return []
     
-    # 用于存储匹配结果
-    results = []
-
-    # 遍历术语库，找出中文词及其对应的翻译
-    for _, row in dic.iterrows():
-        original_term = row[original_language]
-        target_term = row[target_language]
-        if original_term in input_text:
-            results.append((original_term, target_term))
+    # 过滤掉原始术语或目标术语为空的行，使用向量化方法构建字典
+    valid_entries = glossary_df[glossary_df[original_language].notna() & glossary_df[target_language].notna()]
+    term_dict = dict(zip(valid_entries[original_language], valid_entries[target_language]))
     
+    # 构建正则表达式，利用 re.escape 对每个术语转义，再用 "|" 拼接起来
+    if not term_dict:
+        return []
+    
+    pattern = re.compile("|".join(map(re.escape, term_dict.keys())))
+    
+    # 使用正则表达式查找所有匹配项，结果可能包含重复匹配
+    found_terms = set(pattern.findall(input_text))
+    
+    # 根据匹配到的术语，构造结果列表
+    results = [(term, term_dict[term]) for term in found_terms]
     return results
 
 
@@ -71,6 +79,18 @@ class Model():
         res = []
         for target_language in target_languages:
             if input.strip().startswith("[ref1]"):
+                res.append({
+                    "target_language":target_language,
+                    "generated_translation":input,
+                    "geo_mean_confidence": 1
+                })
+            elif input.strip().startswith("https://") or input.strip().startswith("http://"):
+                res.append({
+                    "target_language":target_language,
+                    "generated_translation":input,
+                    "geo_mean_confidence": 1
+                })
+            elif input.strip() == "":
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
@@ -145,7 +165,9 @@ class Model():
                     # 检查是否包含特殊错误消息
                     error_messages = [
                         "Sorry, I can't assist with that request",
-                        "It seems like your message is incomplete"
+                        "It seems like your message is incomplete",
+                        "Error: Connection error"
+                        ""
                     ]
                     if any(error_msg in translated_text for error_msg in error_messages):
                         continue  # 重新进入循环进行翻译
@@ -165,6 +187,8 @@ class Model():
 
                 if removed_images:
                     translated_text += "\n" + "\n".join(removed_images)
+
+                translated_text = re.sub(r'[\u4e00-\u9fff]', '', translated_text)
                 res.append({
                     "target_language":target_language,
                     "generated_translation":translated_text,
