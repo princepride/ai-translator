@@ -702,4 +702,4 @@ def webui():
 main_ui = webui()
 
 if __name__ == "__main__":
-    main_ui.launch(share=True)
+    main_ui.launch(share=True, server_port=8080)
