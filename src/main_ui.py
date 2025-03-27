@@ -70,7 +70,7 @@ def webui():
         return gr.Dropdown(choices=original_language_choices), gr.Dropdown(
             choices=target_language_choices), gr.Dropdown(choices=lora_list), model_explanation
 
-    def translate_excel(input_file, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
+    def translate_excel(input_file, start_row, end_row, start_column, target_column,
                         selected_model,
                         selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
         start_time = time.time()
@@ -83,8 +83,7 @@ def webui():
 
         excel_writer = ExcelFileWriter()
         print("Finally processed number: ", len(outputs))
-        output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row,
-                                              geo_mean_confidence_column)
+        output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
 
         end_time = time.time()
         return f"Total process time: {int(end_time - start_time)}s", output_file
@@ -111,7 +110,7 @@ def webui():
             print("No Model class found in model.py.")
         return outputs
 
-    def translate_excel_folder(input_folder, start_row, end_row, start_column, target_column, geo_mean_confidence_column, selected_model,
+    def translate_excel_folder(input_folder, start_row, end_row, start_column, target_column, selected_model,
                                selected_lora_model, selected_gpu, batch_size, original_language, target_languages,
                                row_selection):
         start_time = time.time()
@@ -141,7 +140,7 @@ def webui():
             if row_selection == "所有行":
                 end_row = FileReaderFactory.count_rows(updated_file_path)
 
-            process_time, output_file = translate_excel(input_file, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
+            process_time, output_file = translate_excel(input_file, start_row, end_row, start_column, target_column,
                                                         selected_model, selected_lora_model, selected_gpu, batch_size,
                                                         original_language, target_languages)
 
@@ -462,8 +461,16 @@ def webui():
                 # Match datediff
                 "Strings like @BusinessFunction. ... @ should not be translated": r"@业务函数\..*?@",
                 # Match @BusinessFunction. ... @
-                "CamelCase words starting with a lowercase letter (e.g., serviceCode, locStudio) should not be translated": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*"
+                "CamelCase words starting with a lowercase letter (e.g., serviceCode, locStudio) should not be translated": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*",
                 # Match camelCase words
+                "String ${label} should not be translated": r"\$\{label\}",                       # 如："${label}"，字段名称
+                "String [${enum}] should not be translated": r"\[\$\{enum\}\]",                   # 如："[${enum}]"，枚举字段
+                "String ${max} should not be translated": r"\$\{max\}",                           # 最大值字段
+                "String ${min} should not be translated": r"\$\{min\}",                           # 最小值字段
+                "String ${len} should not be translated": r"\$\{len\}",                           # 长度字段
+                "String ${pattern} should not be translated": r"\$\{pattern\}",                   # 正则表达式字段
+                "String [{{fievent}}] should not be translated": r"\[\{\{fievent\}\}\]",
+                "String [{{accBook}}] should not be translated": r"\[\{\{accBook\}\}\]",
             }
 
             reasons = []  # 用于存储匹配的条目
@@ -554,7 +561,6 @@ def webui():
                                                        label="目标列")
                             start_column = gr.Textbox(value="K",
                                                       label="结果写入列")
-                            geo_mean_confidence_column = gr.Textbox(value="L",label="置信度")
                         with gr.Row():
                             selected_model = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
@@ -572,7 +578,7 @@ def webui():
                                       outputs=[original_language, target_languages, selected_lora_model,
                                                model_explanation_textbox])
                 translate_button.click(translate_excel,
-                                       inputs=[input_file, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
+                                       inputs=[input_file, start_row, end_row, start_column, target_column,
                                                selected_model, selected_lora_model, selected_gpu, batch_size,
                                                original_language, target_languages], outputs=[output_text, output_file])
             with gr.TabItem("Text Translator"):
@@ -616,7 +622,6 @@ def webui():
                                                        label="目标列")
                             start_column = gr.Textbox(value=yaml_data["excel_config"]["default_start_column"],
                                                       label="结果写入列")
-                            geo_mean_confidence_column = gr.Textbox(value="L",label="置信度")
                         with gr.Row():
                             selected_model = gr.Dropdown(choices=(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
@@ -635,7 +640,7 @@ def webui():
                                       outputs=[original_language, target_languages, selected_lora_model,
                                                model_explanation_textbox])
                 translate_button.click(translate_excel_folder,
-                                       inputs=[input_folder, start_row, end_row, start_column, target_column, geo_mean_confidence_column,
+                                       inputs=[input_folder, start_row, end_row, start_column, target_column, 
                                                selected_model, selected_lora_model, selected_gpu, batch_size,
                                                original_language, target_languages, row_selection],
                                        outputs=[output_text, output_folder])

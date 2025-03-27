@@ -36,24 +36,43 @@ def find_translations(input_text, original_language, target_language):
 def contains_special_string(sentence):
     # 定义特殊字符串的正则表达式模式字典
     patterns = {
-        "<% ... %>": r"<%.*?%>",                                                        # 匹配 <% ... %>
-        "%s": r"%s",                                                                    # 匹配 %s
-        "{0}, {1}, {2} 等": r"{\d+}",                                                   # 匹配 {0}, {1}, {2} 等
-        "%d": r"%d",                                                                    # 匹配 %d
-        "{counts}": r"{counts}",                                                        # 匹配 {counts}
-        "&{...}&": r"&{.*?}&",                                                          # 匹配 &{...}&
-        "{}": r"{}",                                                                    # 匹配 {}
-        "#...#": r"#.*?#",                                                              # 匹配 #...#
-        "{{...}}": r"{{.*?}}",                                                          # 匹配 {{...}}
-        "连续的大写英文字母（AR, AP, SKU）": r"[A-Z]{2,}",                            # 匹配连续的大写英文字母
-        "大驼峰命名的单词（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}",        # 匹配大驼峰命名的单词
-        "包含 http:// 的字符串": r"http://",                                             # 匹配包含 "http://"
-        "包含 https:// 的字符串": r"https://",                                           # 匹配包含 "https://"
-        "包含 E:\, D:\, C:\ 的字符串": r"[CDE]:\\",                                     # 匹配包含 "E:\", "D:\", "C:\"
-        "包含 datediff(.*?,.*?,.*?) 的字符串": r"datediff\(.*?,.*?,.*?\)",               # 匹配 datediff
-        "@业务函数. ... 的字符串@": r"@业务函数\..*?@",                                  # 匹配 @业务函数. ... 的字符串@
-        "小驼峰命名的单词（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*"  # 匹配小驼峰命名的单词
-    }
+    # 通用模板语法匹配
+    "模板语法 <% ... %>": r"<%.*?%>",                          # 如：<% if (x > 0) { %>
+    "字符串占位符 %s": r"%s",                                  # 如："Hello %s"
+    "字符串占位符 %d": r"%d",                                  # 如："You have %d messages"
+    "Python格式化 {0}, {1}, ...": r"{\d+}",                   # 如："Value: {0}, {1}"
+    "命名占位符 {counts}": r"{counts}",                        # 如："Total: {counts}"
+    "空模板占位符 {}": r"{}",                                  # 如："{} + {} = {}"
+    "自定义标记 &{...}&": r"&{.*?}&",                          # 如："&{username}& logged in"
+    "注释/变量标记 #...#": r"#.*?#",                           # 如："#comment#", "#name#"
+    "双大括号模板 {{...}}": r"{{.*?}}",                        # 如："{{username}}"
+    "@业务函数调用语法@": r"@业务函数\..*?@",                  # 如："@业务函数.计算金额@"
+
+    # 路径 / URL 类型匹配
+    "包含 http:// URL": r"http://",                            # 如："http://example.com"
+    "包含 https:// URL": r"https://",                          # 如："https://example.com"
+    "Windows 路径（E:\\、D:\\、C:\\）": r"[CDE]:\\",          # 如："D:\\data\\file.txt"
+
+    # SQL / 函数调用语法
+    "SQL datediff 函数": r"datediff\(.*?,.*?,.*?\)",           # 如："datediff(day, '2024-01-01', '2024-02-01')"
+
+    # 命名规则匹配
+    "连续的大写英文字母（如 AR、AP、SKU）": r"[A-Z]{2,}",       # 如："AR", "SKU", "AP"
+    "大驼峰命名（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}",  # 大写开头的复合词
+    "小驼峰命名（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*",  # 小写开头，包含大写中缀
+
+    # 特定模板变量（用于校验模板数据）
+    "模板变量 ${label}": r"\$\{label\}",                       # 如："${label}"，字段名称
+    "模板变量 [${enum}]": r"\[\$\{enum\}\]",                   # 如："[${enum}]"，枚举字段
+    "模板变量 ${max}": r"\$\{max\}",                           # 最大值字段
+    "模板变量 ${min}": r"\$\{min\}",                           # 最小值字段
+    "模板变量 ${len}": r"\$\{len\}",                           # 长度字段
+    "模板变量 ${pattern}": r"\$\{pattern\}",                   # 正则表达式字段
+
+    # 可选通配符（如果需要支持所有 ${...}）：
+    "通用模板变量 ${...}": r"\$\{.*?\}",                       # 匹配所有形如 ${xxx} 的变量
+}
+
 
     reasons = []  # 用于存储匹配的条目
     matched_strings = []  # 用于存储被识别的字符串
@@ -82,31 +101,26 @@ class Model():
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
-                    "geo_mean_confidence": 1
                 })
             elif input.strip().startswith("https://") or input.strip().startswith("http://"):
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
-                    "geo_mean_confidence": 1
                 })
             elif input.strip() == "":
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
-                    "geo_mean_confidence": 1
                 })
             elif not re.search(r'[A-Za-z\u4e00-\u9fff]', input.strip()):
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
-                    "geo_mean_confidence": 1
                 })
             elif input.strip() == "此词条确认无需翻译或已废弃" or input.strip() == "!!!!!!!!" or input.strip() == "Obsolete" or input.strip() == "obsolete":
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
-                    "geo_mean_confidence": 1
                 })
             else:
                 # Find and store any image tags with base64 encoded data
@@ -153,13 +167,8 @@ class Model():
                         model="gpt-4o-mini",
                         messages=messages,
                         temperature=0,
-                        logprobs=True,
-                        top_p=1
                     )
                     translated_text = completion.choices[0].message.content
-                    logprobs = [token.logprob for token in completion.choices[0].logprobs.content]
-                    probs = np.exp(logprobs)
-                    geo_mean_confidence = float(np.prod(probs) ** (1 / len(probs)))
                     messages.append({"role": "assistant", "content": translated_text})
 
                     # 检查是否包含特殊错误消息
@@ -192,7 +201,6 @@ class Model():
                 res.append({
                     "target_language":target_language,
                     "generated_translation":translated_text,
-                    "geo_mean_confidence": geo_mean_confidence
                 })
         return res
 
