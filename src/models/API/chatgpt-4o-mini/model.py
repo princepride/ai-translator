@@ -160,14 +160,22 @@ class Model():
                     else:
                         messages.append({
                             "role": "user",
-                            "content": f"You should skip the words: {', '.join(special_string_list)} do not translate, please translate it again without adding extra content."
+                            "content": f"When you try to translate sentence from {original_language} to {target_languages}, You should skip the words: {', '.join(special_string_list)} do not translate, please translate it again."
                         })
                     
-                    completion = self.client.chat.completions.create(
-                        model="gpt-4o-mini",
-                        messages=messages,
-                        temperature=0,
-                    )
+                    temp = contains_special_string(input)
+                    if temp["contains_special_string"]:
+                        completion = self.client.chat.completions.create(
+                            model="gpt-4o",
+                            messages=messages,
+                            temperature=0,
+                        )
+                    else:
+                        completion = self.client.chat.completions.create(
+                            model="gpt-4o-mini",
+                            messages=messages,
+                            temperature=0,
+                        )
                     translated_text = completion.choices[0].message.content
                     messages.append({"role": "assistant", "content": translated_text})
 
@@ -181,7 +189,7 @@ class Model():
                     if any(error_msg in translated_text for error_msg in error_messages):
                         continue  # 重新进入循环进行翻译
 
-                    temp = contains_special_string(input)
+                    
                     if temp["contains_special_string"]:
                         all_special_strings_retained = True
                         for matched_string in temp["matched_strings"]:
@@ -249,5 +257,4 @@ class Model():
                     res[index] = future.result()
                 except Exception as e:
                     res[index] = [{"target_language":target_language,"generated_translation":f"Error: {e}"} for target_language in target_languages]
-        print(res)
         return res
