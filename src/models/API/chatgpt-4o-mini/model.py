@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
 import pandas as pd
 import numpy as np
+import os
 
 glossary_df = pd.read_excel(r"D:\Projects\ai-translator\src\models\API\chatgpt-4o-mini\glossary.xlsx")
 
@@ -57,9 +58,11 @@ def contains_special_string(sentence):
     "SQL datediff 函数": r"datediff\(.*?,.*?,.*?\)",           # 如："datediff(day, '2024-01-01', '2024-02-01')"
 
     # 命名规则匹配
-    "连续的大写英文字母（如 AR、AP、SKU）": r"[A-Z]{2,}",       # 如："AR", "SKU", "AP"
-    "大驼峰命名（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}",  # 大写开头的复合词
-    "小驼峰命名（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*",  # 小写开头，包含大写中缀
+    # "连续的大写英文字母（如 AR、AP、SKU）": r"[A-Z]{2,}",       # 如："AR", "SKU", "AP"
+    # "大驼峰命名（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}",  # 大写开头的复合词
+    # "小驼峰命名（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*",  # 小写开头，包含大写中缀
+    # "蛇形命名（如 test_engine, user_id）": r"[a-z]+(?:_[a-z]+)+",  # 如："test_engine", "user_id"
+    # "Pascal 蛇形命名（如 Test_Engine, User_ID）": r"(?:[A-Z][a-zA-Z0-9]*_)+[A-Z][a-zA-Z0-9]*"
 
     # 特定模板变量（用于校验模板数据）
     "模板变量 ${label}": r"\$\{label\}",                       # 如："${label}"，字段名称
@@ -96,13 +99,26 @@ class Model():
 
     def translate_section(self, input, original_language, target_languages):
         res = []
+        naming_patterns = [
+            r"^[A-Z]{2,}$",  # 连续的大写字母，如 AR、SKU
+            r"^(?:[A-Z][a-z]+){2,}$",  # 大驼峰命名，如 ServiceCode
+            r"^[a-z]+[a-z]*[A-Z][a-zA-Z]*$",  # 小驼峰命名，如 serviceCode
+            r"^[a-z]+(?:_[a-z]+)+$",  # 蛇形命名，如 test_engine
+            r"^(?:[A-Z][a-zA-Z0-9]*_)+[A-Z][a-zA-Z0-9]*$",  # Pascal 蛇形命名，如 Test_Engine
+        ]
+
+        def is_single_token_naming_style(input: str) -> bool:
+            stripped = input.strip()
+            if " " in stripped:  # 确保是一个单词，没有空格
+                return False
+            return any(re.fullmatch(pattern, stripped) for pattern in naming_patterns)
         for target_language in target_languages:
             if input.strip().startswith("[ref1]"):
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
                 })
-            elif input.strip().startswith("https://") or input.strip().startswith("http://"):
+            elif input.strip().startswith("https://") or input.strip().startswith("http://") or is_single_token_naming_style(input):
                 res.append({
                     "target_language":target_language,
                     "generated_translation":input,
