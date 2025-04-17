@@ -22,12 +22,14 @@ from docx.text.paragraph import Paragraph
 from docx.shared import Inches
 from pptx import Presentation
 import re
+from transformers import AutoTokenizer
 
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # 构建baseConfig.yml和modelExplains.yml的绝对路径
 file_path = os.path.join(script_dir, 'configs', 'baseConfig.yml')
+tokenizer = AutoTokenizer.from_pretrained(os.path.join(script_dir, 'tokenzier'))
 
 with open(file_path, 'r') as file:
     yaml_data = yaml.load(file, Loader=yaml.FullLoader)
@@ -480,7 +482,6 @@ def webui():
                 if matches:
                     reasons.append(reason)
                     matched_strings.extend(matches)
-
             return {
                 "contains_special_string": bool(reasons),  # 如果 reasons 列表不为空，表示匹配
                 "reason": reasons,  # 返回所有匹配条目
@@ -534,6 +535,8 @@ def webui():
                                 outputs.append("SPECIAL VALUE")
                     else:
                         outputs.append("")
+                    if len(tokenizer.encode(original_input)) > 40:
+                        outputs[-1] = outputs[-1] + ", Content length exceeds 30 tokens"
                 output_file = excel_writer.write_list(file_path, outputs, remark_column, start_row, end_row)
                 processed_file_path = os.path.join(processed_folder, os.path.basename(output_file))
                 shutil.move(output_file, processed_file_path)
@@ -557,10 +560,8 @@ def webui():
                         with gr.Row():
                             start_row = gr.Number(value=2, label="起始行")
                             end_row = gr.Number(value=100001, label="终止行")
-                            target_column = gr.Textbox(value="J",
-                                                       label="目标列")
-                            start_column = gr.Textbox(value="K",
-                                                      label="结果写入列")
+                            target_column = gr.Textbox(value="J", label="目标列")
+                            start_column = gr.Textbox(value="K", label="结果写入列")
                         with gr.Row():
                             selected_model = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")

@@ -58,11 +58,11 @@ def contains_special_string(sentence):
     "SQL datediff 函数": r"datediff\(.*?,.*?,.*?\)",           # 如："datediff(day, '2024-01-01', '2024-02-01')"
 
     # 命名规则匹配
-    # "连续的大写英文字母（如 AR、AP、SKU）": r"[A-Z]{2,}",       # 如："AR", "SKU", "AP"
-    # "大驼峰命名（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}",  # 大写开头的复合词
-    # "小驼峰命名（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*",  # 小写开头，包含大写中缀
-    # "蛇形命名（如 test_engine, user_id）": r"[a-z]+(?:_[a-z]+)+",  # 如："test_engine", "user_id"
-    # "Pascal 蛇形命名（如 Test_Engine, User_ID）": r"(?:[A-Z][a-zA-Z0-9]*_)+[A-Z][a-zA-Z0-9]*"
+    "连续的大写英文字母（如 AR、AP、SKU）": r"[A-Z]{2,}",       # 如："AR", "SKU", "AP"
+    "大驼峰命名（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}",  # 大写开头的复合词
+    "小驼峰命名（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*",  # 小写开头，包含大写中缀
+    "蛇形命名（如 test_engine, user_id）": r"[a-z]+(?:_[a-z]+)+",  # 如："test_engine", "user_id"
+    "Pascal 蛇形命名（如 Test_Engine, User_ID）": r"(?:[A-Z][a-zA-Z0-9]*_)+[A-Z][a-zA-Z0-9]*",
 
     # 特定模板变量（用于校验模板数据）
     "模板变量 ${label}": r"\$\{label\}",                       # 如："${label}"，字段名称
@@ -101,10 +101,11 @@ class Model():
         res = []
         naming_patterns = [
             r"^[A-Z]{2,}$",  # 连续的大写字母，如 AR、SKU
-            r"^(?:[A-Z][a-z]+){2,}$",  # 大驼峰命名，如 ServiceCode
+            r"^(?:[A-Z][a-z]*|[A-Z]{2,}){2,}$",  # 大驼峰命名，如 ServiceCode
             r"^[a-z]+[a-z]*[A-Z][a-zA-Z]*$",  # 小驼峰命名，如 serviceCode
             r"^[a-z]+(?:_[a-z]+)+$",  # 蛇形命名，如 test_engine
             r"^(?:[A-Z][a-zA-Z0-9]*_)+[A-Z][a-zA-Z0-9]*$",  # Pascal 蛇形命名，如 Test_Engine
+            r"^(?:[a-z_][a-z0-9_]*\.)+[A-Z][a-zA-Z0-9]*$",  # Java 包名格式，如 com.xxx.MyClass
         ]
 
         def is_single_token_naming_style(input: str) -> bool:
@@ -148,7 +149,7 @@ class Model():
                 terminology_guide = "\n".join([f"- {item1}: {item2}" for item1, item2 in matches])
                 if len(matches) > 0:
                     system_prompt = f"""
-                    You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
+                    You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate it from {original_language} to {target_language}.
                             
                     Here is a terminology guide to help you ensure accurate translations for common ERP terms:
                     {terminology_guide}
@@ -157,7 +158,7 @@ class Model():
                     """
                 else:
                     system_prompt = f"""
-                    You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
+                    You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate it from {original_language} to {target_language}.
 
                     The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
                     """
@@ -176,22 +177,15 @@ class Model():
                     else:
                         messages.append({
                             "role": "user",
-                            "content": f"When you try to translate sentence from {original_language} to {target_languages}, You should skip the words: {', '.join(special_string_list)} do not translate, please translate it again."
+                            "content": f"Wrong! You should maintain the words: {', '.join(special_string_list)} do not translate. please translate it again: {input}"
                         })
                     
                     temp = contains_special_string(input)
-                    if temp["contains_special_string"]:
-                        completion = self.client.chat.completions.create(
-                            model="gpt-4o",
-                            messages=messages,
-                            temperature=0,
-                        )
-                    else:
-                        completion = self.client.chat.completions.create(
-                            model="gpt-4o-mini",
-                            messages=messages,
-                            temperature=0,
-                        )
+                    completion = self.client.chat.completions.create(
+                        model="gpt-4o-mini",
+                        messages=messages,
+                        temperature=0,
+                    )
                     translated_text = completion.choices[0].message.content
                     messages.append({"role": "assistant", "content": translated_text})
 
@@ -204,7 +198,8 @@ class Model():
                     ]
                     if any(error_msg in translated_text for error_msg in error_messages):
                         continue  # 重新进入循环进行翻译
-
+                    if "id" in input or "ID" in input:
+                        break
                     
                     if temp["contains_special_string"]:
                         all_special_strings_retained = True
