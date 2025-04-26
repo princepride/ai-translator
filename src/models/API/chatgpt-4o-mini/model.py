@@ -215,8 +215,6 @@ class Model():
 
                 if removed_images:
                     translated_text += "\n" + "\n".join(removed_images)
-
-                translated_text = re.sub(r'[\u4e00-\u9fff]', '', translated_text)
                 res.append({
                     "target_language":target_language,
                     "generated_translation":translated_text,
