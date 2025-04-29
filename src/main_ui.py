@@ -587,7 +587,7 @@ def webui():
                     with gr.Column():
                         input_text = gr.Textbox(label="输入文本")
                         with gr.Row():
-                            selected_model = gr.Dropdown(choices=available_models, label="选择基模型")
+                            selected_model = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
                             batch_size = gr.Number(value=1, label="批处理大小", visible=False)
@@ -624,7 +624,7 @@ def webui():
                             start_column = gr.Textbox(value=yaml_data["excel_config"]["default_start_column"],
                                                       label="结果写入列")
                         with gr.Row():
-                            selected_model = gr.Dropdown(choices=(available_models.keys()), label="选择基模型")
+                            selected_model = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
                             batch_size = gr.Number(value=1, label="批处理大小", visible=True)
@@ -649,10 +649,9 @@ def webui():
                 with gr.Row():
                     with gr.Column():
                         input_folder = gr.File(file_count="directory", label="选择包含Markdown或Docx文件夹")
-                        row_selection.change(update_row_selection, inputs=row_selection, outputs=end_row)
 
                         with gr.Row():
-                            selected_model = gr.Dropdown(choices=available_models.keys(), label="选择基模型")
+                            selected_model = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型")
                             selected_lora_model = gr.Dropdown(choices=[], label="选择Lora模型")
                             selected_gpu = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0])
                             batch_size = gr.Number(value=1, label="批处理大小", visible=True)
