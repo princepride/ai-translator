@@ -24,7 +24,13 @@ JWT_ALGORITHM = "HS256"
 
 # Store magic links and their expiration (in a real app, use a proper database)
 magic_links: Dict[str, Dict] = {}
-email_whitelist = ["wangzhipeng628@gmail.com", "jihaoyang@yonyou.com", "anthony@yonyou.com", "su931071@gmail.com", "junli@yonyou.com"]
+email_whitelist = ["wangzhipeng628@gmail.com", 
+                   "jihaoyang@yonyou.com", 
+                   "anthony@yonyou.com", 
+                   "su931071@gmail.com", 
+                   "junli@yonyou.com",
+                   "fangqingqing@yonyou.com",
+                   "liuxinxin@yonyou.com"]
 
 # Email configuration
 SMTP_SERVER = "smtp.gmail.com"

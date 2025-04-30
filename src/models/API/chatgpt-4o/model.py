@@ -6,7 +6,10 @@ import pandas as pd
 import numpy as np
 import os
 
-glossary_df = pd.read_excel(r"D:\Projects\ai-translator\src\models\API\chatgpt-4o-mini\glossary.xlsx")
+script_path = os.path.abspath(__file__)
+script_dir = os.path.dirname(script_path)
+glossary_file_path = os.path.join(script_dir, "glossary.xlsx")
+glossary_df = pd.read_excel(glossary_file_path)
 
 import re
 import pandas as pd
