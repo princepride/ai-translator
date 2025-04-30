@@ -179,4 +179,4 @@ app = gr.mount_gradio_app(app, login_interface(), path="/login")
 app = gr.mount_gradio_app(app, main_ui, path="/app", auth_dependency=get_user_email)
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=8000)
+    uvicorn.run(app, port=8000, host="0.0.0.0")
