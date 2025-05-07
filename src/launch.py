@@ -30,7 +30,8 @@ email_whitelist = ["wangzhipeng628@gmail.com",
                    "su931071@gmail.com", 
                    "junli@yonyou.com",
                    "fangqingqing@yonyou.com",
-                   "liuxinxin@yonyou.com"]
+                   "liuxinxin@yonyou.com",
+                   "trevor.tian@yonyou.com.sg"]
 
 # Email configuration
 SMTP_SERVER = "smtp.gmail.com"
