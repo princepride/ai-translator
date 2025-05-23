@@ -9,3 +9,4 @@ __pycache__
 /src/media
 *.zip
 *.pdf
+.DS_Store
