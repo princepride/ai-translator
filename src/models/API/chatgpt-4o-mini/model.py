@@ -3,16 +3,14 @@ from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
 import pandas as pd
-import numpy as np
 import os
+import threading # 导入 threading 模块
 
+# --- 您原有的代码部分 ---
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
 glossary_file_path = os.path.join(script_dir, "glossary.xlsx")
 glossary_df = pd.read_excel(glossary_file_path)
-
-import re
-import pandas as pd
 
 def find_translations(input_text, original_language, target_language):
     # 如果 original_language 或 target_language 不是列名，则直接返回空列表
@@ -97,9 +95,58 @@ def contains_special_string(sentence):
 load_dotenv()
 
 class Model():
+    # 新增(1): 定义模型价格（美元/每百万 tokens）
+    MODEL_COSTS = {
+        # 价格请根据 OpenAI 官方最新的定价进行调整
+        'gpt-4o-mini': {
+            'input': 0.15,
+            'output': 0.60,
+        },
+        'gpt-4o': {
+            'input': 5.0,
+            'output': 15.0,
+        }
+    }
+
     def __init__(self, modelname, selected_lora_model, selected_gpu):
         self.client = OpenAI()
+        # 新增(2): 初始化成本追踪变量和线程锁
+        self.total_input_tokens = 0
+        self.total_output_tokens = 0
+        self.total_cost = 0.0
+        self.lock = threading.Lock() # 用于线程安全
 
+    # 新增(3): 创建一个私有方法来计算和更新成本
+    def _update_cost(self, completion):
+        """根据 API 返回的 completion 对象更新总成本"""
+        if not hasattr(completion, 'usage') or completion.usage is None:
+            return
+
+        model_name = completion.model
+        input_tokens = completion.usage.input_tokens
+        output_tokens = completion.usage.output_tokens
+
+        # 查找模型价格，支持前缀匹配
+        cost_info = None
+        for prefix, cost in self.MODEL_COSTS.items():
+            if model_name.startswith(prefix):
+                cost_info = cost
+                break
+        
+        if cost_info is None:
+            # 如果找不到模型价格，可以打印一个警告但程序继续
+            print(f"警告: 未找到模型 '{model_name}' 的价格信息，此次调用将不计入成本。")
+            return
+
+        # 计算本次调用的成本
+        call_cost = ((input_tokens * cost_info['input']) + (output_tokens * cost_info['output'])) / 1_000_000
+
+        # 新增(3.1): 使用锁来确保线程安全地更新总数
+        with self.lock:
+            self.total_input_tokens += input_tokens
+            self.total_output_tokens += output_tokens
+            self.total_cost += call_cost
+    
     def translate_section(self, input, original_language, target_languages):
         res = []
         naming_patterns = [
@@ -143,12 +190,10 @@ class Model():
                     "generated_translation":input,
                 })
             else:
-                # Find and store any image tags with base64 encoded data
                 removed_images = re.findall(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", input)
-                # Remove the image tags from the text
-                input = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", input)
+                input_text_no_images = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", input)
 
-                matches = find_translations(input, original_language, target_language)
+                matches = find_translations(input_text_no_images, original_language, target_language)
                 terminology_guide = "\n".join([f"- {item1}: {item2}" for item1, item2 in matches])
                 if len(matches) > 0:
                     system_prompt = f"""
@@ -166,33 +211,32 @@ class Model():
                     The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
                     """
 
-                # system_prompt = f"""
-                # You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
-                # The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
-                # """
-
                 messages = [{"role": "system", "content": system_prompt}]
 
                 special_string_list = []
+                # 注意：您这里的循环会使得一次翻译最多调用两次API
                 for i in range(2):
                     if i == 0:
-                        messages.append({"role": "user", "content": input})
+                        messages.append({"role": "user", "content": input_text_no_images})
                     else:
                         messages.append({
                             "role": "user",
-                            "content": f"Wrong! You should maintain the words: {', '.join(special_string_list)} do not translate. please translate it again: {input}"
+                            "content": f"Wrong! You should maintain the words: {', '.join(special_string_list)} do not translate. please translate it again: {input_text_no_images}"
                         })
                     
-                    temp = contains_special_string(input)
+                    temp = contains_special_string(input_text_no_images)
                     completion = self.client.chat.completions.create(
                         model="gpt-4o-mini",
                         messages=messages,
                         temperature=0,
                     )
+                    
+                    # 新增(4): 在每次API调用后，更新成本统计
+                    self._update_cost(completion)
+
                     translated_text = completion.choices[0].message.content
                     messages.append({"role": "assistant", "content": translated_text})
 
-                    # 检查是否包含特殊错误消息
                     error_messages = [
                         "Sorry, I can't assist with that request",
                         "It seems like your message is incomplete",
@@ -200,8 +244,8 @@ class Model():
                         ""
                     ]
                     if any(error_msg in translated_text for error_msg in error_messages):
-                        continue  # 重新进入循环进行翻译
-                    if "id" in input or "ID" in input:
+                        continue
+                    if "id" in input_text_no_images or "ID" in input_text_no_images:
                         break
                     
                     if temp["contains_special_string"]:
@@ -225,41 +269,6 @@ class Model():
         return res
 
     def generate(self, inputs, original_language, target_languages, max_batch_size):
-        """
-            return sample:
-            [
-                [
-                    {
-                        "target_language":"English",
-                        "generated_translation":"I love you",
-                    },
-                    {
-                        "target_language":"Chinese",
-                        "generated_translation":"我爱你",
-                    },
-                ],
-                [
-                    {
-                        "target_language":"English",
-                        "generated_translation":"Who's your daddy",
-                    },
-                    {
-                        "target_language":"Chinese",
-                        "generated_translation":"谁是你爸爸",
-                    },
-                ],
-                [
-                    {
-                        "target_language":"English",
-                        "generated_translation":"Today is Friday",
-                    },
-                    {
-                        "target_language":"Chinese",
-                        "generated_translation":"今天是星期五",
-                    },
-                ],
-            ]
-        """
         res = [None] * len(inputs)
         with ThreadPoolExecutor(max_workers=2000) as executor:
             futures = {executor.submit(self.translate_section, inputs[i], original_language, target_languages): i for i in range(len(inputs))}
@@ -269,4 +278,14 @@ class Model():
                     res[index] = future.result()
                 except Exception as e:
                     res[index] = [{"target_language":target_language,"generated_translation":f"Error: {e}"} for target_language in target_languages]
+        
+        # 新增(5): 所有任务完成后，打印总开销报告
+        print("\n" + "="*50)
+        print("API 调用成本统计报告")
+        print("="*50)
+        print(f"总输入 Tokens: {self.total_input_tokens}")
+        print(f"总输出 Tokens: {self.total_output_tokens}")
+        print(f"预估总成本: ${self.total_cost:.6f}") # 格式化为6位小数，以便查看极小成本
+        print("="*50 + "\n")
+
         return res
