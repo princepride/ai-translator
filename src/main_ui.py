@@ -49,7 +49,7 @@ def webui():
     available_models = {**api_models, **local_models}
     # available_languages = [] # 注释掉或者移除这行，因为语言选项由 update_choices 动态生成
 
-    default_model_name = "chatgpt-4o-mini" # 定义默认模型名称
+    default_model_name = "gpt-4.1-mini" # 定义默认模型名称
     default_original_language = "Chinese"  # 定义默认原始语言
     default_target_language_single = "English" # 定义默认目标语言 (单选)
     default_target_language_multi = ["English"] # 定义默认目标语言 (多选)
@@ -886,8 +886,8 @@ def webui():
                         with gr.Row():
                             start_row = gr.Number(value=2, label="起始行")
                             end_row = gr.Number(value=100001, label="终止行")
-                            target_column = gr.Textbox(value="J", label="目标列")
-                            start_column = gr.Textbox(value="K", label="结果写入列")
+                            target_column = gr.Textbox(value="G", label="目标列")
+                            start_column = gr.Textbox(value="H", label="结果写入列")
                         with gr.Row():
                             # Set default model value here
                             selected_model_excel = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型", value=default_model_name)
