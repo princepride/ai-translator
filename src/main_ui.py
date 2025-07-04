@@ -486,8 +486,49 @@ def webui():
 
             try:
                 if file_ext.lower() == '.pptx':
-                    print(f"Skipping PPTX file {file_path} as logic is not included in this example.")
-                    continue
+                    def extract_text_from_shape(shape, run_list, text_list):
+                        """递归提取所有文本，包括文本框、表格和嵌套形状"""
+                        if hasattr(shape, "text_frame") and shape.text_frame is not None:
+                            # 处理普通文本框
+                            for paragraph in shape.text_frame.paragraphs:
+                                for run in paragraph.runs:
+                                    run_list.append(run)
+                                    text_list.append(run.text)
+                        elif getattr(shape, "has_table", False):
+                            # 仅当 shape 确实包含表格时进行处理
+                            table = shape.table
+                            for row in table.rows:
+                                for cell in row.cells:
+                                    if cell.text_frame is not None:
+                                        for paragraph in cell.text_frame.paragraphs:
+                                            for run in paragraph.runs:
+                                                run_list.append(run)
+                                                text_list.append(run.text)
+                        elif hasattr(shape, "shapes"):
+                            # 处理嵌套的 grouped shapes
+                            for sub_shape in shape.shapes:
+                                extract_text_from_shape(sub_shape, run_list, text_list)
+
+                    prs = Presentation(file_path)
+                    run_list = []
+                    text_list = []
+
+                    for slide in prs.slides:
+                        for shape in slide.shapes:
+                            extract_text_from_shape(shape, run_list, text_list)  # 确保提取所有文本
+
+                    # 翻译文本
+                    translated_segments = translate(text_list, selected_model, selected_lora_model, selected_gpu,
+                                                    batch_size, original_language, [target_language])
+
+                    # 替换原始文本
+                    for run, translated in zip(run_list, translated_segments):
+                        run.text = " " + translated[0]["generated_translation"]
+
+                    # 保存 PPTX
+                    output_file_path = os.path.join(processed_folder, os.path.basename(file_name + '.pptx'))
+                    prs.save(output_file_path)
+                    processed_files.append(output_file_path)
 
                 # =================================================
                 # 修改后的Excel文件处理逻辑
