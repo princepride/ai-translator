@@ -918,7 +918,7 @@ def webui():
                  print(f"Error pre-loading defaults for {default_model_name}: {e}")
                  # Keep initial_* lists empty/default if error
 
-        gr.Button("Logout", link="/logout")
+        # gr.Button("Logout", link="/logout")
         with gr.Tabs():
             with gr.TabItem("Excel Translator"):
                 with gr.Row():
