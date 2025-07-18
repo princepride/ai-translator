@@ -519,7 +519,7 @@ def webui():
 
                     # 翻译文本
                     translated_segments = translate(text_list, selected_model, selected_lora_model, selected_gpu,
-                                                    batch_size, original_language, [target_language])
+                                                    batch_size, original_language, target_language)
 
                     # 替换原始文本
                     for run, translated in zip(run_list, translated_segments):
