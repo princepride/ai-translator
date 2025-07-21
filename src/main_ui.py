@@ -49,7 +49,7 @@ def webui():
     available_models = {**api_models, **local_models}
     # available_languages = [] # 注释掉或者移除这行，因为语言选项由 update_choices 动态生成
 
-    default_model_name = "gpt-4.1-mini" # 定义默认模型名称
+    default_model_name = "gpt-4o-mini" # 定义默认模型名称
     default_original_language = "Chinese"  # 定义默认原始语言
     default_target_language_single = "English" # 定义默认目标语言 (单选)
     default_target_language_multi = ["English"] # 定义默认目标语言 (多选)
@@ -350,6 +350,7 @@ def webui():
         print(f"Generated images: {image_paths_generated}")
         return md_content
     def markdown_to_word(md_content, word_path, image_base_dir="images"):
+        md_content = md_content.replace('<', '&lt;').replace('>', '&gt;')
         try:
             html = markdown.markdown(md_content, extensions=['tables', 'fenced_code'])
         except Exception as e:
