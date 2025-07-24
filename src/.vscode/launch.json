@@ -10,7 +10,10 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "env": {
+                "TRITON_INTERPRET": "1"
+            }
         }
     ]
 }

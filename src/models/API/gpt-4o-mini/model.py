@@ -40,45 +40,44 @@ def find_translations(input_text, original_language, target_language):
 def contains_special_string(sentence):
     # 定义特殊字符串的正则表达式模式字典
     patterns = {
-    # 通用模板语法匹配
-    "模板语法 <% ... %>": r"<%.*?%>",                          # 如：<% if (x > 0) { %>
-    "字符串占位符 %s": r"%s",                                  # 如："Hello %s"
-    "字符串占位符 %d": r"%d",                                  # 如："You have %d messages"
-    "Python格式化 {0}, {1}, ...": r"{\d+}",                   # 如："Value: {0}, {1}"
-    "命名占位符 {counts}": r"{counts}",                        # 如："Total: {counts}"
-    "空模板占位符 {}": r"{}",                                  # 如："{} + {} = {}"
-    "自定义标记 &{...}&": r"&{.*?}&",                          # 如："&{username}& logged in"
-    "注释/变量标记 #...#": r"#.*?#",                           # 如："#comment#", "#name#"
-    "双大括号模板 {{...}}": r"{{.*?}}",                        # 如："{{username}}"
-    "@业务函数调用语法@": r"@业务函数\..*?@",                  # 如："@业务函数.计算金额@"
+        # 通用模板语法匹配
+        "模板语法 <% ... %>": r"<%.*?%>",                      # 如：<% if (x > 0) { %>
+        "字符串占位符 %s": r"%s",                              # 如："Hello %s"
+        "字符串占位符 %d": r"%d",                              # 如："You have %d messages"
+        "Python格式化 {0}, {1}, ...": r"{\d+}",                  # 如："Value: {0}, {1}"
+        "命名占位符 {counts}": r"{counts}",                      # 如："Total: {counts}"
+        "空模板占位符 {}": r"{}",                                # 如："{} + {} = {}"
+        "自定义标记 &{...}&": r"&{.*?}&",                      # 如："&{username}& logged in"
+        "注释/变量标记 #...#": r"#.*?#",                          # 如："#comment#", "#name#"
+        "双大括号模板 {{...}}": r"{{.*?}}",                      # 如："{{username}}"
+        "@业务函数调用语法@": r"@业务函数\..*?@",                  # 如："@业务函数.计算金额@"
 
-    # 路径 / URL 类型匹配
-    "包含 http:// URL": r"http://",                            # 如："http://example.com"
-    "包含 https:// URL": r"https://",                          # 如："https://example.com"
-    "Windows 路径（E:\\、D:\\、C:\\）": r"[CDE]:\\",          # 如："D:\\data\\file.txt"
+        # 路径 / URL 类型匹配
+        "包含 http:// URL": r"http://",                         # 如："http://example.com"
+        "包含 https:// URL": r"https://",                       # 如："https://example.com"
+        "Windows 路径（E:\\、D:\\、C:\\）": r"[CDE]:\\",        # 如："D:\\data\\file.txt"
 
-    # SQL / 函数调用语法
-    "SQL datediff 函数": r"datediff\(.*?,.*?,.*?\)",           # 如："datediff(day, '2024-01-01', '2024-02-01')"
+        # SQL / 函数调用语法
+        "SQL datediff 函数": r"datediff\(.*?,.*?,.*?\)",          # 如："datediff(day, '2024-01-01', '2024-02-01')"
 
-    # 命名规则匹配
-    "连续的大写英文字母（如 AR、AP、SKU）": r"[A-Z]{2,}",       # 如："AR", "SKU", "AP"
-    "大驼峰命名（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}",  # 大写开头的复合词
-    "小驼峰命名（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*",  # 小写开头，包含大写中缀
-    "蛇形命名（如 test_engine, user_id）": r"[a-z]+(?:_[a-z]+)+",  # 如："test_engine", "user_id"
-    "Pascal 蛇形命名（如 Test_Engine, User_ID）": r"(?:[A-Z][a-zA-Z0-9]*_)+[A-Z][a-zA-Z0-9]*",
+        # 命名规则匹配
+        "连续的大写英文字母（如 AR、AP、SKU）": r"[A-Z]{2,}",        # 如："AR", "SKU", "AP"
+        "大驼峰命名（如 ServiceCode, LocStudio）": r"(?:[A-Z][a-z]+){2,}", # 大写开头的复合词
+        "小驼峰命名（如 serviceCode, locStudio）": r"[a-z]+[a-z]*[A-Z][a-zA-Z]*", # 小写开头，包含大写中缀
+        "蛇形命名（如 test_engine, user_id）": r"[a-z]+(?:_[a-z]+)+", # 如："test_engine", "user_id"
+        "Pascal 蛇形命名（如 Test_Engine, User_ID）": r"(?:[A-Z][a-zA-Z0-9]*_)+[A-Z][a-zA-Z0-9]*",
 
-    # 特定模板变量（用于校验模板数据）
-    "模板变量 ${label}": r"\$\{label\}",                       # 如："${label}"，字段名称
-    "模板变量 [${enum}]": r"\[\$\{enum\}\]",                   # 如："[${enum}]"，枚举字段
-    "模板变量 ${max}": r"\$\{max\}",                           # 最大值字段
-    "模板变量 ${min}": r"\$\{min\}",                           # 最小值字段
-    "模板变量 ${len}": r"\$\{len\}",                           # 长度字段
-    "模板变量 ${pattern}": r"\$\{pattern\}",                   # 正则表达式字段
+        # 特定模板变量（用于校验模板数据）
+        "模板变量 ${label}": r"\$\{label\}",                     # 如："${label}"，字段名称
+        "模板变量 [${enum}]": r"\[\$\{enum\}\]",                 # 如："[${enum}]"，枚举字段
+        "模板变量 ${max}": r"\$\{max\}",                         # 最大值字段
+        "模板变量 ${min}": r"\$\{min\}",                         # 最小值字段
+        "模板变量 ${len}": r"\$\{len\}",                         # 长度字段
+        "模板变量 ${pattern}": r"\$\{pattern\}",                 # 正则表达式字段
 
-    # 可选通配符（如果需要支持所有 ${...}）：
-    "通用模板变量 ${...}": r"\$\{.*?\}",                       # 匹配所有形如 ${xxx} 的变量
-}
-
+        # 可选通配符（如果需要支持所有 ${...}）：
+        "通用模板变量 ${...}": r"\$\{.*?\}",                      # 匹配所有形如 ${xxx} 的变量
+    }
 
     reasons = []  # 用于存储匹配的条目
     matched_strings = []  # 用于存储被识别的字符串
@@ -101,6 +100,17 @@ class Model():
         self.client = OpenAI()
 
     def translate_section(self, input, original_language, target_languages):
+        # ==================== 新增逻辑开始 ====================
+        # 如果源语言是中文，但内容不包含任何中文字符，则直接返回原文
+        if original_language == "Chinese" and not re.search(r'[\u4e00-\u9fff]', input):
+            return [
+                {
+                    "target_language": target_language,
+                    "generated_translation": input
+                } for target_language in target_languages
+            ]
+        # ==================== 新增逻辑结束 ====================
+
         res = []
         naming_patterns = [
             r"^[A-Z]{2,}$",  # 连续的大写字母，如 AR、SKU
@@ -116,6 +126,7 @@ class Model():
             if " " in stripped:  # 确保是一个单词，没有空格
                 return False
             return any(re.fullmatch(pattern, stripped) for pattern in naming_patterns)
+
         for target_language in target_languages:
             if input.strip().startswith("[ref1]"):
                 res.append({
@@ -165,11 +176,6 @@ class Model():
 
                     The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
                     """
-
-                # system_prompt = f"""
-                # You are an expert in translating {original_language} to {target_language} for ERP systems. Your task is to translate markdown-formatted text from {original_language} to {target_language}.
-                # The text to be translated may not necessarily be complete phrases or sentences, but you must translate it into the corresponding language based on your own understanding. Preserving its formatting without adding extra content.
-                # """
 
                 messages = [{"role": "system", "content": system_prompt}]
 
@@ -226,42 +232,42 @@ class Model():
 
     def generate(self, inputs, original_language, target_languages, max_batch_size):
         """
-            return sample:
+        return sample:
+        [
             [
-                [
-                    {
-                        "target_language":"English",
-                        "generated_translation":"I love you",
-                    },
-                    {
-                        "target_language":"Chinese",
-                        "generated_translation":"我爱你",
-                    },
-                ],
-                [
-                    {
-                        "target_language":"English",
-                        "generated_translation":"Who's your daddy",
-                    },
-                    {
-                        "target_language":"Chinese",
-                        "generated_translation":"谁是你爸爸",
-                    },
-                ],
-                [
-                    {
-                        "target_language":"English",
-                        "generated_translation":"Today is Friday",
-                    },
-                    {
-                        "target_language":"Chinese",
-                        "generated_translation":"今天是星期五",
-                    },
-                ],
-            ]
+                {
+                    "target_language":"English",
+                    "generated_translation":"I love you",
+                },
+                {
+                    "target_language":"Chinese",
+                    "generated_translation":"我爱你",
+                },
+            ],
+            [
+                {
+                    "target_language":"English",
+                    "generated_translation":"Who's your daddy",
+                },
+                {
+                    "target_language":"Chinese",
+                    "generated_translation":"谁是你爸爸",
+                },
+            ],
+            [
+                {
+                    "target_language":"English",
+                    "generated_translation":"Today is Friday",
+                },
+                {
+                    "target_language":"Chinese",
+                    "generated_translation":"今天是星期五",
+                },
+            ],
+        ]
         """
         res = [None] * len(inputs)
-        with ThreadPoolExecutor(max_workers=2000) as executor:
+        with ThreadPoolExecutor(max_workers=1000) as executor:
             futures = {executor.submit(self.translate_section, inputs[i], original_language, target_languages): i for i in range(len(inputs))}
             for future in as_completed(futures):
                 index = futures[future]

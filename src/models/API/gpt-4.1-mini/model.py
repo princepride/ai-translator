@@ -261,7 +261,7 @@ class Model():
             ]
         """
         res = [None] * len(inputs)
-        with ThreadPoolExecutor(max_workers=2000) as executor:
+        with ThreadPoolExecutor(max_workers=1000) as executor:
             futures = {executor.submit(self.translate_section, inputs[i], original_language, target_languages): i for i in range(len(inputs))}
             for future in as_completed(futures):
                 index = futures[future]
