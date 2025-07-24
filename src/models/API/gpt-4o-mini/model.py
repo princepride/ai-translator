@@ -3,16 +3,12 @@ from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
 import pandas as pd
-import numpy as np
 import os
 
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
 glossary_file_path = os.path.join(script_dir, "glossary.xlsx")
 glossary_df = pd.read_excel(glossary_file_path)
-
-import re
-import pandas as pd
 
 def find_translations(input_text, original_language, target_language):
     # 如果 original_language 或 target_language 不是列名，则直接返回空列表
@@ -100,8 +96,6 @@ class Model():
         self.client = OpenAI()
 
     def translate_section(self, input, original_language, target_languages):
-        # ==================== 新增逻辑开始 ====================
-        # 如果源语言是中文，但内容不包含任何中文字符，则直接返回原文
         if original_language == "Chinese" and not re.search(r'[\u4e00-\u9fff]', input):
             return [
                 {
@@ -109,7 +103,6 @@ class Model():
                     "generated_translation": input
                 } for target_language in target_languages
             ]
-        # ==================== 新增逻辑结束 ====================
 
         res = []
         naming_patterns = [
@@ -154,9 +147,7 @@ class Model():
                     "generated_translation":input,
                 })
             else:
-                # Find and store any image tags with base64 encoded data
                 removed_images = re.findall(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", input)
-                # Remove the image tags from the text
                 input = re.sub(r"!\[.*?\]\(data:image\/[^;]+;base64,[^)]+\)", "", input)
 
                 matches = find_translations(input, original_language, target_language)
@@ -197,8 +188,6 @@ class Model():
                     )
                     translated_text = completion.choices[0].message.content
                     messages.append({"role": "assistant", "content": translated_text})
-
-                    # 检查是否包含特殊错误消息
                     error_messages = [
                         "Sorry, I can't assist with that request",
                         "It seems like your message is incomplete",
@@ -206,7 +195,7 @@ class Model():
                         ""
                     ]
                     if any(error_msg in translated_text for error_msg in error_messages):
-                        continue  # 重新进入循环进行翻译
+                        continue
                     if "id" in input or "ID" in input:
                         break
                     
