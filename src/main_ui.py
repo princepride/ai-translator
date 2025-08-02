@@ -483,9 +483,6 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 prs.save(output_file_path)
                 processed_files.append(output_file_path)
 
-            # =================================================
-            # 修改后的Excel文件处理逻辑
-            # =================================================
             elif file_ext.lower() in ['.xlsx', '.xls']:
                 print(f"Processing Excel file: {file_path}")
                 
@@ -519,9 +516,6 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 output_file_path = os.path.join(processed_folder, output_filename_base + file_ext)
                 workbook.save(output_file_path)
 
-            # =================================================
-            # 修改后的Markdown和Docx文件处理逻辑
-            # =================================================
             elif file_ext.lower() in ['.docx', '.md']:
                 md_content = ""
                 file_is_word = False
@@ -582,26 +576,41 @@ def translate_markdown_folder(translating_files: list[NamedString],
             continue
     
     # --- Zipping 和 Cleanup 逻辑保持不变 ---
-    zip_filename = os.path.join(folder_path, "processed_files.zip")
     if not processed_files:
         if os.path.exists(temp_image_dir):
             shutil.rmtree(temp_image_dir)
         return "No files processed successfully.", None
     
-    try:
-        with zipfile.ZipFile(zip_filename, 'w') as zipf:
-            for file in processed_files:
-                if os.path.exists(file):
-                    zipf.write(file, os.path.basename(file))
-    except Exception as e:
-        return f"Error creating zip file: {e}", None
-    finally:
-        if os.path.exists(temp_image_dir):
-            shutil.rmtree(temp_image_dir)
+    output_path = None
+    
+    # 如果只有一个文件被成功处理，直接返回该文件路径
+    if len(processed_files) == 1:
+        output_path = processed_files[0]
+    
+    # 如果有多个文件，则将它们压缩
+    else:
+        zip_filename = os.path.join(folder_path, "processed_files.zip")
+        try:
+            with zipfile.ZipFile(zip_filename, 'w') as zipf:
+                for file in processed_files:
+                    if os.path.exists(file):
+                        zipf.write(file, os.path.basename(file))
+            output_path = zip_filename
+        except Exception as e:
+            # 如果压缩失败，也需要清理并返回错误
+            if os.path.exists(temp_image_dir):
+                shutil.rmtree(temp_image_dir)
+            return f"Error creating zip file: {e}", None
+
+    # 在函数成功返回前，清理临时图片目录
+    if os.path.exists(temp_image_dir):
+        shutil.rmtree(temp_image_dir)
 
     end_time = time.time()
     duration = int(end_time - start_time)
-    return f"Total process time: {duration}s. {len(processed_files)} file(s) processed.", zip_filename
+    
+    # 返回最终的成功信息和文件路径（单个文件或压缩包）
+    return f"Total process time: {duration}s. {len(processed_files)} file(s) processed.", output_path
 
 def glossary_check(input_folder, start_row, end_row, original_column, reference_column, translated_column,
                     row_selection, remark_column) -> tuple[str, Optional[str]]: # Return tuple[status, filepath]
