@@ -1306,4 +1306,4 @@ main_ui = webui()
 
 if __name__ == "__main__":
     # Consider adding server_name="0.0.0.0" to allow access from other devices on the network
-    main_ui.launch(share=True, server_port=8080) # share=True generates a public link (requires internet)
+    main_ui.launch(share=True, server_port=8082, server_name="0.0.0.0") # share=True generates a public link (requires internet)
