@@ -1,5 +1,5 @@
 import zipfile
-from typing import Optional
+from typing import Optional, Tuple
 from docx.opc.oxml import parse_xml
 import yaml
 import os
@@ -24,6 +24,12 @@ from pptx import Presentation
 import re
 from transformers import AutoTokenizer
 import openpyxl
+from openai import OpenAI
+import pandas as pd
+import zhconv
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dotenv import load_dotenv
+load_dotenv()
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -388,7 +394,184 @@ def markdown_to_word(md_content, word_path, image_base_dir="images"):
     except Exception as e:
         print(f"Error saving Word document to {word_path}: {e}")
 
-def extract_complex_blocks(md_content: str) -> (str, dict):
+def update_lora_and_explanation(selected_model):
+    """当模型改变时，只更新Lora模型列表和模型介绍。"""
+    model_path = available_models.get(selected_model)
+    lora_list = ['']
+    model_explanation = "模型路径未找到或README.md缺失。"
+
+    if model_path:
+        # 更新模型介绍
+        readme_path = os.path.join(model_path, 'README.md')
+        if os.path.isfile(readme_path):
+            try:
+                with open(readme_path, 'r', encoding='utf-8') as file:
+                    model_explanation = file.read()
+            except Exception as e:
+                model_explanation = f"读取README.md时出错: {e}"
+        
+        # 更新Lora模型列表
+        try:
+            lora_list.extend([f for f in os.listdir(model_path) if
+                                os.path.isdir(os.path.join(model_path, f)) and not f.startswith('.') and not f.startswith('_')])
+        except Exception as e:
+            print(f"列出Lora模型时出错 {model_path}: {e}")
+            
+    return gr.Dropdown(choices=lora_list, value=''), gr.Textbox(value=model_explanation)
+
+def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini', max_workers=10) -> Tuple[str, Optional[str]]:
+    """
+    使用 OpenAI API 并行翻译 Excel 文件中的指定列。
+
+    该函数严格遵循固定的列名（简体中文(源), English, 繁體中文）作为翻译参考，
+    并将结果填充到 TARGET_COLUMNS 定义的各语言列中。
+
+    Args:
+        input_file: Gradio UI 上传的文件对象。
+        max_workers (int): 并发处理的线程数。
+
+    Returns:
+        A tuple containing:
+        - str: 处理过程和结果的状态信息。
+        - Optional[str]: 处理成功后输出文件的路径，失败则为 None。
+    """
+    SIMPLE_COLUMN_NAME = "简体中文(源)"
+    ENGLISH_COLUMN_NAME = "English"
+    TRANS_COLUMN_NAME = "繁體中文"
+
+    # 需要翻译的目标语言列名列表
+    TARGET_COLUMNS = [
+        "印尼语", "匈牙利语", "葡萄牙语", "泰语", "土耳其语", "越南语", "俄语",
+        "阿拉伯语", "芬兰语", "丹麦语", "荷兰语", "波兰语", "法语", "德语",
+        "日语", "挪威语", "希伯来语", "韩语", "西班牙语", "捷克语", "意大利语",
+        "瑞典语", "希腊语", "马来语", "斯洛伐克语", "柬埔寨语", "罗马尼亚语",
+        "克罗地亚语", "乌兹别克语", "缅甸语"
+    ]
+    if not input_file:
+        return "错误：请先上传一个Excel文件。", None
+    
+    client = OpenAI()
+
+    start_time = time.time()
+    file_path = input_file.name
+    status_messages = [f"▶ 开始处理文件: {os.path.basename(file_path)}"]
+
+    try:
+        # 1. 使用 pandas 读取 Excel 文件
+        df = pd.read_excel(file_path)
+        status_messages.append(f"✔ 成功读取 Excel 文件，共 {len(df)} 行数据。")
+
+        # 检查必需的列是否存在
+        required_columns = [SIMPLE_COLUMN_NAME, ENGLISH_COLUMN_NAME, TRANS_COLUMN_NAME]
+        if not all(col in df.columns for col in required_columns):
+            missing_cols = [col for col in required_columns if col not in df.columns]
+            return f"错误：输入文件缺少必需的列: {', '.join(missing_cols)}。请检查文件格式。", None
+
+        # 确保目标列存在，如果不存在则创建
+        for col in TARGET_COLUMNS:
+            if col not in df.columns:
+                df[col] = None
+        
+        # 2. 依次处理每一种目标语言
+        all_target_languages = [TRANS_COLUMN_NAME] + TARGET_COLUMNS
+        total_languages = len(all_target_languages)
+
+        for lang_idx, target_lang_column in enumerate(all_target_languages):
+            status_messages.append(f"\n--- ({lang_idx + 1}/{total_languages}) 正在处理: {target_lang_column} ---")
+            print(f"\n--- Processing: {target_lang_column} ---")
+
+            # 初始化用于缓存本次语言翻译结果的字典
+            translation_cache = {}
+
+            def generate_translation(index, row_data):
+                """为单行数据生成翻译的核心函数"""
+                # 如果目标单元格已有内容，则直接跳过
+                if pd.notna(row_data.get(target_lang_column)):
+                    return index, None, None # 返回 None 表示无需更新
+
+                # 使用英文原文作为缓存的 key
+                english_text = str(row_data[ENGLISH_COLUMN_NAME])
+                
+                # 检查缓存
+                if english_text in translation_cache:
+                    return index, translation_cache[english_text], "cache"
+
+                # 特殊处理：繁体中文直接转换，不调用 API
+                if target_lang_column == TRANS_COLUMN_NAME:
+                    simplified_text = str(row_data[SIMPLE_COLUMN_NAME])
+                    translated_text = zhconv.convert(simplified_text, 'zh-tw')
+                    translation_cache[english_text] = translated_text
+                    return index, translated_text, "zhconv"
+
+                # 调用 OpenAI API 进行翻译
+                try:
+                    # Few-shot prompt，为模型提供上下文示例，提升翻译质量
+                    completion = client.chat.completions.create(
+                        model=selected_model,
+                        messages=[
+                            {"role": "user", "content": f"Translate the following sentence or word from English to {SIMPLE_COLUMN_NAME}: {english_text}, please directly translate it and do not output any extra content"},
+                            {"role": "assistant", "content": str(row_data[SIMPLE_COLUMN_NAME])},
+                            {"role": "user", "content": f"Translate the following sentence or word from English to {TRANS_COLUMN_NAME}: {english_text}, please directly translate it and do not output any extra content"},
+                            {"role": "assistant", "content": zhconv.convert(str(row_data[SIMPLE_COLUMN_NAME]), 'zh-tw')},
+                            {"role": "user", "content": f"Translate the following sentence or word from English to {target_lang_column}: {english_text}, please directly translate it and do not output any extra content"}
+                        ],
+                        temperature=0.0,
+                        max_tokens=200
+                    )
+                    translated_text = completion.choices[0].message.content.strip()
+                    # 存入缓存
+                    translation_cache[english_text] = translated_text
+                    return index, translated_text, "api"
+                except Exception as api_error:
+                    return index, f"API_ERROR: {api_error}", "error"
+
+            # 3. 使用线程池并发处理
+            tasks_to_process = [(index, row) for index, row in df.iterrows() if pd.isna(row.get(target_lang_column))]
+            if not tasks_to_process:
+                status_messages.append(f"✔ '{target_lang_column}' 列已全部翻译，跳过。")
+                print(f"'{target_lang_column}' column is already fully translated. Skipping.")
+                continue
+
+            status_messages.append(f"找到 {len(tasks_to_process)} 个待翻译条目，开始处理...")
+            
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                # 提交任务
+                future_to_index = {executor.submit(generate_translation, index, row): index for index, row in tasks_to_process}
+
+                # 直接迭代已完成的任务，不再显示进度条
+                for future in as_completed(future_to_index):
+                    index, result, source = future.result()
+                    if result is not None and source != "error":
+                        df.at[index, target_lang_column] = result
+                    elif source == "error":
+                        print(f"Error processing row {index}: {result}")
+
+
+        # 4. 保存到新文件
+        processed_dir = os.path.join(os.path.dirname(file_path), 'processed_openai')
+        os.makedirs(processed_dir, exist_ok=True)
+        base_name = os.path.basename(file_path)
+        name, ext = os.path.splitext(base_name)
+        # 在文件名中加入时间戳防止覆盖
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        output_file_path = os.path.join(processed_dir, f"{name}_translated_{timestamp}{ext}")
+        
+        df.to_excel(output_file_path, index=False)
+
+    except Exception as e:
+        error_message = f"处理Excel文件时发生严重错误: {e}"
+        status_messages.append(f"\n❌ {error_message}")
+        print(error_message)
+        return "\n".join(status_messages), None
+
+    end_time = time.time()
+    total_time = int(end_time - start_time)
+    status_messages.append(f"\n🎉 所有翻译任务完成！总耗时: {total_time}秒。")
+    status_messages.append(f"✔ 结果已保存至: {os.path.basename(output_file_path)}")
+    
+    return "\n".join(status_messages), output_file_path
+
+def extract_complex_blocks(md_content: str):
     """
     使用占位符提取Markdown中的复杂块（图片、表格、代码块）。(此函数不变)
     """
@@ -1064,6 +1247,27 @@ def webui():
                                           inputs=[input_folder_mdoc, selected_model_mdoc, selected_lora_model_mdoc, selected_gpu_mdoc,
                                                   batch_size_mdoc, original_language_mdoc, target_language_mdoc], # Pass single target lang
                                           outputs=[output_text_mdoc, output_folder_mdoc])
+
+            with gr.TabItem("33语翻译"):
+                gr.Markdown("### 一键固定多语言翻译\n此功能将把您上传的Excel文件中 **A列** 的文本（从第2行开始），使用所选模型，翻译成代码中预设的30多种语言，并从 **B列** 开始依次写入结果。")
+                with gr.Row():
+                    with gr.Column(scale=2):
+                        input_file_fixed = gr.File(label="上传待翻译的Excel文件")
+                        
+                        translate_button_fixed = gr.Button("🚀 开始翻译", variant="primary")
+                    
+                    with gr.Column(scale=1):
+                        model_explanation_textbox_fixed = gr.Textbox(label="模型介绍", lines=10, value=initial_explanation, interactive=False)
+                        output_text_fixed = gr.Textbox(label="处理状态与日志", lines=10, interactive=False)
+                        output_file_fixed = gr.File(label="下载翻译后的文件")
+                
+                translate_button_fixed.click(
+                    translate_excel_fixed_languages,
+                    inputs=[
+                        input_file_fixed
+                    ],
+                    outputs=[output_text_fixed, output_file_fixed]
+                )
 
             with gr.TabItem("术语表校验"):
                  with gr.Row():
