@@ -83,13 +83,12 @@ def translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_s
     model_path = available_models.get(selected_model)
     if not model_path:
             print(f"Model '{selected_model}' not found in available models.")
-            return [] # Return empty list or handle error appropriately
+            return []
 
     model_file_path = os.path.join(model_path, 'model.py')
-    # 检查文件是否存在
     if not os.path.exists(model_file_path):
         print(f"No model.py found in {model_path}")
-        return [] # Return empty list or handle error appropriately
+        return []
     spec = importlib.util.spec_from_file_location("model", model_file_path)
     if spec is None or spec.loader is None:
         print(f"Could not load spec for model.py in {model_path}")
@@ -103,7 +102,6 @@ def translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_s
     outputs = []
     if hasattr(model_module, 'Model'):
         try:
-            # Pass the base directory, not the model.py path itself
             model = model_module.Model(model_path, selected_lora_model, selected_gpu)
             if hasattr(model, 'generate'):
                 outputs = model.generate(inputs, original_language, target_languages, batch_size)
@@ -124,29 +122,19 @@ def translate_excel_folder(input_folder, start_row, end_row, start_column, targe
 
     folder_path = os.path.dirname(input_folder[0].name)
     processed_files = []
-
-    # Create a new folder named 'processed' within the uploaded folder
     processed_folder = os.path.join(folder_path, 'processed')
     os.makedirs(processed_folder, exist_ok=True)
 
     for input_file in input_folder:
         file_path = input_file.name
-        # Use factory to convert the file
         try:
             reader, updated_file_path = FileReaderFactory.create_reader(file_path)
         except ValueError as e:
             print(f"Error: {e}")
             continue
-
-        # Ensure input_file refers to the updated file path if conversion occurred
-        # This might be tricky with Gradio File objects, ensure .name is updated if needed
         original_file_obj_name = input_file.name # Store original name if needed
         if file_path != updated_file_path:
-                # Be cautious modifying Gradio object properties directly if it causes issues
-                # It might be better to work with updated_file_path directly
-                # input_file.name = updated_file_path # Potentially risky
                 file_path_to_process = updated_file_path
-                # Create a NamedString or handle appropriately if translate_excel expects Gradio object
                 temp_file_obj = NamedString(name=updated_file_path, data="", is_file=True) # Example adjustment
         else:
                 file_path_to_process = file_path
@@ -161,12 +149,9 @@ def translate_excel_folder(input_folder, start_row, end_row, start_column, targe
                 continue # Or handle error differently
 
         try:
-            # Pass the potentially modified file object/path
             process_time, output_file = translate_excel(temp_file_obj, start_row, current_end_row, start_column, target_column,
                                                         selected_model, selected_lora_model, selected_gpu, batch_size,
                                                         original_language, target_languages)
-
-            # output_file is likely a path string returned by excel_writer
             if output_file and os.path.exists(output_file):
                     processed_file_path = os.path.join(processed_folder, os.path.basename(output_file))
                     shutil.move(output_file, processed_file_path)
@@ -177,9 +162,6 @@ def translate_excel_folder(input_folder, start_row, end_row, start_column, targe
         except Exception as e:
             print(f"Error processing file {original_file_obj_name}: {e}")
             continue # Skip to next file on error
-
-
-    # Create a zip file
     zip_filename = os.path.join(folder_path, "processed_files.zip")
     if not processed_files:
             print("No files were processed successfully.")
@@ -208,11 +190,8 @@ def word_to_markdown(docx_path, output_dir="images"):
     """
     将指定的 .docx 文件转换为 Markdown 格式，并提取其中的图片。
     """
-    # 创建输出图片目录
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    
-    # --- Monkey Patching, 这部分是正确的, 保持不变 ---
     def load_from_xml_v2(baseURI, rels_item_xml):
         srels = _SerializedRelationships()
         if rels_item_xml is not None:
@@ -249,13 +228,7 @@ def word_to_markdown(docx_path, output_dir="images"):
     for block in iter_block_items(doc):
         if isinstance(block, Paragraph):
             para = block # para 是一个 Paragraph 对象
-
-            # --- 核心修正点在这里 ---
-            # 检查段落中是否有图片。xpath会返回一个列表，如果列表不为空则说明找到了。
-            # 错误写法：para.element
-            # 正确写法：para._element
             if para._element.xpath('.//w:drawing'):
-                # 同样，这里也需要使用 _element
                 for rId in para._element.xpath(".//a:blip/@r:embed"):
                     if rId and hasattr(doc.part, 'related_parts') and rId in doc.part.related_parts:
                         try:
@@ -277,8 +250,6 @@ def word_to_markdown(docx_path, output_dir="images"):
                             image_counter += 1
                         except Exception as e:
                             print(f"Error processing image resource {rId}: {e}")
-            
-            # 处理段落文本
             para_text = para.text.strip()
             if para_text:
                 if para.style and para.style.name.startswith('Heading'):
@@ -338,7 +309,6 @@ def markdown_to_word(md_content, word_path, image_base_dir="images"):
                 doc.add_heading(element.get_text(strip=True), level=3)
         
         elif element.name == 'p':
-            # 如果段落内容是图片，则特殊处理
             if element.find('img'):
                 img_tag = element.find('img')
                 img_src = img_tag.get('src')
@@ -353,7 +323,6 @@ def markdown_to_word(md_content, word_path, image_base_dir="images"):
                 else:
                     print(f"Warning: Could not find image file at a constructed path: {img_path} (source was: {img_src})")
                     doc.add_paragraph(f"[Image not found: {alt_text or img_src}]")
-            # 否则作为普通段落处理
             else:
                 text = element.get_text()
                 if text.strip():
@@ -401,7 +370,6 @@ def update_lora_and_explanation(selected_model):
     model_explanation = "模型路径未找到或README.md缺失。"
 
     if model_path:
-        # 更新模型介绍
         readme_path = os.path.join(model_path, 'README.md')
         if os.path.isfile(readme_path):
             try:
@@ -409,8 +377,6 @@ def update_lora_and_explanation(selected_model):
                     model_explanation = file.read()
             except Exception as e:
                 model_explanation = f"读取README.md时出错: {e}"
-        
-        # 更新Lora模型列表
         try:
             lora_list.extend([f for f in os.listdir(model_path) if
                                 os.path.isdir(os.path.join(model_path, f)) and not f.startswith('.') and not f.startswith('_')])
@@ -457,55 +423,35 @@ def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini',
     status_messages = [f"▶ 开始处理文件: {os.path.basename(file_path)}"]
 
     try:
-        # 1. 使用 pandas 读取 Excel 文件
         df = pd.read_excel(file_path)
         status_messages.append(f"✔ 成功读取 Excel 文件，共 {len(df)} 行数据。")
-
-        # 检查必需的列是否存在
         required_columns = [SIMPLE_COLUMN_NAME, ENGLISH_COLUMN_NAME, TRANS_COLUMN_NAME]
         if not all(col in df.columns for col in required_columns):
             missing_cols = [col for col in required_columns if col not in df.columns]
             return f"错误：输入文件缺少必需的列: {', '.join(missing_cols)}。请检查文件格式。", None
-
-        # 确保目标列存在，如果不存在则创建
         for col in TARGET_COLUMNS:
             if col not in df.columns:
                 df[col] = None
-        
-        # 2. 依次处理每一种目标语言
         all_target_languages = [TRANS_COLUMN_NAME] + TARGET_COLUMNS
         total_languages = len(all_target_languages)
 
         for lang_idx, target_lang_column in enumerate(all_target_languages):
             status_messages.append(f"\n--- ({lang_idx + 1}/{total_languages}) 正在处理: {target_lang_column} ---")
             print(f"\n--- Processing: {target_lang_column} ---")
-
-            # 初始化用于缓存本次语言翻译结果的字典
             translation_cache = {}
-
             def generate_translation(index, row_data):
                 """为单行数据生成翻译的核心函数"""
-                # 如果目标单元格已有内容，则直接跳过
                 if pd.notna(row_data.get(target_lang_column)):
                     return index, None, None # 返回 None 表示无需更新
-
-                # 使用英文原文作为缓存的 key
                 english_text = str(row_data[ENGLISH_COLUMN_NAME])
-                
-                # 检查缓存
                 if english_text in translation_cache:
                     return index, translation_cache[english_text], "cache"
-
-                # 特殊处理：繁体中文直接转换，不调用 API
                 if target_lang_column == TRANS_COLUMN_NAME:
                     simplified_text = str(row_data[SIMPLE_COLUMN_NAME])
                     translated_text = zhconv.convert(simplified_text, 'zh-tw')
                     translation_cache[english_text] = translated_text
                     return index, translated_text, "zhconv"
-
-                # 调用 OpenAI API 进行翻译
                 try:
-                    # Few-shot prompt，为模型提供上下文示例，提升翻译质量
                     completion = client.chat.completions.create(
                         model=selected_model,
                         messages=[
@@ -519,13 +465,10 @@ def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini',
                         max_tokens=200
                     )
                     translated_text = completion.choices[0].message.content.strip()
-                    # 存入缓存
                     translation_cache[english_text] = translated_text
                     return index, translated_text, "api"
                 except Exception as api_error:
                     return index, f"API_ERROR: {api_error}", "error"
-
-            # 3. 使用线程池并发处理
             tasks_to_process = [(index, row) for index, row in df.iterrows() if pd.isna(row.get(target_lang_column))]
             if not tasks_to_process:
                 status_messages.append(f"✔ '{target_lang_column}' 列已全部翻译，跳过。")
@@ -535,10 +478,7 @@ def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini',
             status_messages.append(f"找到 {len(tasks_to_process)} 个待翻译条目，开始处理...")
             
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                # 提交任务
                 future_to_index = {executor.submit(generate_translation, index, row): index for index, row in tasks_to_process}
-
-                # 直接迭代已完成的任务，不再显示进度条
                 for future in as_completed(future_to_index):
                     index, result, source = future.result()
                     if result is not None and source != "error":
@@ -546,13 +486,10 @@ def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini',
                     elif source == "error":
                         print(f"Error processing row {index}: {result}")
 
-
-        # 4. 保存到新文件
         processed_dir = os.path.join(os.path.dirname(file_path), 'processed_openai')
         os.makedirs(processed_dir, exist_ok=True)
         base_name = os.path.basename(file_path)
         name, ext = os.path.splitext(base_name)
-        # 在文件名中加入时间戳防止覆盖
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         output_file_path = os.path.join(processed_dir, f"{name}_translated_{timestamp}{ext}")
         
@@ -625,13 +562,11 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 def extract_text_from_shape(shape, run_list, text_list):
                     """递归提取所有文本，包括文本框、表格和嵌套形状"""
                     if hasattr(shape, "text_frame") and shape.text_frame is not None:
-                        # 处理普通文本框
                         for paragraph in shape.text_frame.paragraphs:
                             for run in paragraph.runs:
                                 run_list.append(run)
                                 text_list.append(run.text)
                     elif getattr(shape, "has_table", False):
-                        # 仅当 shape 确实包含表格时进行处理
                         table = shape.table
                         for row in table.rows:
                             for cell in row.cells:
@@ -641,7 +576,6 @@ def translate_markdown_folder(translating_files: list[NamedString],
                                             run_list.append(run)
                                             text_list.append(run.text)
                     elif hasattr(shape, "shapes"):
-                        # 处理嵌套的 grouped shapes
                         for sub_shape in shape.shapes:
                             extract_text_from_shape(sub_shape, run_list, text_list)
 
@@ -652,16 +586,10 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 for slide in prs.slides:
                     for shape in slide.shapes:
                         extract_text_from_shape(shape, run_list, text_list)  # 确保提取所有文本
-
-                # 翻译文本
                 translated_segments = translate(text_list, selected_model, selected_lora_model, selected_gpu,
                                                 batch_size, original_language, target_language)
-
-                # 替换原始文本
                 for run, translated in zip(run_list, translated_segments):
                     run.text = " " + translated[0]["generated_translation"]
-
-                # 保存 PPTX
                 output_file_path = os.path.join(processed_folder, os.path.basename(file_name + '.pptx'))
                 prs.save(output_file_path)
                 processed_files.append(output_file_path)
@@ -672,24 +600,18 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 workbook = openpyxl.load_workbook(file_path)
                 texts_to_translate = []
                 cell_locations = []
-
-                # 修改：不再检查类型，只要有值就转为字符串进行翻译
                 for sheet_name in workbook.sheetnames:
                     sheet = workbook[sheet_name]
                     for row_idx, row in enumerate(sheet.iter_rows()):
                         for col_idx, cell in enumerate(row):
                             if cell.value:  # 只要单元格不为空
-                                texts_to_translate.append(str(cell.value)) # 强制转为字符串
+                                texts_to_translate.append(str(cell.value))
                                 cell_locations.append((sheet_name, cell.row, cell.column))
                 
                 if texts_to_translate:
                     target_lang_list = [target_language] if isinstance(target_language, str) else target_language
-                    
-                    # 调用翻译，不再对结果进行任何检查
                     translated_results = translate(texts_to_translate, selected_model, selected_lora_model, selected_gpu,
                                                 batch_size, original_language, target_lang_list)
-
-                    # 修改：不再验证结果，直接写入。如果格式错误，此处将引发异常。
                     for i, location in enumerate(cell_locations):
                         translated_text = translated_results[i][0]['generated_translation']
                         sheet_name, row, col = location
@@ -710,19 +632,13 @@ def translate_markdown_folder(translating_files: list[NamedString],
                         md_content = f.read()
 
                 clean_md, protected_blocks = extract_complex_blocks(md_content)
-                
-                # 修改：不再过滤空段落，但通常按\n\n分割后不会有完全空的元素
                 text_to_translate = [p for p in clean_md.split('\n\n')]
                 translated_content = clean_md
 
                 if text_to_translate:
                     target_lang_list = [target_language] if isinstance(target_language, str) else target_language
-                    
-                    # 调用翻译，不再对结果进行任何检查
                     translated_results = translate(text_to_translate, selected_model, selected_lora_model, selected_gpu,
                                                 batch_size, original_language, target_lang_list)
-
-                    # 修改：不再验证结果，直接创建映射。如果格式错误，此处将引发异常。
                     translation_map = {
                         original: result_list[0]['generated_translation']
                         for original, result_list in zip(text_to_translate, translated_results)
@@ -730,7 +646,6 @@ def translate_markdown_folder(translating_files: list[NamedString],
 
                     temp_translated_content = []
                     for para in clean_md.split('\n\n'):
-                        # 使用get方法提供一个默认回退，这是最后的、最小的保护
                         temp_translated_content.append(translation_map.get(para, para))
                     translated_content = '\n\n'.join(temp_translated_content)
                 
@@ -752,25 +667,18 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 processed_files.append(output_file_path)
 
         except Exception as e:
-            # 异常处理仍然保留，这是最基础的保护，防止一个文件的失败导致整个应用崩溃
             print(f"CRITICAL ERROR processing file {file_path}: {e}")
             import traceback
             traceback.print_exc()
             continue
-    
-    # --- Zipping 和 Cleanup 逻辑保持不变 ---
     if not processed_files:
         if os.path.exists(temp_image_dir):
             shutil.rmtree(temp_image_dir)
         return "No files processed successfully.", None
     
     output_path = None
-    
-    # 如果只有一个文件被成功处理，直接返回该文件路径
     if len(processed_files) == 1:
         output_path = processed_files[0]
-    
-    # 如果有多个文件，则将它们压缩
     else:
         zip_filename = os.path.join(folder_path, "processed_files.zip")
         try:
@@ -780,26 +688,18 @@ def translate_markdown_folder(translating_files: list[NamedString],
                         zipf.write(file, os.path.basename(file))
             output_path = zip_filename
         except Exception as e:
-            # 如果压缩失败，也需要清理并返回错误
             if os.path.exists(temp_image_dir):
                 shutil.rmtree(temp_image_dir)
             return f"Error creating zip file: {e}", None
-
-    # 在函数成功返回前，清理临时图片目录
     if os.path.exists(temp_image_dir):
         shutil.rmtree(temp_image_dir)
 
     end_time = time.time()
     duration = int(end_time - start_time)
-    
-    # 返回最终的成功信息和文件路径（单个文件或压缩包）
     return f"Total process time: {duration}s. {len(processed_files)} file(s) processed.", output_path
-
 def glossary_check(input_folder, start_row, end_row, original_column, reference_column, translated_column,
                     row_selection, remark_column) -> tuple[str, Optional[str]]: # Return tuple[status, filepath]
-    # ... (glossary_check implementation remains the same)
     def contains_special_string(sentence):
-        # 定义特殊字符串的正则表达式模式字典
         patterns = {
             "Content within <% ... %> should not be translated": r"<%.*?%>",  # Match <% ... %>
             "Special symbol %s should be contained": r"%s",  # Match %s
@@ -836,19 +736,16 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
             "String [{{accBook}}] should not be translated": r"\[\{\{accBook\}\}\]",
         }
 
-        reasons = []  # 用于存储匹配的条目
-        matched_strings = []  # 用于存储被识别的字符串
-        # Ensure sentence is a string
+        reasons = []
+        matched_strings = []
         sentence_str = str(sentence) if sentence is not None else ""
 
         for reason, pattern in patterns.items():
             try:
                 matches = re.findall(pattern, sentence_str)
                 if matches:
-                    # Avoid adding duplicate reasons if multiple matches for same pattern
                     if reason not in reasons:
                             reasons.append(reason)
-                    # Add unique matches for this pattern
                     for match in matches:
                             if match not in matched_strings:
                                 matched_strings.append(match)
@@ -857,9 +754,9 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
 
 
         return {
-            "contains_special_string": bool(reasons),  # 如果 reasons 列表不为空，表示匹配
-            "reason": reasons,  # 返回所有匹配条目 (unique reasons)
-            "matched_strings": matched_strings  # 返回所有被识别的字符串 (unique matches)
+            "contains_special_string": bool(reasons),
+            "reason": reasons,
+            "matched_strings": matched_strings
         }
 
     result = []
@@ -911,14 +808,10 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
                 original_input = original_inputs[index]
                 reference_input = reference_inputs[index]
                 translated_input = translated_inputs[index]
-                remark = "" # Start with empty remark
-
-                # Ensure inputs are strings for comparison and analysis
+                remark = ""
                 original_str = str(original_input) if original_input is not None else ""
                 reference_str = str(reference_input) if reference_input is not None else ""
                 translated_str = str(translated_input) if translated_input is not None else ""
-
-
                 special_check_result = contains_special_string(original_str)
 
                 if special_check_result["contains_special_string"]:
@@ -926,36 +819,25 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
                     found_in_translation = True # Assume found initially
 
                     for matched_string in special_check_result["matched_strings"]:
-                        # Check if the specific matched string is missing in translation
                         if matched_string not in translated_str:
-                            # If missing in translation, check if it was also missing in reference (optional check)
                             if matched_string not in reference_str:
-                                # Optional: Log or handle cases missing in both ref and translation differently
-                                # print(f"Row {start_row + index}: '{matched_string}' missing in translation and reference.")
-                                pass # Currently, we only penalize if missing in translation but present in original
+                                pass
                             else:
-                                # It's missing in translation but was in original (and reference implies it should be kept)
                                 found_in_translation = False
-                                # Find the reason associated with this specific string (might be multiple reasons)
                                 associated_reasons = [r for r, p in contains_special_string(original_str)["reason"].items() if re.search(p, matched_string)]
                                 reason_text = associated_reasons[0] if associated_reasons else "Unknown reason" # Get first reason
                                 missed_matches_info.append((matched_string, reason_text))
 
 
                     if not found_in_translation:
-                        # Format the remark string
                         missed_items_str = ', '.join([f"'{info[0]}'" for info in missed_matches_info])
                         reasons_str = ', '.join(set([info[1] for info in missed_matches_info])) # Unique reasons
                         remark += f"MISSED: {missed_items_str}; REASON: {reasons_str}"
                         result.append(
                             f"\tROW: {start_row + index}, MISSED: {missed_items_str}, REASON: {reasons_str}")
                     else:
-                            # All special strings found, add a generic remark if needed
                             remark += "SPECIAL_STRINGS_OK"
-
-                # Token length check (optional, added to remark)
                 try:
-                    # Ensure tokenizer is loaded
                     if 'tokenizer' in globals() and tokenizer:
                             token_count = len(tokenizer.encode(original_str))
                             if token_count > 40: # Your threshold
@@ -969,36 +851,19 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
                         print("Warning: Tokenizer not loaded, skipping length check.")
                 except Exception as e:
                     print(f"Error during tokenization for row {start_row + index}: {e}")
-
-
                 outputs.append(remark if remark else "") # Append remark or empty string
-
-
-            # Ensure outputs list has the correct length (up to min_len)
             if len(outputs) != min_len:
                 print(f"Warning: Length mismatch in remarks generation for {file_name_base}. Expected {min_len}, got {len(outputs)}.")
-                # Pad or truncate if necessary, though ideally loop range handles this.
                 outputs = outputs[:min_len] + [""] * (min_len - len(outputs))
-
-
-            # Write remarks back to the Excel file
             try:
-                # write_list expects the file path, list of remarks, target column, start row, end row (exclusive?)
-                # Adjust end row for write_list if it's exclusive: current_end_row + 1 ? Check definition.
-                # Assuming end_row in write_list is inclusive index matching read logic.
                 output_file = excel_writer.write_list(file_path, outputs, remark_column, start_row, current_end_row)
-
-                # Move the modified file to the processed folder
                 processed_file_path = os.path.join(processed_folder, os.path.basename(output_file))
-                # shutil.move might fail if source and destination are the same drive/different mounts sometimes
-                # Safer to copy then delete source, or ensure move works. Let's assume move is ok.
                 shutil.move(output_file, processed_file_path)
                 processed_files.append(processed_file_path)
                 result.append(f"{file_name_base} check completed. Results saved to processed folder.")
 
             except Exception as e:
                 result.append(f"Error writing remarks or moving file for {file_name_base}: {e}")
-                # Clean up partially written file if possible (output_file might exist)
                 if 'output_file' in locals() and os.path.exists(output_file):
                     try: os.remove(output_file)
                     except OSError: pass
@@ -1007,8 +872,6 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
         else:
             result.append(f"Skipping non-Excel file: {file_name_base}")
 
-
-    # --- Create Zip of Processed Files ---
     if processed_files:
         zip_filename_base = "glossary_check_results.zip"
         output_zip_path = os.path.join(folder_path, zip_filename_base) # Save zip in original upload dir
@@ -1086,12 +949,8 @@ def webui():
         initial_target_choices = []
         initial_lora_choices = ['']
         initial_explanation = "Select a model to see details."
-
-        # Try to pre-populate choices for the default model
         if default_model_name in available_models:
             try:
-                 # Call update_choices logic manually once for defaults
-                 # This avoids needing a complex Gradio `load` event setup sometimes
                  _model_path = available_models[default_model_name]
                  _sl_path = os.path.join(_model_path, 'support_language.json')
                  _readme_path = os.path.join(_model_path, 'README.md')
@@ -1110,9 +969,6 @@ def webui():
 
             except Exception as e:
                  print(f"Error pre-loading defaults for {default_model_name}: {e}")
-                 # Keep initial_* lists empty/default if error
-
-        # gr.Button("Logout", link="/logout")
         with gr.Tabs():
             with gr.TabItem("Excel Translator"):
                 with gr.Row():
@@ -1124,19 +980,15 @@ def webui():
                             target_column = gr.Textbox(value="G", label="目标列")
                             start_column = gr.Textbox(value="H", label="结果写入列")
                         with gr.Row():
-                            # Set default model value here
                             selected_model_excel = gr.Dropdown(choices=list(available_models.keys()), label="选择基模型", value=default_model_name)
-                            # Set initial choices and default lora value
                             selected_lora_model_excel = gr.Dropdown(choices=initial_lora_choices, label="选择Lora模型", value='')
                             selected_gpu_excel = gr.Dropdown(choices=available_gpus, label="选择GPU", value=available_gpus[0] if available_gpus else None)
                             batch_size_excel = gr.Number(value=10, label="批处理大小")
                         with gr.Row():
-                            # Set initial choices and default language values here
                             original_language_excel = gr.Dropdown(choices=initial_original_choices, label="原始语言", value=default_original_language)
                             target_languages_excel = gr.Dropdown(choices=initial_target_choices, label="目标语言", multiselect=True, value=default_target_language_multi)
                         translate_button_excel = gr.Button("Translate")
                     with gr.Column():
-                        # Set initial explanation
                         model_explanation_textbox_excel = gr.Textbox(label="模型介绍", lines=5, value=initial_explanation)
                         output_text_excel = gr.Textbox(label="输出文本")
                         output_file_excel = gr.File(label="翻译文件下载")
@@ -1176,7 +1028,6 @@ def webui():
                                             inputs=[input_text_text, selected_model_text, selected_lora_model_text, selected_gpu_text,
                                                     batch_size_text, original_language_text, target_languages_text],
                                             outputs=output_text_text) # Output only to text box
-
 
             with gr.TabItem("Folder Excel Translator"):
                 with gr.Row():
@@ -1237,24 +1088,17 @@ def webui():
 
                 selected_model_mdoc.change(update_choices,
                                             inputs=[selected_model_mdoc],
-                                            # Ensure target_language_mdoc is updated correctly (might need adjustment in update_choices return if it expects multiselect always)
-                                            # Let's assume update_choices returns (orig_lang_dd, target_lang_multi_dd, lora_dd, explanation)
-                                            # We map target_lang_multi_dd's choices to the single-select target_language_mdoc
                                             outputs=[original_language_mdoc, target_language_mdoc, selected_lora_model_mdoc, model_explanation_textbox_mdoc]) # Map 2nd output to single dropdown
-
-                # Update click handler inputs/outputs
                 translate_button_mdoc.click(translate_markdown_folder,
                                           inputs=[input_folder_mdoc, selected_model_mdoc, selected_lora_model_mdoc, selected_gpu_mdoc,
                                                   batch_size_mdoc, original_language_mdoc, target_language_mdoc], # Pass single target lang
                                           outputs=[output_text_mdoc, output_folder_mdoc])
 
             with gr.TabItem("33语翻译"):
-                gr.Markdown("### 一键固定多语言翻译\n此功能将把您上传的Excel文件中 **A列** 的文本（从第2行开始），使用所选模型，翻译成代码中预设的30多种语言，并从 **B列** 开始依次写入结果。")
                 with gr.Row():
                     with gr.Column(scale=2):
                         input_file_fixed = gr.File(label="上传待翻译的Excel文件")
-                        
-                        translate_button_fixed = gr.Button("🚀 开始翻译", variant="primary")
+                        translate_button_fixed = gr.Button("开始翻译", variant="primary")
                     
                     with gr.Column(scale=1):
                         model_explanation_textbox_fixed = gr.Textbox(label="模型介绍", lines=10, value=initial_explanation, interactive=False)
@@ -1306,4 +1150,4 @@ main_ui = webui()
 
 if __name__ == "__main__":
     # Consider adding server_name="0.0.0.0" to allow access from other devices on the network
-    main_ui.launch(share=True, server_port=8082, server_name="0.0.0.0") # share=True generates a public link (requires internet)
+    main_ui.launch(share=False, server_port=8082, server_name="0.0.0.0") # share=True generates a public link (requires internet)
