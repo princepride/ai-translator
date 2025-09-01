@@ -1,72 +1,63 @@
-# AI_Translator 安装说明
 
-## 安装 NVIDIA Driver
+-----
 
-[NVIDIA 驱动下载链接](https://www.nvidia.com/download/index.aspx)
+# AI Translator 安装说明
 
-安装完成后，运行以下指令看是否安装成功：
+## **一、 环境设置（推荐使用 Conda）**
 
-```
-nvidia-smi
-```
+为了确保项目依赖的隔离和稳定性，我们强烈建议您使用 Anaconda 或 Miniconda 来管理 Python 环境。Miniconda 是一个轻量级的 Anaconda 版本，仅包含 Conda 包管理器和 Python。
 
-### 安装 NVIDIA Toolkit
+### 1. 下载并安装 Miniconda
 
-[NVIDIA Toolkit 下载链接](https://developer.nvidia.com/cuda-downloads)
+首先，您需要根据您的操作系统下载并安装 Miniconda。
 
-安装完成后，运行以下指令看是否安装成功：
+  - **下载地址:** [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html)
 
-```
-nvcc --version
-```
+请访问以上链接，选择与您的操作系统（Windows, macOS, or Linux）和架构（64-bit）相对应的最新 Python 版本的安装包。
 
-### 安装支持 GPU 的 PyTorch 版本
+下载后，双击安装程序并按照屏幕上的提示完成安装。建议在安装过程中选择“将 Conda添加到我的 PATH 环境变量中”（"Add Anaconda to my PATH environment variable"），但这对于有经验的用户是可选的。
 
-```
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
+### 2. 创建并激活 Conda 环境
 
-### 从 requirements 安装其他包
+安装完成后，打开您的终端（在 Windows 上是 Anaconda Prompt 或命令提示符/PowerShell，在 macOS/Linux 上是终端）。
 
-```
-pip3 install -r requirements.txt
+然后，使用以下命令来创建一个名为 `ai-trans` 的新环境。我们推荐使用 Python 3.9 或更高版本。
+
+```bash
+conda create --name ai-trans python=3.9
 ```
 
-## **从 huggingface 安装模型**
+Conda 会询问您是否要继续，输入 `y` 并按回车。
 
-导航至 `/src/models/local` 文件夹下载模型，运行以下代码：
+环境创建成功后，使用以下命令激活该环境：
 
-```
-git lfs install
-```
-
-### 安装 nllb-200-distilled-1.3B 模型
-
-```
-git clone https://princepride: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@huggingface.co/yonyou-sg/nllb-200-distilled-1.3B
+```bash
+conda activate ai-trans
 ```
 
-### 安装 Qwen2.5-7B-Instruct 模型
+当您看到终端提示符前面出现 `(ai-trans)` 字样时，表示您已成功进入该环境。接下来的所有操作都将在这个独立的环境中进行。
 
+## **二、 安装项目依赖**
+
+### 从 requirements.txt 安装其他包
+
+请确保您已经激活了 `ai-trans` 环境。然后，在项目根目录下，运行以下命令来安装所有必需的第三方库：
+
+```bash
+pip install -r requirements.txt
 ```
-git clone https://princepride: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@huggingface.co/yonyou-sg/Qwen2.5-7B-Instruct
+
+## **三、 启动程序**
+
+在您的 Python 项目平台（如 PyCharm、VS Code...）的终端中，确保您已经激活了 `(ai-trans)` 环境。
+
+使用以下命令启动 AI 翻译器：
+
+```bash
+python main_ui.py
 ```
 
-### 安装 Qwen2-7B-Instruct-Full-Finetune  模型
-
-```
-git clone https://princepride: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@huggingface.co/yonyou-sg/Qwen2-7B-Instruct-Full-Finetune 
-```
-
-## **启动：**
-
-在你的 Python 项目平台（如 PyCharm、Vscode...）的终端中，
-
-使用以下命令享受 AI 翻译器：
-
-`fastapi dev launch.py`
-
-# AI_Translator 使用说明
+# AI Translator 使用说明
 
 ## 第一步：
 
