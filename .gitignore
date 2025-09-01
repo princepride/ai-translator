@@ -2,7 +2,6 @@ models/local/
 __pycache__
 *.pyc
 *.csv
-*.xlsx
 *.env
 /src/models/local
 /src/images
