@@ -88,7 +88,8 @@ OPENAI_API_KEY="YOUR_API_KEY_HERE"
 使用以下命令启动 AI 翻译器：
 
 ```bash
-python main_ui.py
+cd src
+nohup python main_ui.py &
 ```
 
 # AI Translator 使用说明
