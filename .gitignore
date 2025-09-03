@@ -9,3 +9,4 @@ __pycache__
 *.zip
 *.pdf
 .DS_Store
+.idea

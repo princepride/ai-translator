@@ -1,5 +1,5 @@
 {
-    "original_language":[
+    "original_language": [
         "Achinese (Arabic script)",
         "Achinese (Latin script)",
         "Afrikaans",
@@ -97,6 +97,7 @@
         "Tamil",
         "Thai",
         "Tibetan",
+        "Traditional Chinese",
         "Tunisian Arabic",
         "Turkish",
         "Ukrainian",
@@ -104,7 +105,7 @@
         "Vietnamese",
         "Welsh"
     ],
-    "target_language":[
+    "target_language": [
         "Achinese (Arabic script)",
         "Achinese (Latin script)",
         "Afrikaans",
@@ -202,6 +203,7 @@
         "Tamil",
         "Thai",
         "Tibetan",
+        "Traditional Chinese",
         "Tunisian Arabic",
         "Turkish",
         "Ukrainian",
