@@ -20,3 +20,4 @@ pdfplumber
 pdf2zh
 pdf2docx
 zhconv
+argostranslate

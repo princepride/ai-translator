@@ -20,10 +20,10 @@
 
 安装完成后，打开您的终端（在 Windows 上是 Anaconda Prompt 或命令提示符/PowerShell，在 macOS/Linux 上是终端）。
 
-然后，使用以下命令来创建一个名为 `ai-trans` 的新环境。我们推荐使用 Python 3.9 或更高版本。
+然后，使用以下命令来创建一个名为 `ai-trans` 的新环境。我们推荐使用 Python 3.10 或更高版本。
 
 ```bash
-conda create --name ai-trans python=3.9
+conda create --name ai-trans python=3.10
 ```
 
 Conda 会询问您是否要继续，输入 `y` 并按回车。
