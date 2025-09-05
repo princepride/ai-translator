@@ -1,0 +1,17 @@
+2025-09-05 10:54:09 - translator.app - INFO - main:166 - ==================================================
+2025-09-05 10:54:09 - translator.app - INFO - main:167 - AI Translator Logging Test Starting
+2025-09-05 10:54:09 - translator.app - INFO - main:168 - Script directory: /Users/princepride/Documents/Project/ai-translator
+2025-09-05 10:54:09 - translator.app - INFO - main:169 - ==================================================
+2025-09-05 10:54:09 - translator.app - INFO - wrapper:116 - ENTER test_basic_logging - Args: 0 args, 0 kwargs
+2025-09-05 10:54:09 - translator.app - INFO - test_basic_logging:136 - Testing basic logging functionality
+2025-09-05 10:54:09 - translator.app - DEBUG - test_basic_logging:137 - This is a debug message
+2025-09-05 10:54:09 - translator.app - WARNING - test_basic_logging:138 - This is a warning message
+2025-09-05 10:54:09 - translator.app - INFO - wrapper:122 - EXIT test_basic_logging - Success - Execution time: 0.00s
+2025-09-05 10:54:09 - translator.translation - INFO - wrapper:116 - ENTER test_translation_logging - Args: 0 args, 0 kwargs
+2025-09-05 10:54:09 - translator.translation - INFO - test_translation_logging:144 - Starting mock translation process
+2025-09-05 10:54:09 - translator.translation - INFO - test_translation_logging:145 - Processing 100 text segments
+2025-09-05 10:54:09 - translator.translation - INFO - test_translation_logging:146 - Translation completed successfully
+2025-09-05 10:54:09 - translator.translation - INFO - wrapper:122 - EXIT test_translation_logging - Success - Execution time: 0.00s
+2025-09-05 10:54:09 - translator.app - INFO - wrapper:116 - ENTER test_error_logging - Args: 0 args, 0 kwargs
+2025-09-05 10:54:09 - translator.app - INFO - wrapper:122 - EXIT test_error_logging - Success - Execution time: 0.00s
+2025-09-05 10:54:09 - translator.app - INFO - main:182 - All logging tests completed successfully

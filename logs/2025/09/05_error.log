@@ -1,0 +1,7 @@
+2025-09-05 10:54:09 - translator.error - ERROR - test_error_logging:156 - Caught expected error: division by zero
+2025-09-05 10:54:09 - translator.error - ERROR - test_error_logging:157 - Traceback: Traceback (most recent call last):
+  File "/Users/princepride/Documents/Project/ai-translator/test_logging.py", line 154, in test_error_logging
+    result = 1 / 0
+             ~~^~~
+ZeroDivisionError: division by zero
+

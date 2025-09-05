@@ -29,9 +29,132 @@ import pandas as pd
 import zhconv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
+import logging
+import logging.handlers
+from datetime import datetime
+import traceback
+import functools
 load_dotenv()
 # 获取当前脚本所在目录的绝对路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# ==================== LOGGING SETUP ====================
+def setup_logging():
+    """
+    Setup comprehensive logging system with hierarchical directory structure.
+    Creates separate loggers for different categories and organizes logs by date.
+    """
+    # Create logs directory structure
+    logs_base_dir = os.path.join(script_dir, '..', 'logs')
+    current_date = datetime.now()
+    year_dir = os.path.join(logs_base_dir, str(current_date.year))
+    month_dir = os.path.join(year_dir, f"{current_date.month:02d}")
+
+    # Create directories if they don't exist
+    os.makedirs(month_dir, exist_ok=True)
+
+    # Define log file paths
+    date_str = current_date.strftime("%d")
+    info_log_path = os.path.join(month_dir, f"{date_str}_info.log")
+    error_log_path = os.path.join(month_dir, f"{date_str}_error.log")
+
+    # Configure log format
+    log_format = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+
+    # Remove existing handlers to avoid duplicates
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+
+    # Setup root logger
+    logging.basicConfig(level=logging.DEBUG, handlers=[])
+
+    # Create and configure loggers
+    loggers = {}
+
+    # 1. General application logger (INFO and DEBUG)
+    app_logger = logging.getLogger('translator.app')
+    app_logger.setLevel(logging.DEBUG)
+
+    # Info file handler with rotation
+    info_handler = logging.handlers.RotatingFileHandler(
+        info_log_path, maxBytes=10*1024*1024, backupCount=5, encoding='utf-8'
+    )
+    info_handler.setLevel(logging.DEBUG)
+    info_handler.setFormatter(log_format)
+    app_logger.addHandler(info_handler)
+
+    # Console handler for development
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    console_handler.setFormatter(log_format)
+    app_logger.addHandler(console_handler)
+
+    loggers['app'] = app_logger
+
+    # 2. Error logger (ERROR and CRITICAL only)
+    error_logger = logging.getLogger('translator.error')
+    error_logger.setLevel(logging.ERROR)
+
+    error_handler = logging.handlers.RotatingFileHandler(
+        error_log_path, maxBytes=10*1024*1024, backupCount=5, encoding='utf-8'
+    )
+    error_handler.setLevel(logging.ERROR)
+    error_handler.setFormatter(log_format)
+    error_logger.addHandler(error_handler)
+
+    loggers['error'] = error_logger
+
+    # 3. Translation process logger
+    translation_logger = logging.getLogger('translator.translation')
+    translation_logger.setLevel(logging.DEBUG)
+    translation_logger.addHandler(info_handler)
+    translation_logger.addHandler(console_handler)
+
+    loggers['translation'] = translation_logger
+
+    return loggers
+
+# Initialize logging system
+loggers = setup_logging()
+app_logger = loggers['app']
+error_logger = loggers['error']
+translation_logger = loggers['translation']
+
+def log_function_call(logger_name='app'):
+    """
+    Decorator to log function entry and exit with execution time.
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            logger = loggers.get(logger_name, app_logger)
+            func_name = func.__name__
+
+            # Log function entry
+            logger.info(f"ENTER {func_name} - Args: {len(args)} args, {len(kwargs)} kwargs")
+
+            start_time = time.time()
+            try:
+                result = func(*args, **kwargs)
+                execution_time = time.time() - start_time
+                logger.info(f"EXIT {func_name} - Success - Execution time: {execution_time:.2f}s")
+                return result
+            except Exception as e:
+                execution_time = time.time() - start_time
+                error_logger.error(f"ERROR in {func_name} - Execution time: {execution_time:.2f}s - Error: {str(e)}")
+                error_logger.error(f"Traceback: {traceback.format_exc()}")
+                raise
+        return wrapper
+    return decorator
+
+# Log application startup
+app_logger.info("="*50)
+app_logger.info("AI Translator Application Starting")
+app_logger.info(f"Script directory: {script_dir}")
+app_logger.info("="*50)
 
 # 构建baseConfig.yml和modelExplains.yml的绝对路径
 file_path = os.path.join(script_dir, 'configs', 'baseConfig.yml')
@@ -59,83 +182,154 @@ def update_row_selection(selected_value):
 
 # --- translate_excel, translate, translate_excel_folder, word_to_markdown, markdown_to_word, translate_markdown_folder, glossary_check 函数保持不变 ---
 # (省略这些函数的代码以保持简洁)
+@log_function_call('translation')
 def translate_excel(input_file, start_row, end_row, start_column, target_column,
                     selected_model,
                     selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
     start_time = time.time()
     file_path = input_file.name
-    reader, fp = FileReaderFactory.create_reader(file_path)
-    inputs = reader.extract_text(file_path, target_column, start_row, end_row)
 
-    outputs = translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
-                        target_languages)
+    translation_logger.info(f"Starting Excel translation - File: {os.path.basename(file_path)}")
+    translation_logger.info(f"Parameters - Rows: {start_row}-{end_row}, Target column: {target_column}, "
+                           f"Result column: {start_column}, Model: {selected_model}, Batch size: {batch_size}")
+    translation_logger.info(f"Languages - From: {original_language}, To: {target_languages}")
 
-    excel_writer = ExcelFileWriter()
-    print("Finally processed number: ", len(outputs))
-    output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
+    try:
+        reader, fp = FileReaderFactory.create_reader(file_path)
+        translation_logger.info(f"Successfully created file reader for {os.path.basename(file_path)}")
 
-    end_time = time.time()
-    return f"Total process time: {int(end_time - start_time)}s", output_file
+        inputs = reader.extract_text(file_path, target_column, start_row, end_row)
+        translation_logger.info(f"Extracted {len(inputs)} text entries for translation")
 
+        outputs = translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language,
+                            target_languages)
+        translation_logger.info(f"Translation completed - Generated {len(outputs)} outputs")
+
+        excel_writer = ExcelFileWriter()
+        print("Finally processed number: ", len(outputs))
+        output_file = excel_writer.write_text(file_path, outputs, start_column, start_row, end_row)
+        translation_logger.info(f"Results written to file: {os.path.basename(output_file)}")
+
+        end_time = time.time()
+        total_time = int(end_time - start_time)
+        translation_logger.info(f"Excel translation completed successfully in {total_time}s")
+
+        return f"Total process time: {total_time}s", output_file
+
+    except Exception as e:
+        error_logger.error(f"Failed to translate Excel file {os.path.basename(file_path)}: {str(e)}")
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
+        raise
+
+@log_function_call('translation')
 def translate(inputs, selected_model, selected_lora_model, selected_gpu, batch_size, original_language, target_languages):
     if isinstance(inputs, str):
         inputs = [inputs]
+
+    translation_logger.info(f"Starting translation - Model: {selected_model}, GPU: {selected_gpu}")
+    translation_logger.info(f"Input count: {len(inputs)}, Batch size: {batch_size}")
+    translation_logger.info(f"Languages - From: {original_language}, To: {target_languages}")
+
     model_path = available_models.get(selected_model)
     if not model_path:
-            print(f"Model '{selected_model}' not found in available models.")
-            return []
+        error_msg = f"Model '{selected_model}' not found in available models."
+        error_logger.error(error_msg)
+        print(error_msg)
+        return []
+
+    translation_logger.info(f"Using model path: {model_path}")
 
     model_file_path = os.path.join(model_path, 'model.py')
     if not os.path.exists(model_file_path):
-        print(f"No model.py found in {model_path}")
+        error_msg = f"No model.py found in {model_path}"
+        error_logger.error(error_msg)
+        print(error_msg)
         return []
+
+    translation_logger.info(f"Loading model from: {model_file_path}")
+
     spec = importlib.util.spec_from_file_location("model", model_file_path)
     if spec is None or spec.loader is None:
-        print(f"Could not load spec for model.py in {model_path}")
+        error_msg = f"Could not load spec for model.py in {model_path}"
+        error_logger.error(error_msg)
+        print(error_msg)
         return []
+
     model_module = importlib.util.module_from_spec(spec)
     try:
         spec.loader.exec_module(model_module)
+        translation_logger.info("Model module loaded successfully")
     except Exception as e:
-        print(f"Error executing module {model_file_path}: {e}")
+        error_msg = f"Error executing module {model_file_path}: {e}"
+        error_logger.error(error_msg)
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
+        print(error_msg)
         return []
+
     outputs = []
     if hasattr(model_module, 'Model'):
         try:
+            translation_logger.info("Initializing model instance")
             model = model_module.Model(model_path, selected_lora_model, selected_gpu)
+
             if hasattr(model, 'generate'):
+                translation_logger.info("Starting model generation")
                 outputs = model.generate(inputs, original_language, target_languages, batch_size)
+                translation_logger.info(f"Model generation completed - Generated {len(outputs)} outputs")
             else:
-                print("Model class does not have a 'generate' method.")
+                error_msg = "Model class does not have a 'generate' method."
+                error_logger.error(error_msg)
+                print(error_msg)
         except Exception as e:
-            print(f"Error instantiating or running model from {model_path}: {e}")
+            error_msg = f"Error instantiating or running model from {model_path}: {e}"
+            error_logger.error(error_msg)
+            error_logger.error(f"Traceback: {traceback.format_exc()}")
+            print(error_msg)
     else:
-        print("No Model class found in model.py.")
+        error_msg = "No Model class found in model.py."
+        error_logger.error(error_msg)
+        print(error_msg)
+
     return outputs
 
+@log_function_call('translation')
 def translate_excel_folder(input_folder, start_row, end_row, start_column, target_column, selected_model,
                             selected_lora_model, selected_gpu, batch_size, original_language, target_languages,
                             row_selection):
     start_time = time.time()
+
     if not input_folder:
+        error_logger.error("No files uploaded for folder translation")
         return "No files uploaded", []
 
     folder_path = os.path.dirname(input_folder[0].name)
+    translation_logger.info(f"Starting Excel folder translation - {len(input_folder)} files")
+    translation_logger.info(f"Folder path: {folder_path}")
+    translation_logger.info(f"Parameters - Rows: {start_row}-{end_row}, Model: {selected_model}, Row selection: {row_selection}")
+
     processed_files = []
     processed_folder = os.path.join(folder_path, 'processed')
     os.makedirs(processed_folder, exist_ok=True)
+    translation_logger.info(f"Created processed folder: {processed_folder}")
 
     for input_file in input_folder:
         file_path = input_file.name
+        file_name = os.path.basename(file_path)
+        translation_logger.info(f"Processing file: {file_name}")
+
         try:
             reader, updated_file_path = FileReaderFactory.create_reader(file_path)
+            translation_logger.info(f"Successfully created reader for {file_name}")
         except ValueError as e:
-            print(f"Error: {e}")
+            error_msg = f"Error creating reader for {file_name}: {e}"
+            error_logger.error(error_msg)
+            print(error_msg)
             continue
         original_file_obj_name = input_file.name # Store original name if needed
         if file_path != updated_file_path:
                 file_path_to_process = updated_file_path
                 temp_file_obj = NamedString(name=updated_file_path, data="", is_file=True) # Example adjustment
+                translation_logger.info(f"Using updated file path: {updated_file_path}")
         else:
                 file_path_to_process = file_path
                 temp_file_obj = input_file # Use original object
@@ -144,11 +338,15 @@ def translate_excel_folder(input_folder, start_row, end_row, start_column, targe
         if row_selection == "所有行":
             try:
                 current_end_row = FileReaderFactory.count_rows(file_path_to_process)
+                translation_logger.info(f"Row selection 'all rows' - counted {current_end_row} rows in {file_name}")
             except Exception as e:
-                print(f"Could not count rows for {file_path_to_process}: {e}. Skipping file or using default end_row.")
+                error_msg = f"Could not count rows for {file_name}: {e}. Skipping file or using default end_row."
+                error_logger.error(error_msg)
+                print(error_msg)
                 continue # Or handle error differently
 
         try:
+            translation_logger.info(f"Starting translation for {file_name} - rows {start_row} to {current_end_row}")
             process_time, output_file = translate_excel(temp_file_obj, start_row, current_end_row, start_column, target_column,
                                                         selected_model, selected_lora_model, selected_gpu, batch_size,
                                                         original_language, target_languages)
@@ -156,42 +354,63 @@ def translate_excel_folder(input_folder, start_row, end_row, start_column, targe
                     processed_file_path = os.path.join(processed_folder, os.path.basename(output_file))
                     shutil.move(output_file, processed_file_path)
                     processed_files.append(processed_file_path)
+                    translation_logger.info(f"Successfully processed {file_name} -> {os.path.basename(processed_file_path)}")
             else:
-                    print(f"Translation failed or output file path invalid for {original_file_obj_name}")
+                    error_msg = f"Translation failed or output file path invalid for {file_name}"
+                    error_logger.error(error_msg)
+                    print(error_msg)
 
         except Exception as e:
-            print(f"Error processing file {original_file_obj_name}: {e}")
+            error_msg = f"Error processing file {file_name}: {e}"
+            error_logger.error(error_msg)
+            error_logger.error(f"Traceback: {traceback.format_exc()}")
+            print(error_msg)
             continue # Skip to next file on error
     zip_filename = os.path.join(folder_path, "processed_files.zip")
     if not processed_files:
-            print("No files were processed successfully.")
+            error_msg = "No files were processed successfully."
+            error_logger.error(error_msg)
+            print(error_msg)
             return "No files processed successfully.", None # Return None for zip file
 
+    translation_logger.info(f"Creating zip file with {len(processed_files)} processed files")
     try:
         with zipfile.ZipFile(zip_filename, 'w') as zipf:
             for file in processed_files:
                 if os.path.exists(file):
                         zipf.write(file, os.path.basename(file))
+                        translation_logger.info(f"Added {os.path.basename(file)} to zip")
                         print(f"File {file} added to zip.")
                 else:
-                        print(f"Warning: Processed file {file} not found for zipping.")
+                        warning_msg = f"Warning: Processed file {file} not found for zipping."
+                        app_logger.warning(warning_msg)
+                        print(warning_msg)
     except Exception as e:
-        print(f"Error creating zip file {zip_filename}: {e}")
+        error_msg = f"Error creating zip file {zip_filename}: {e}"
+        error_logger.error(error_msg)
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
+        print(error_msg)
         return f"Error creating zip file: {e}", None
 
-
     end_time = time.time()
-    print(f"Total process time: {int(end_time - start_time)}s")
+    total_time = int(end_time - start_time)
+    translation_logger.info(f"Excel folder translation completed - Total time: {total_time}s, Files processed: {len(processed_files)}")
+    print(f"Total process time: {total_time}s")
     print(f"Processed files added to zip: {processed_files}")
-    return f"Total process time: {int(end_time - start_time)}s. {len(processed_files)} file(s) processed.", zip_filename
+    return f"Total process time: {total_time}s. {len(processed_files)} file(s) processed.", zip_filename
     
 
+@log_function_call('app')
 def word_to_markdown(docx_path, output_dir="images"):
     """
     将指定的 .docx 文件转换为 Markdown 格式，并提取其中的图片。
     """
+    app_logger.info(f"Converting Word document to Markdown: {os.path.basename(docx_path)}")
+    app_logger.info(f"Output directory for images: {output_dir}")
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+        app_logger.info(f"Created output directory: {output_dir}")
     def load_from_xml_v2(baseURI, rels_item_xml):
         srels = _SerializedRelationships()
         if rels_item_xml is not None:
@@ -276,20 +495,34 @@ def word_to_markdown(docx_path, output_dir="images"):
                     md_content += row_text
             md_content += "\n"
 
+    app_logger.info(f"Word to Markdown conversion completed - Generated {len(image_paths_generated)} images")
+    app_logger.info(f"Generated images: {image_paths_generated}")
     print(f"Generated images: {image_paths_generated}")
     return md_content
+@log_function_call('app')
 def markdown_to_word(md_content, word_path, image_base_dir="images"):
+    app_logger.info(f"Converting Markdown to Word document: {os.path.basename(word_path)}")
+    app_logger.info(f"Image base directory: {image_base_dir}")
+
     md_content = md_content.replace('<', '&lt;').replace('>', '&gt;')
     try:
         html = markdown.markdown(md_content, extensions=['tables', 'fenced_code'])
+        app_logger.info("Successfully converted Markdown to HTML")
     except Exception as e:
-        print(f"Error converting Markdown to HTML: {e}")
+        error_msg = f"Error converting Markdown to HTML: {e}"
+        error_logger.error(error_msg)
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
+        print(error_msg)
         return
 
     try:
         soup = BeautifulSoup(html, 'html.parser')
+        app_logger.info("Successfully parsed HTML with BeautifulSoup")
     except Exception as e:
-        print(f"Error parsing generated HTML: {e}")
+        error_msg = f"Error parsing generated HTML: {e}"
+        error_logger.error(error_msg)
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
+        print(error_msg)
         return
 
     doc = Document()
@@ -360,8 +593,12 @@ def markdown_to_word(md_content, word_path, image_base_dir="images"):
                         new_row[i].text = cell.get_text(strip=True)
     try:
         doc.save(word_path)
+        app_logger.info(f"Successfully saved Word document: {os.path.basename(word_path)}")
     except Exception as e:
-        print(f"Error saving Word document to {word_path}: {e}")
+        error_msg = f"Error saving Word document to {word_path}: {e}"
+        error_logger.error(error_msg)
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
+        print(error_msg)
 
 def update_lora_and_explanation(selected_model):
     """当模型改变时，只更新Lora模型列表和模型介绍。"""
@@ -385,6 +622,7 @@ def update_lora_and_explanation(selected_model):
             
     return gr.Dropdown(choices=lora_list, value=''), gr.Textbox(value=model_explanation)
 
+@log_function_call('translation')
 def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini', max_workers=10) -> Tuple[str, Optional[str]]:
     """
     使用 OpenAI API 并行翻译 Excel 文件中的指定列。
@@ -413,13 +651,20 @@ def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini',
         "瑞典语", "希腊语", "马来语", "斯洛伐克语", "柬埔寨语", "罗马尼亚语",
         "克罗地亚语", "乌兹别克语", "缅甸语"
     ]
+
     if not input_file:
-        return "错误：请先上传一个Excel文件。", None
-    
+        error_msg = "错误：请先上传一个Excel文件。"
+        error_logger.error(error_msg)
+        return error_msg, None
+
+    file_path = input_file.name
+    translation_logger.info(f"Starting fixed languages translation - File: {os.path.basename(file_path)}")
+    translation_logger.info(f"Model: {selected_model}, Max workers: {max_workers}")
+    translation_logger.info(f"Target languages count: {len(TARGET_COLUMNS)}")
+
     client = OpenAI()
 
     start_time = time.time()
-    file_path = input_file.name
     status_messages = [f"▶ 开始处理文件: {os.path.basename(file_path)}"]
 
     try:
@@ -497,15 +742,20 @@ def translate_excel_fixed_languages(input_file, selected_model = 'gpt-4.1-mini',
 
     except Exception as e:
         error_message = f"处理Excel文件时发生严重错误: {e}"
+        error_logger.error(f"Critical error in fixed languages translation: {e}")
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
         status_messages.append(f"\n❌ {error_message}")
         print(error_message)
         return "\n".join(status_messages), None
 
     end_time = time.time()
     total_time = int(end_time - start_time)
+    translation_logger.info(f"Fixed languages translation completed successfully - Total time: {total_time}s")
+    translation_logger.info(f"Output file: {os.path.basename(output_file_path)}")
+
     status_messages.append(f"\n🎉 所有翻译任务完成！总耗时: {total_time}秒。")
     status_messages.append(f"✔ 结果已保存至: {os.path.basename(output_file_path)}")
-    
+
     return "\n".join(status_messages), output_file_path
 
 def extract_complex_blocks(md_content: str):
@@ -534,31 +784,46 @@ def restore_complex_blocks(translated_content: str, blocks: dict) -> str:
     return translated_content
 
 
+@log_function_call('translation')
 def translate_markdown_folder(translating_files: list[NamedString],
                             selected_model: Optional[str], selected_lora_model: Optional[str],
                             selected_gpu: Optional[str], batch_size: int,
                             original_language: Optional[str], target_language: Optional[str]):
     start_time = time.time()
+
     if not translating_files:
+        error_msg = "No files uploaded for markdown translation"
+        error_logger.error(error_msg)
         return "No files uploaded", None
 
     folder_path = os.path.dirname(translating_files[0].name)
+    translation_logger.info(f"Starting markdown folder translation - {len(translating_files)} files")
+    translation_logger.info(f"Folder path: {folder_path}")
+    translation_logger.info(f"Model: {selected_model}, GPU: {selected_gpu}, Batch size: {batch_size}")
+    translation_logger.info(f"Languages - From: {original_language}, To: {target_language}")
+
     processed_files = []
     temp_image_dir = os.path.join(folder_path, "temp_images_from_docx")
 
     processed_folder = os.path.join(folder_path, 'processed')
     os.makedirs(processed_folder, exist_ok=True)
+    translation_logger.info(f"Created processed folder: {processed_folder}")
+
     if os.path.exists(temp_image_dir):
         shutil.rmtree(temp_image_dir)
     os.makedirs(temp_image_dir, exist_ok=True)
+    translation_logger.info(f"Created temp image directory: {temp_image_dir}")
 
     for input_file in translating_files:
         file_path = input_file.name
         file_name, file_ext = os.path.splitext(os.path.basename(file_path))
         output_file_path = None
 
+        translation_logger.info(f"Processing file: {os.path.basename(file_path)} (type: {file_ext})")
+
         try:
             if file_ext.lower() == '.pptx':
+                translation_logger.info(f"Processing PowerPoint file: {file_name}")
                 def extract_text_from_shape(shape, run_list, text_list):
                     """递归提取所有文本，包括文本框、表格和嵌套形状"""
                     if hasattr(shape, "text_frame") and shape.text_frame is not None:
@@ -595,8 +860,9 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 processed_files.append(output_file_path)
 
             elif file_ext.lower() in ['.xlsx', '.xls']:
+                translation_logger.info(f"Processing Excel file: {file_name}")
                 print(f"Processing Excel file: {file_path}")
-                
+
                 workbook = openpyxl.load_workbook(file_path)
                 texts_to_translate = []
                 cell_locations = []
@@ -607,27 +873,35 @@ def translate_markdown_folder(translating_files: list[NamedString],
                             if cell.value:  # 只要单元格不为空
                                 texts_to_translate.append(str(cell.value))
                                 cell_locations.append((sheet_name, cell.row, cell.column))
-                
+
+                translation_logger.info(f"Extracted {len(texts_to_translate)} cells for translation from Excel file")
+
                 if texts_to_translate:
                     target_lang_list = [target_language] if isinstance(target_language, str) else target_language
                     translated_results = translate(texts_to_translate, selected_model, selected_lora_model, selected_gpu,
                                                 batch_size, original_language, target_lang_list)
+                    translation_logger.info(f"Completed translation for Excel file - {len(translated_results)} results")
+
                     for i, location in enumerate(cell_locations):
                         translated_text = translated_results[i][0]['generated_translation']
                         sheet_name, row, col = location
                         workbook[sheet_name].cell(row=row, column=col, value=translated_text)
-                
+
                 output_filename_base = os.path.basename(file_name + '_translated')
                 output_file_path = os.path.join(processed_folder, output_filename_base + file_ext)
                 workbook.save(output_file_path)
+                translation_logger.info(f"Saved translated Excel file: {output_filename_base + file_ext}")
 
             elif file_ext.lower() in ['.docx', '.md']:
+                translation_logger.info(f"Processing document file: {file_name} (type: {file_ext})")
                 md_content = ""
                 file_is_word = False
                 if file_ext.lower() == '.docx':
                     file_is_word = True
+                    translation_logger.info(f"Converting Word document to markdown: {file_name}")
                     md_content = word_to_markdown(file_path, output_dir=temp_image_dir)
                 elif file_ext.lower() == '.md':
+                    translation_logger.info(f"Reading markdown file: {file_name}")
                     with open(file_path, 'r', encoding='utf-8') as f:
                         md_content = f.read()
 
@@ -635,10 +909,15 @@ def translate_markdown_folder(translating_files: list[NamedString],
                 text_to_translate = [p for p in clean_md.split('\n\n')]
                 translated_content = clean_md
 
+                translation_logger.info(f"Extracted {len(text_to_translate)} paragraphs for translation")
+                translation_logger.info(f"Protected {len(protected_blocks)} complex blocks from translation")
+
                 if text_to_translate:
                     target_lang_list = [target_language] if isinstance(target_language, str) else target_language
                     translated_results = translate(text_to_translate, selected_model, selected_lora_model, selected_gpu,
                                                 batch_size, original_language, target_lang_list)
+                    translation_logger.info(f"Completed translation for document - {len(translated_results)} results")
+
                     translation_map = {
                         original: result_list[0]['generated_translation']
                         for original, result_list in zip(text_to_translate, translated_results)
@@ -648,55 +927,78 @@ def translate_markdown_folder(translating_files: list[NamedString],
                     for para in clean_md.split('\n\n'):
                         temp_translated_content.append(translation_map.get(para, para))
                     translated_content = '\n\n'.join(temp_translated_content)
-                
+
                 final_md_content = restore_complex_blocks(translated_content, protected_blocks)
-                
+
                 output_filename_base = os.path.basename(file_name + '_translated')
                 if file_is_word:
                     output_file_path = os.path.join(processed_folder, output_filename_base + '.docx')
+                    translation_logger.info(f"Converting translated content back to Word document")
                     markdown_to_word(final_md_content, output_file_path, image_base_dir=temp_image_dir)
                 else:
                     output_file_path = os.path.join(processed_folder, output_filename_base + '.md')
+                    translation_logger.info(f"Saving translated markdown file")
                     with open(output_file_path, 'w', encoding='utf-8') as f:
                         f.write(final_md_content)
             else:
-                print(f"Skipping unsupported file type: {file_path}")
+                warning_msg = f"Skipping unsupported file type: {file_path}"
+                app_logger.warning(warning_msg)
+                print(warning_msg)
                 continue
 
             if output_file_path and os.path.exists(output_file_path):
                 processed_files.append(output_file_path)
+                translation_logger.info(f"Successfully processed file: {os.path.basename(output_file_path)}")
 
         except Exception as e:
-            print(f"CRITICAL ERROR processing file {file_path}: {e}")
+            error_msg = f"CRITICAL ERROR processing file {file_path}: {e}"
+            error_logger.error(error_msg)
+            error_logger.error(f"Traceback: {traceback.format_exc()}")
+            print(error_msg)
             import traceback
             traceback.print_exc()
             continue
     if not processed_files:
+        error_msg = "No files processed successfully."
+        error_logger.error(error_msg)
         if os.path.exists(temp_image_dir):
             shutil.rmtree(temp_image_dir)
-        return "No files processed successfully.", None
-    
+        return error_msg, None
+
+    translation_logger.info(f"Processing completed - {len(processed_files)} files processed successfully")
+
     output_path = None
     if len(processed_files) == 1:
         output_path = processed_files[0]
+        translation_logger.info(f"Single file output: {os.path.basename(output_path)}")
     else:
         zip_filename = os.path.join(folder_path, "processed_files.zip")
+        translation_logger.info(f"Creating zip file with {len(processed_files)} files")
         try:
             with zipfile.ZipFile(zip_filename, 'w') as zipf:
                 for file in processed_files:
                     if os.path.exists(file):
                         zipf.write(file, os.path.basename(file))
+                        translation_logger.info(f"Added {os.path.basename(file)} to zip")
             output_path = zip_filename
+            translation_logger.info(f"Zip file created successfully: {os.path.basename(zip_filename)}")
         except Exception as e:
+            error_msg = f"Error creating zip file: {e}"
+            error_logger.error(error_msg)
+            error_logger.error(f"Traceback: {traceback.format_exc()}")
             if os.path.exists(temp_image_dir):
                 shutil.rmtree(temp_image_dir)
-            return f"Error creating zip file: {e}", None
+            return error_msg, None
+
     if os.path.exists(temp_image_dir):
         shutil.rmtree(temp_image_dir)
+        translation_logger.info("Cleaned up temporary image directory")
 
     end_time = time.time()
     duration = int(end_time - start_time)
+    translation_logger.info(f"Markdown folder translation completed - Total time: {duration}s, Files processed: {len(processed_files)}")
     return f"Total process time: {duration}s. {len(processed_files)} file(s) processed.", output_path
+@log_function_call('app')
 def glossary_check(input_folder, start_row, end_row, original_column, reference_column, translated_column,
                     row_selection, remark_column) -> tuple[str, Optional[str]]: # Return tuple[status, filepath]
     def contains_special_string(sentence):
@@ -759,20 +1061,30 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
             "matched_strings": matched_strings
         }
 
+    app_logger.info(f"Starting glossary check - {len(input_folder) if input_folder else 0} files")
+    app_logger.info(f"Parameters - Rows: {start_row}-{end_row}, Row selection: {row_selection}")
+    app_logger.info(f"Columns - Original: {original_column}, Reference: {reference_column}, Translated: {translated_column}, Remark: {remark_column}")
+
     result = []
     excel_writer = ExcelFileWriter()
     processed_files = []
     output_zip_path = None # Initialize zip path
 
     if not input_folder:
-            return "Error: No folder/files provided.", None
+            error_msg = "Error: No folder/files provided."
+            error_logger.error(error_msg)
+            return error_msg, None
 
     try:
             folder_path = os.path.dirname(input_folder[0].name) # Get dir from first file
             processed_folder = os.path.join(folder_path, 'processed_glossary_check')
             os.makedirs(processed_folder, exist_ok=True)
+            app_logger.info(f"Created processed folder: {processed_folder}")
     except Exception as e:
-            return f"Error creating processed folder: {e}", None
+            error_msg = f"Error creating processed folder: {e}"
+            error_logger.error(error_msg)
+            error_logger.error(f"Traceback: {traceback.format_exc()}")
+            return error_msg, None
 
 
     for input_file in input_folder:
@@ -780,24 +1092,34 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
         file_name_base = os.path.basename(file_path)
         file_name, file_ext = os.path.splitext(file_name_base)
 
+        app_logger.info(f"Processing file for glossary check: {file_name_base}")
+
         if file_ext.lower() == '.xlsx':
             current_end_row = end_row
             try:
                 if row_selection == "所有行":
                     current_end_row = FileReaderFactory.count_rows(file_path)
+                    app_logger.info(f"Row selection 'all rows' - counted {current_end_row} rows in {file_name_base}")
 
                 reader, fp = FileReaderFactory.create_reader(file_path) # fp might be None or file pointer
                 original_inputs = reader.extract_text(file_path, original_column, start_row, current_end_row)
                 reference_inputs = reader.extract_text(file_path, reference_column, start_row, current_end_row)
                 translated_inputs = reader.extract_text(file_path, translated_column, start_row, current_end_row)
+
+                app_logger.info(f"Extracted data from {file_name_base} - Original: {len(original_inputs)}, Reference: {len(reference_inputs)}, Translated: {len(translated_inputs)}")
+
                 if fp: # Close file pointer if factory returned one
                         fp.close()
 
             except Exception as e:
-                result.append(f"Error reading {file_name_base}: {e}")
+                error_msg = f"Error reading {file_name_base}: {e}"
+                error_logger.error(error_msg)
+                error_logger.error(f"Traceback: {traceback.format_exc()}")
+                result.append(error_msg)
                 continue # Skip to next file
 
             result.append(f"Checking {file_name_base}:")
+            app_logger.info(f"Starting glossary check for {file_name_base}")
             outputs = [] # Remarks to write back to Excel
             max_len = max(len(original_inputs), len(reference_inputs), len(translated_inputs))
             min_len = min(len(original_inputs), len(reference_inputs), len(translated_inputs))
@@ -870,33 +1192,47 @@ def glossary_check(input_folder, start_row, end_row, original_column, reference_
 
 
         else:
-            result.append(f"Skipping non-Excel file: {file_name_base}")
+            warning_msg = f"Skipping non-Excel file: {file_name_base}"
+            app_logger.warning(warning_msg)
+            result.append(warning_msg)
 
     if processed_files:
         zip_filename_base = "glossary_check_results.zip"
         output_zip_path = os.path.join(folder_path, zip_filename_base) # Save zip in original upload dir
+        app_logger.info(f"Creating zip file with {len(processed_files)} processed files")
         try:
             with zipfile.ZipFile(output_zip_path, 'w') as zipf:
                 for file in processed_files:
                     if os.path.exists(file):
                         zipf.write(file, os.path.basename(file))
+                        app_logger.info(f"Added {os.path.basename(file)} to zip")
                         print(f"Adding {os.path.basename(file)} to zip.")
                     else:
-                        print(f"Warning: File {file} not found for zipping.")
+                        warning_msg = f"Warning: File {file} not found for zipping."
+                        app_logger.warning(warning_msg)
+                        print(warning_msg)
             result.append(f"Processed files zipped to {zip_filename_base}")
+            app_logger.info(f"Glossary check completed successfully - Zip file created: {zip_filename_base}")
         except Exception as e:
-            result.append(f"Error creating zip file: {e}")
+            error_msg = f"Error creating zip file: {e}"
+            error_logger.error(error_msg)
+            error_logger.error(f"Traceback: {traceback.format_exc()}")
+            result.append(error_msg)
             output_zip_path = None # Indicate zip creation failed
     else:
-        result.append("No files were processed successfully.")
+        error_msg = "No files were processed successfully."
+        error_logger.error(error_msg)
+        result.append(error_msg)
 
-
+    app_logger.info("Glossary check process completed")
     return "\n".join(result), output_zip_path # Return status string and path to zip (or None)
 
 
 def webui():
 
     def update_choices(selected_model):
+        app_logger.info(f"User selected model: {selected_model}")
+
         model_path = available_models.get(selected_model) # 使用 .get() 更安全
         original_language_choices = []
         target_language_choices = []
@@ -904,6 +1240,7 @@ def webui():
         model_explanation = "Model path not found or README.md missing."
 
         if model_path:
+            app_logger.info(f"Loading model configuration from: {model_path}")
             support_language_path = os.path.join(model_path, 'support_language.json')
             readme_path = os.path.join(model_path, 'README.md')
 
@@ -1149,5 +1486,13 @@ def webui():
 main_ui = webui()
 
 if __name__ == "__main__":
-    # Consider adding server_name="0.0.0.0" to allow access from other devices on the network
-    main_ui.launch(share=False, server_port=8082, server_name="0.0.0.0") # share=True generates a public link (requires internet)
+    app_logger.info("Launching Gradio web interface")
+    app_logger.info("Server configuration - Port: 8082, Host: 0.0.0.0, Share: False")
+
+    try:
+        # Consider adding server_name="0.0.0.0" to allow access from other devices on the network
+        main_ui.launch(share=False, server_port=8082, server_name="0.0.0.0") # share=True generates a public link (requires internet)
+    except Exception as e:
+        error_logger.error(f"Failed to launch web interface: {e}")
+        error_logger.error(f"Traceback: {traceback.format_exc()}")
+        raise
